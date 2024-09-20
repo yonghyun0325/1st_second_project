@@ -12,7 +12,6 @@
   <ul>
     <li>생성한 브랜치로 전환</li><br>
   </ul>
-  <br>
   <li> git push origin 브랜치이름 </li>
   <br>
   <ul>
