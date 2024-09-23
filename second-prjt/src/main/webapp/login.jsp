@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>로그인 화면</title>
-<link rel="stylesheet" href="./login.jsp">
+<link rel="stylesheet" href="./login.css">
 </head>
 <body>
     <div class="contain">
