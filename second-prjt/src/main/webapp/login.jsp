@@ -18,13 +18,13 @@
                 🔔
             </div>
             <div class="site_name">
-                FF COMPANY 
+                FF COMPANY
             </div>
         </div>
         <div class="login_box">
             <form action="#" method="post">
                 <div class="login_id">
-                    아이디(사번) 입력 : <input type="text" name="login_id" maxlength="9">
+                    아이디(사번) 입력 : <input type="text" name="login_id" maxlength="9" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                 </div>
                 <div class="login_pw">
                     비밀번호 입력 : <input type="password" name="login_pw">
@@ -41,3 +41,13 @@
     </div>
 </body> 
 </html>
+
+<script>
+    function onlyNumber(e){
+        var charCode = (e.which) ? e.which : e.keyCode;
+        if(charCode < 48 || charCode > 57) {
+            return false;
+        }
+        return true;
+    }
+</script>
