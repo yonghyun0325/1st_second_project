@@ -32,7 +32,7 @@
                 <div class="remember_login">
                     <input type="checkbox" name="remember_login"> 로그인 기억하기
                 </div>
-                <button type="submit" class="btn_login">로그인</button>
+                <button type="submit" class="btn_login">로그인ㅇㅇㅇ</button>
             </form>
             <div class="login_info">
                 
