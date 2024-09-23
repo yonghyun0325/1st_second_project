@@ -41,13 +41,3 @@
     </div>
 </body> 
 </html>
-
-<script>
-    function onlyNumber(e){
-        var charCode = (e.which) ? e.which : e.keyCode;
-        if(charCode < 48 || charCode > 57) {
-            return false;
-        }
-        return true;
-    }
-</script>
