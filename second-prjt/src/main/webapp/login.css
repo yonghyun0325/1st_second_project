@@ -1,0 +1,54 @@
+.contain {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+.header {
+  position: absolute;
+  top: 200px;
+  display: flex;
+  width: 400px;
+}
+.site_name {
+  font-family: "Noto Sans KR", sans-serif;
+  font-weight: 600;
+  font-size: 50px;
+}
+.login_box {
+  width: 400px;
+  height: 300px;
+  margin-top: 700px;
+}
+.btn_login {
+  width: 250px;
+  height: 50px;
+  border-style: none;
+  margin-top: 20px;
+  color: white;
+  background-color: rgb(0, 174, 239);
+  border-radius: 10px;
+  font-size: 20px;
+}
+.login_id {
+  width: 400px;
+  text-align: center;
+  margin-top: 20px;
+}
+.login_pw {
+  width: 400px;
+  text-align: center;
+  margin-top: 10px;
+}
+.remember_login {
+  margin-top: 5px;
+}
+.login_info {
+  margin-top: 5px;
+}
+a {
+  text-decoration: none;
+}
