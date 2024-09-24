@@ -22,7 +22,7 @@
             </div>
         </div>
         <div class="login_box">
-            <form action="#" method="post">
+            <form action="main.jsp" method="post">
                 <div class="login_id">
                     아이디(사번) 입력 : <input type="text" name="login_id" maxlength="9" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                 </div>
