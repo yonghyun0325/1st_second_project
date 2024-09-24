@@ -36,6 +36,7 @@
             </form>
             <div class="login_info">
                 <a href="#">인사과 문의하기</a>
+                테스트 테스트  테스트 테스트
             </div>
         </div>
     </div>
