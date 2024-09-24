@@ -36,7 +36,6 @@
             </form>
             <div class="login_info">
                 <a href="#">인사과 문의하기</a>
-                안녕하십니까ㅇㅇ
             </div>
         </div>
     </div>
