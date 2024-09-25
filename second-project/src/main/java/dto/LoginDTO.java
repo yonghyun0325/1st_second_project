@@ -16,6 +16,4 @@ public class LoginDTO {
 		this.e_name = empName;
 		this.e_pw = empPw;
 	}
-	
-	
 }

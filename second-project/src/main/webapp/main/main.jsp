@@ -5,10 +5,11 @@
 <head>
 <meta charset="UTF-8">
 <title>메인 페이지</title>
+<link rel="stylesheet" href="main.css">
 </head>
 <body>
-<h1>메인 페이지</h1>
-<hr>
-  
+    <div class="contain">
+        
+    </div>
 </body>
 </html>
