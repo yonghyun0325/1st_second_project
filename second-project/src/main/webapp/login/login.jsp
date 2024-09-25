@@ -22,12 +22,12 @@
             </div>
         </div>
         <div class="login_box">
-            <form action="main.jsp" method="post">
+            <form action="loginProcess.jsp" method="post">
                 <div class="login_id">
-                    아이디(사번) 입력 : <input type="text" name="login_id" maxlength="9" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                    아이디(사번) 입력 : <input type="text" name="login_id" required maxlength="9" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                 </div>
                 <div class="login_pw">
-                    비밀번호 입력 : <input type="password" name="login_pw">
+                    비밀번호 입력 : <input type="password" name="login_pw" required>
                 </div>
                 <div class="remember_login">
                     <input type="checkbox" name="remember_login"> 로그인 기억하기
