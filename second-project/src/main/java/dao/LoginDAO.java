@@ -1,6 +1,5 @@
 package dao;
 
-import java.security.MessageDigest;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -37,7 +36,7 @@ public class LoginDAO extends DBConnection{
             if (rs.next()) {
             	 System.out.println("로그인 성공: 사번 = " + rs.getInt("emp_idx"));
                 // 사용자 정보가 존재하면 UserDTO 객체에 저장
-                user = new LoginDTO(rs.getInt("emp_idx"),rs.getString("emp_name"),  rs.getString("emp_pw"));
+                user = new LoginDTO(rs.getInt("emp_idx"),rs.getString("emp_name"),rs.getString("emp_pw"));
             }
 
         } catch (SQLException e) {
