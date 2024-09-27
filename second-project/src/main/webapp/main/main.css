@@ -66,37 +66,32 @@ a:active{
 /* 캘린더 부분 */
 .calender {
     width: 1180px;
-    height: 700px;
+    height: 800px;
     border: 1px solid white;
     margin-left: 150px;
     margin-top: 100px;
 }
 table {
     width: 100%;
-    height: 100%;
+    height: 700px;
     border-collapse: collapse;
     color: black;
 }
 th {
     color: black;
+    width: 180px;
+    height: 80px;
 }
 tr, td {
     color: black;
+    width: 180px;
+    height: 80px;
 }
 td {
     color: black;
     text-align: left;
     vertical-align: top;
     padding: 10px;
-}
-.day {
-    width: 100px;  /* 셀 너비 고정 */
-    height: 80px;  /* 셀 높이 고정 */
-    overflow: hidden;  /* 텍스트가 넘치면 숨기기 */
-    text-overflow: ellipsis;  /* 텍스트가 넘칠 경우 ...으로 표시 */
-    white-space: normal;  /* 텍스트 줄바꿈 방지 */
-    display: inline-block;
-    vertical-align: top;  /* 텍스트를 위쪽에 정렬 */
 }
 .modal {
     position: fixed;
