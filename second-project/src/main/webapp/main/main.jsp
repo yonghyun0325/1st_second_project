@@ -51,7 +51,6 @@
                     <th>목요일</th>
                     <th>금요일</th>
                     <th style="color:blue">토요일</th>
-                    
                 </tr>
                 <tr>
                     <td class="day" style="color:gray">30</td>
