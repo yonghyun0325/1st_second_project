@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="javax.servlet.http.HttpSession"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,20 +9,27 @@
 <link rel="stylesheet" href="main.css">
 </head>
 <body>
-    <div id="wrap">
     <header>
         <div class="header_logo">
             로고
         </div>
         <div class="header_UserName">
-            원숭이 님
+            <% 
+                String userName = (String) session.getAttribute("userName");
+                if (userName != null) {
+                    out.print(userName + " 님");
+                } else {
+                    out.print("로그인된 사용자가 없습니다.");
+                }
+            %>
         </div>
         <div class="header_logout">
-            <a href="../login/login.jsp" style="text-decoration: none; color: white;">
+            <a href="../login/login.jsp" class="logout_item">
                 로그아웃
             </a>
         </div>
     </header>
+
     <div class="contain">
         <div class="contain_sidebar">
             <div class="side_item"><a href="#">마이페이지</a></div>
@@ -94,12 +102,13 @@
         <!-- 할 일 입력 모달 -->
         <div id="modal" class="modal">
             <div class="modal_content">
+                <h3>할일 목록</h3>
+                <hr>
                 <textarea id="taskDescription"></textarea>
                 <button id="saveTask">저장</button>
             </div>
         </div>
     </div>
-</div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
         var modal = document.getElementById('modal');

@@ -25,6 +25,7 @@
     if (user != null) {
         // 로그인 성공 시 세션에 사용자 정보 저장 후 메인 페이지로 이동
         session.setAttribute("loginUser", user.getE_Idx());
+        session.setAttribute("userName", user.getE_name());
         response.sendRedirect("../main/main.jsp");
     } else {
         // 로그인 실패 시 경고 메시지 출력 후 로그인 페이지로 돌아감
