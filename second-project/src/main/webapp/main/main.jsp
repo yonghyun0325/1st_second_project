@@ -32,7 +32,7 @@
 
     <div class="contain">
         <div class="contain_sidebar">
-            <div class="side_item"><a href="#">마이페이지</a></div>
+            <div class="side_item"><a href="main.jsp">마이페이지</a></div>
             <div class="side_item"><a href="#">재무 관리</a></div>
             <div class="side_item"><a href="#">구매 관리</a></div>
             <div class="side_item"><a href="#">인사 관리</a></div>

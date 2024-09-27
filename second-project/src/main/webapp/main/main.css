@@ -56,8 +56,11 @@ header {
     text-decoration-line: none;
     font-size: 30px;
 }
+a {
+    text-decoration: none;
+}
 /* 카테고리 클릭해도 색이 변하지 않음 */
-.side_item a:active{
+a:active{
     color: black;
 }
 /* 캘린더 부분 */
@@ -85,6 +88,15 @@ td {
     text-align: left;
     vertical-align: top;
     padding: 10px;
+}
+.day {
+    width: 100px;  /* 셀 너비 고정 */
+    height: 80px;  /* 셀 높이 고정 */
+    overflow: hidden;  /* 텍스트가 넘치면 숨기기 */
+    text-overflow: ellipsis;  /* 텍스트가 넘칠 경우 ...으로 표시 */
+    white-space: normal;  /* 텍스트 줄바꿈 방지 */
+    display: inline-block;
+    vertical-align: top;  /* 텍스트를 위쪽에 정렬 */
 }
 .modal {
     position: fixed;
