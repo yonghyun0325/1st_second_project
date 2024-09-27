@@ -45,7 +45,6 @@ public class DBConnection {
 				System.out.println("DB 재연결 성공!");
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 			System.out.println("DB 재연결 실패");
 		}
