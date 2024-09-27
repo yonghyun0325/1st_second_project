@@ -44,58 +44,59 @@
         <div class="calender">
             <table border="1">
                 <tr>
+                	<th style="color:red">일요일</th>
                     <th>월요일</th>
                     <th>화요일</th>
                     <th>수요일</th>
                     <th>목요일</th>
                     <th>금요일</th>
-                    <th>토요일</th>
-                    <th>일요일</th>
+                    <th style="color:blue">토요일</th>
+                    
                 </tr>
                 <tr>
-                    <td class="day">30</td>
+                    <td class="day" style="color:gray">30</td>
                     <td class="day">1</td>
                     <td class="day">2</td>
-                    <td class="day">3</td>
+                    <td class="day" style="color:red">3</td>
                     <td class="day">4</td>
                     <td class="day">5</td>
-                    <td class="day">6</td>
+                    <td class="day" style="color:blue">6</td>
                 </tr>
                 <tr>
-                    <td class="day">7</td>
+                    <td class="day" style="color:red">7</td>
                     <td class="day">8</td>
                     <td class="day">9</td>
                     <td class="day">10</td>
                     <td class="day">11</td>
                     <td class="day">12</td>
-                    <td class="day">13</td>
+                    <td class="day" style="color:blue">13</td>
                 </tr>
                 <tr>
-                    <td class="day">14</td>
+                    <td class="day" style="color:red">14</td>
                     <td class="day">15</td>
                     <td class="day">16</td>
                     <td class="day">17</td>
                     <td class="day">18</td>
                     <td class="day">19</td>
-                    <td class="day">20</td>
+                    <td class="day" style="color:blue">20</td>
                 </tr>
                 <tr>
-                    <td class="day">21</td>
+                    <td class="day" style="color:red">21</td>
                     <td class="day">22</td>
                     <td class="day">23</td>
                     <td class="day">24</td>
                     <td class="day">25</td>
                     <td class="day">26</td>
-                    <td class="day">27</td>
+                    <td class="day" style="color:blue">27</td>
                 </tr>
                 <tr>
-                    <td class="day">28</td>
+                    <td class="day" style="color:red">28</td>
                     <td class="day">29</td>
                     <td class="day">30</td>
                     <td class="day">31</td>
-                    <td class="day">1</td>
-                    <td class="day">2</td>
-                    <td class="day">3</td>
+                    <td class="day" style="color:gray">1</td>
+                    <td class="day" style="color:gray">2</td>
+                    <td class="day" style="color:gray">3</td>
                 </tr>
             </table>
         </div>

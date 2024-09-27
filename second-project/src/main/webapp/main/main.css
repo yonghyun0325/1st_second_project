@@ -34,8 +34,8 @@ header {
     text-decoration: none;
 }
 .contain_sidebar{
-    width: 300px;
-    height: 800px;
+    width: 215px;
+    height: 750px;
     background-color: rgb(190, 189, 189);
     position: relative;
     top: 50px;
@@ -62,7 +62,7 @@ header {
 }
 /* 캘린더 부분 */
 .calender {
-    width: 1000px;
+    width: 1180px;
     height: 700px;
     border: 1px solid white;
     margin-left: 150px;
