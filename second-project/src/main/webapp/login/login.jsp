@@ -35,11 +35,7 @@
                 <button type="submit" class="btn_login">로그인</button>
             </form>
             <div class="login_info">
-<<<<<<< HEAD
-                <a href="#">인사과 문의하기</a> 이거 또 왜 이래
-=======
-                <a href="#">인사과 문의하기</a>
->>>>>>> branch 'main' of https://github.com/yonghyun0325/1st_second_project.git
+                <a href="#">인사과 문의하기</a> 
             </div>
         </div>
     </div>
