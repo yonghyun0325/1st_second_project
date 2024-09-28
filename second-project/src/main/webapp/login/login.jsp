@@ -15,7 +15,7 @@
     <div class="contain">
         <div class="header">
             <div class="logo">
-                🔔 안녕하세요
+                🔔
             </div>
             <div class="site_name">
                 FF COMPANY
@@ -35,7 +35,7 @@
                 <button type="submit" class="btn_login">로그인</button>
             </form>
             <div class="login_info">
-                <a href="#">인사과 문의하기</a>
+                <a href="#">인사과 문의하기</a> 이거 또 왜 이래
             </div>
         </div>
     </div>
