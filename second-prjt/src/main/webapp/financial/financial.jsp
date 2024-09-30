@@ -4,7 +4,7 @@
 
   <head>
     <title>급여 관리 페이지</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="style.css">
     <script>
       function showTab(tabId) {
         const contents = document.querySelectorAll('.content');
@@ -24,19 +24,35 @@
 
   <body>
     <header>
-      <h1>급여 관리</h1>
+        <div class="header_logo">
+            로고
+        </div>
+        <div class="header_UserName">
+            <% 
+                String userName = (String) session.getAttribute("userName");
+                if (userName != null) {
+                    out.print(userName + " 님");
+                } else {
+                    out.print("로그인된 사용자가 없습니다.");
+                }
+            %>
+        </div>
+        <div class="header_logout">
+            <a href="../login/login.jsp" class="logout_item">
+                로그아웃
+            </a>
+        </div>
     </header>
 
     <div id="sidebar">
       <div class="sidebar-wrapper">
-        <div class="sidebar-item"><a href="#">마이 페이지</a></div>
+        <div class="sidebar-item"><a href="${pageContext.request.contextPath}/main/main.jsp">마이 페이지</a></div>
         <div class="sidebar-item"><a href="#">재무 관리</a></div>
         <div class="sidebar-item"><a href="#">구매 관리</a></div>
         <div class="sidebar-item"><a href="#">인사 관리</a></div>
         <div class="sidebar-item"><a href="#">고객 관리</a></div>
-        <div class="sidebar-item"><a href="#">커뮤니티</a></div>
+        <div class="sidebar-item"><a href="${pageContext.request.contextPath}/community/communityMain.jsp">커뮤니티</a></div>
         <div class="sidebar-item"><a href="#">문의하기</a></div>
-        <div class="sidebar-item"><a href="#">공지사항</a></div>
       </div>
     </div>
 
