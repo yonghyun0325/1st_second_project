@@ -37,7 +37,7 @@
             <div class="side_item"><a href="#">구매 관리</a></div>
             <div class="side_item"><a href="#">인사 관리</a></div>
             <div class="side_item"><a href="#">고객 관리</a></div>
-            <div class="side_item"><a href="communityMain.jsp">커뮤니티</a></div>
+            <div class="side_item"><a href="${pageContext.request.contextPath}/community/communityMain.jsp">커뮤니티</a></div>
             <div class="side_item"><a href="#">문의 하기</a></div>
             <div class="side_item"><a href="#">커뮤니티</a></div>
         </div>
