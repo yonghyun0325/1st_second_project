@@ -18,7 +18,7 @@
                 🔔
             </div>
             <div class="site_name">
-                FF COMPANY
+                FF COMPANY 안녕하세요
             </div>
         </div>
         <div class="login_box">
