@@ -164,53 +164,107 @@ header {
 }
 
 #content {
-    margin-left: 240px;
+    margin-left: 220px;
     padding: 20px;
 }
 
 .content-title {
     margin: 0 0 20px 0;
+    padding: 10px 15px 10px 15px;
+    background-color: #eee;
+    border-radius: 10px;
 }
 
-#tabs {
+#tabs-container {
     display: flex;
-    border-bottom: 1px solid #eee;
+    overflow-x: auto;
+    white-space: nowrap;
+    cursor: grab;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    user-select: none;
+}
+
+#tabs-container::-webkit-scrollbar {
+    height: 4px;
+}
+
+#tabs-container::-webkit-scrollbar-track {
+    background: #eee;
+}
+
+#tabs-container::-webkit-scrollbar-thumb {
+    background: #eee;
+    border-radius: 10px;
+}
+
+#tabs-container::-webkit-scrollbar-thumb:hover {
+    background: #aaa;
+}
+
+#tabs-container:active {
+    cursor: grabbing;
 }
 
 .tab {
-    padding: 10px 20px;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.tab-navigation {
+    display: flex;
+    align-items: center;
+}
+
+.tab-nav-left, .tab-nav-right {
+    background-color: #eee;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.tab-nav-left:disabled, .tab-nav-right:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.tab {
+    padding: 10px;
+    display: inline-block;
     cursor: pointer;
     background-color: #ddd;
     border-bottom: none;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     margin-right: 5px;
+    white-space: nowrap;
 }
 
 .tab:hover {
-    background-color: #eee;
+    background-color: #ccc;
 }
 
 .tab.active {
     background-color: #eee;
     font-weight: bold;
-    /* border-bottom: 2px solid #eee; */
 }
 
-.tab .close {
-    position: absolute;
-    right: 5px;
-    top: 5px;
-    cursor: pointer;
+.tab i {
+    margin-left: 5px;
+}
+
+#content-wrapper {
+    overflow: hidden;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
 
 .content {
     padding: 20px;
     display: none;
     background-color: #eee;
-    border-top-right-radius: 10px;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
 }
 
 .content.active {
@@ -220,7 +274,6 @@ header {
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
 }
 
 th,
