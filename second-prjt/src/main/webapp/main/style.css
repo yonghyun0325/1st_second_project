@@ -375,6 +375,7 @@ td {
     color: black;
     width: 180px;
     height: 80px;
+    border-color: #bbb
 }
 
 td {
@@ -382,6 +383,7 @@ td {
     text-align: left;
     vertical-align: top;
     padding: 10px;
+    cursor: pointer;
 }
 
 thead tr th {

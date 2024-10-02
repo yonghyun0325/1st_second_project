@@ -41,6 +41,15 @@ header {
     gap: 10px;
 }
 
+.permission {
+    margin-left: 10px;
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+    font-size: 0.8em;
+    padding: 5px 10px;
+}
+
 .header-left-side {
     display: flex;
     align-items: center;

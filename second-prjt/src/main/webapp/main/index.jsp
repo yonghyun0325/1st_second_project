@@ -52,7 +52,7 @@
             <div id="sidebar">
                 <div class="sidebar-wrapper">
                     <div class="sidebar-item">
-                        <a href="${pageContext.request.contextPath}/main/main.jsp" class="sidebar-toggle">
+                        <a href="#" class="sidebar-toggle">
                             <div class="sidebar-item-title"><i class="fas fa-user-circle"></i> 대시보드</div>
                         </a>
                     </div>

@@ -37,7 +37,12 @@
             <div class="header-left-side">
                 <div class="header_UserName">
                     <% String userName=(String) session.getAttribute("userName"); if (userName !=null) { out.print(userName
-                        + " 님" ); } else { out.print("로그인된 사용자가 없습니다."); } %>
+                        + " 사원님" ); } else { out.print("오류"); } %>
+                        
+                    <%-- <span class="permission">
+                        <% int permission=(int) session.getAttribute("permission"); if (permission) { out.print("관리자"); } else { out.print("사원"); } %>
+                        사원
+                    </span> --%>
                 </div>
                 <div class="header_logout">
                     <a href="../login/login.jsp" class="logout_item">
@@ -50,7 +55,7 @@
         <div id="sidebar">
             <div class="sidebar-wrapper">
                 <div class="sidebar-item">
-                    <a href="${pageContext.request.contextPath}/main/main.jsp" class="sidebar-toggle">
+                    <a href="${pageContext.request.contextPath}/main" class="sidebar-toggle">
                         <div class="sidebar-item-title"><i class="fas fa-user-circle"></i> 대시보드</div>
                     </a>
                 </div>
@@ -65,10 +70,12 @@
                         <a href="javascript:void(0)" data-content="finance3">급여계산/대장</a>
                         <a href="javascript:void(0)" data-content="finance4">성과급/보너스</a>
                         <a href="javascript:void(0)" data-content="finance5">사원별 급여조회</a>
-                        <a href="javascript:void(0)" data-content="finance6">급여현황</a>
+                        <a href="javascript:void(0)" data-content="finance6">급여 현황</a>
                         <a href="javascript:void(0)" data-content="finance7">급여 명세서</a>
-                        <a href="javascript:void(0)" data-content="finance8">근무확정현황</a>
-                        <a href="javascript:void(0)" data-content="finance9">급여이체현황</a>
+                        <a href="javascript:void(0)" data-content="finance8">근무 확정현황</a>
+                        <a href="javascript:void(0)" data-content="finance9">급여 이체현황</a>
+                        <a href="javascript:void(0)" data-content="finance10">비과세 관리</a>
+                        <a href="javascript:void(0)" data-content="finance11">초과 근무</a>
                     </div>
                 </div>
                 <div class="sidebar-item">
