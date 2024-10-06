@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <title>메인 페이지</title>
 <link rel="stylesheet" href="main.css">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
     <header>
@@ -35,13 +36,18 @@
             <div class="side_item"><a href="main.jsp">마이페이지</a></div>
             <div class="side_item"><a href="#">재무 관리</a></div>
             <div class="side_item"><a href="#">구매 관리</a></div>
-            <div class="side_item"><a href="#">인사 관리</a></div>
+            <div class="side_item">
+                <a href="#" id="hrMenu">인사 관리</a>
+                <ul id="hrSubMenu" class="submenu" style="display:none;">
+                    <li><a href="./employeeRegister.jsp" id="employeeRegisterLink">사원 등록</a></li>
+                </ul>
+            </div>
             <div class="side_item"><a href="#">고객 관리</a></div>
             <div class="side_item"><a href="#">커뮤니티</a></div>
             <div class="side_item"><a href="#">문의 하기</a></div>
-            <div class="side_item"><a href="#">커뮤니티</a></div>
+            <div class="side_item"><a href="#">공지사항</a></div>
         </div>
-        <div class="calender">
+        <div id="contentArea" class="calender">
             <h2>10월</h2>
             <table border="1">
                 <tr>
@@ -111,55 +117,83 @@
         </div>
     </div>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-        var modal = document.getElementById('modal');
-        var taskDescription = document.getElementById('taskDescription');
-        var saveTaskButton = document.getElementById('saveTask');
+        $(document).ready(function() {
         var selectedDay;
-
+        
+        // 인사관리 클릭시 토글 생성
+        $('#hrMenu').click(function(event){
+            event.preventDefault();
+            $('#hrSubMenu').slideToggle();
+        });
+        
         // 모든 td 클릭 이벤트 설정 (날짜 클릭 시)
-        var days = document.getElementsByClassName('day');
-        for (var i = 0; i < days.length; i++) {
-            days[i].addEventListener('click', function() {
-                var selectedDate = this.innerText; // 클릭한 날짜 값 가져오기
-                selectedDay = this;
-                taskDescription.value = '1. '; // 설명 초기화
-                modal.classList.add('active'); // 모달 열기
-            });
-        }
+        $('.day').click(function() {
+            var selectedDate = $(this).text();  // 클릭한 날짜 값 가져오기
+            selectedDay = $(this);
+            $('#taskDescription').val('1. ');  // 설명 초기화
+            $('#modal').addClass('active');  // 모달 열기
+        });
 
         // 자동 번호 매기기 (엔터 칠 때마다 숫자 증가)
-        taskDescription.addEventListener('keydown', function(event) {
+        $('#taskDescription').keydown(function(event) {
             if (event.key === 'Enter') {
-                event.preventDefault(); // 기본 엔터 동작 방지
-                var lines = taskDescription.value.split('\n').length; // 줄 개수 확인
-                taskDescription.value += '\n' + (lines + 1) + ". "; // 번호 추가
+                event.preventDefault();  // 기본 엔터 동작 방지
+                var lines = $(this).val().split('\n').length;  // 줄 개수 확인
+                $(this).val($(this).val() + '\n' + (lines + 1) + ". ");  // 번호 추가
             }
         });
 
-         // "1. "은 삭제하지 못하게 설정
-        taskDescription.addEventListener('input', function(event) {
-            if (!taskDescription.value.startsWith('1. ')) {
-                taskDescription.value = '1. '; // 강제로 "1. "이 항상 첫 줄에 있도록 설정
+        // "1. "은 삭제하지 못하게 설정
+        $('#taskDescription').on('input', function(event) {
+            if (!$(this).val().startsWith('1. ')) {
+                $(this).val('1. ');  // 강제로 "1. "이 항상 첫 줄에 있도록 설정
             }
         });
 
-        // 모달 창 닫기 버튼 클릭 시
-        document.addEventListener('click', function(event) {
-            if (!event.target.closest('.modal_content') && !event.target.closest('.day')) {
-                modal.classList.remove('active'); // 모달 닫기
+        // 모달 창 닫기 (클릭 이벤트)
+        $(document).click(function(event) {
+            if (!$(event.target).closest('.modal_content').length && !$(event.target).closest('.day').length) {
+                $('#modal').removeClass('active');  // 모달 닫기
+            }
+        });
+
+        // ESC 키로 모달 닫기
+        $(document).keydown(function(event) {
+            if (event.key === "Escape") {
+                $('#modal').removeClass('active');  // ESC 키로 모달 닫기
             }
         });
 
         // 저장 버튼 클릭 시
-        saveTaskButton.onclick = function() {
+        $('#saveTask').click(function() {
             if (selectedDay) {
-                var taskContent = "<br><span class='task'>" + taskDescription.value.replace(/\n/g, "<br>") + "</span>";
-                selectedDay.innerHTML += taskContent;  // 달력 셀에 할 일 저장                
-                modal.classList.remove('active'); // 모달 닫기
-                alert("할 일이 저장되었습니다.");
+                var taskDescription = $('#taskDescription').val();
+                var taskContent = "<br><span class='task'>" + taskDescription.replace(/\n/g, "<br>") + "</span>";
+                selectedDay.append(taskContent);  // 달력 셀에 할 일 저장
+
+                // jQuery를 이용한 AJAX 요청
+                $.ajax({
+                    url: 'calendarProcess.jsp',  // 서버에 보낼 JSP 파일
+                    type: 'POST',  // POST 요청
+                    data: {
+                        taskDescription: taskDescription,  // 할 일 내용
+                        selectedDate: selectedDay.text()   // 선택된 날짜
+                    },
+                    success: function(response) {
+                        console.log("서버 응답: " + response);
+                        if (response === "Success") {
+                            alert("할 일이 저장되었습니다.");
+                            $('#modal').removeClass('active');  // 저장 후 모달 닫기
+                        } else {
+                            alert("할 일 저장에 실패했습니다.");
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.log("AJAX 오류: " + error);
+                    }
+                });
             }
-        };
+        });
     });
     </script>
 </body>

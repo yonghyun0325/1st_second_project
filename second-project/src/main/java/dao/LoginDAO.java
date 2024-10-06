@@ -21,7 +21,6 @@ public class LoginDAO extends DBConnection{
             // DB 연결 객체 가져오기
             conn = getConnection();
             
-//            String hashedPw = hashPassword(empPw);
 
             // SQL 쿼리 작성
             String sql = "SELECT emp_idx, emp_name, emp_pw FROM employees WHERE emp_idx = ? AND emp_pw = ?";
@@ -50,19 +49,4 @@ public class LoginDAO extends DBConnection{
 
         return user; // 로그인 성공 시 해당 사용자 정보, 실패 시 null 반환
     }
-//	// 비밀번호 암호화
-//	private String hashPassword(String password) {
-//        try {
-//            MessageDigest md = MessageDigest.getInstance("SHA-256");
-//            byte[] hashedPassword = md.digest(password.getBytes());
-//            StringBuilder sb = new StringBuilder();
-//            for (byte b : hashedPassword) {
-//                sb.append(String.format("%02x", b));
-//            }
-//            return sb.toString();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return null;
-//        }
-//    }
 }
