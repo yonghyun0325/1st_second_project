@@ -12,7 +12,9 @@
 <body>
     <header>
         <div class="header_logo">
-            로고
+            <a href="./main.jsp">
+                로고
+            </a>
         </div>
         <div class="header_UserName">
             <% 
@@ -33,13 +35,13 @@
 
     <div class="contain">
         <div class="contain_sidebar">
-            <div class="side_item"><a href="main.jsp">마이페이지</a></div>
+            <div class="side_item"><a href="./main.jsp">마이페이지</a></div>
             <div class="side_item"><a href="#">재무 관리</a></div>
             <div class="side_item"><a href="#">구매 관리</a></div>
             <div class="side_item">
                 <a href="#" id="hrMenu">인사 관리</a>
                 <ul id="hrSubMenu" class="submenu" style="display:none;">
-                    <li><a href="./employeeRegister.jsp" id="employeeRegisterLink">사원 등록</a></li>
+                    <li><a href="../category_Hr/employeeRegister.jsp" id="employeeRegisterLink">사원 등록</a></li>
                 </ul>
             </div>
             <div class="side_item"><a href="#">고객 관리</a></div>
@@ -129,6 +131,7 @@
         // 모든 td 클릭 이벤트 설정 (날짜 클릭 시)
         $('.day').click(function() {
             var selectedDate = $(this).text();  // 클릭한 날짜 값 가져오기
+            console.log("날짜 클릭됨: " + selectedDate);
             selectedDay = $(this);
             $('#taskDescription').val('1. ');  // 설명 초기화
             $('#modal').addClass('active');  // 모달 열기

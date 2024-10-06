@@ -32,7 +32,7 @@
 
     <div class="contain">
         <div class="contain_sidebar">
-            <div class="side_item"><a href="main.jsp">마이페이지</a></div>
+            <div class="side_item"><a href="../main/main.jsp">마이페이지</a></div>
             <div class="side_item"><a href="#">재무 관리</a></div>
             <div class="side_item"><a href="#">구매 관리</a></div>
             <div class="side_item">
@@ -167,7 +167,7 @@
                             </span>
                         </li>
                     </ul>
-                    <div class=".tool_bar_all">
+                    <div class=".tool_bar">
                         <li class="tool_bar_li"> <!-- 화살표를 넣을 li -->
                             <span class="btn_wrap">
                                 <span class="ic_classic ic_close" id="foldTab" style="display: inline-block;">▼</span>
