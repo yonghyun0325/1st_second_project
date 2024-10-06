@@ -59,7 +59,6 @@ header {
 .hr_main {
     width: 1180px;
     height: 800px;
-    border: 1px solid black;
     margin-left: 150px;
     margin-top: 50px;
 }
@@ -130,11 +129,17 @@ table th {
 }
 /* 툴바(토글) */
 .tool_bar {
-    cursor: pointer;
-    margin-top: 10px;
+    width: 25px;
+    height: 25px;
+    background-color: rgb(237, 237, 237);
+    border-radius: 5px;
+}
+.tool_bar_li{
+    list-style: none;
     position: absolute;
     right: 0;
-    top: 0;
+    top: 435px;
+    margin-right: 60px;
 }
 .btn_wrap{
     width: 20px;
@@ -209,4 +214,8 @@ table {
     margin: 0 4px;
     color: #333;
 }
-/* 달력 모달 */
+/* 변경 이력 */
+.change_txt{
+    font-size: 13px;
+    font-weight: 500;
+}

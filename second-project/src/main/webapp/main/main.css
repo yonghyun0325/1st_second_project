@@ -135,7 +135,7 @@ td {
 }
 
 .modal.active {
-    display: block;
+    display: flex;
 }
 
 .modal_content {
@@ -147,7 +147,7 @@ td {
 textarea {
     width: 100%;
     height: 200px;
-    background-color: white; /* 텍스트 영역도 노란색으로 */
+    background-color: white;
     border: none;
     resize: none;
     font-size: 20px;

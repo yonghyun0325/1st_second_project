@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>인사 정보</title>
     <link rel="stylesheet" href="employeeRegister.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
     <header>
@@ -71,7 +72,7 @@
                                     <p> </p>
                                 </td>
                                 <th class="number">사번</th>
-                                <td class="number_txt"></td>
+                                <td class="number_txt">20250001</td>
                                 <th class="telephone">내선번호</th>
                                 <td class="telephone_txt">070-1234-5678</td>
                             </tr>
@@ -166,11 +167,13 @@
                             </span>
                         </li>
                     </ul>
-                    <div class="tool_bar">
-                        <span class="btn_wrap">
-                            <span class="ic_classic ic_close" id="foldTab" style="display: inline-block;">▼</span>
-                            <span class="ic_classic ic_open" id="unfoldTab" style="display: inline-block;">▲</span>
-                        </span>
+                    <div class=".tool_bar_all">
+                        <li class="tool_bar_li"> <!-- 화살표를 넣을 li -->
+                            <span class="btn_wrap">
+                                <span class="ic_classic ic_close" id="foldTab" style="display: inline-block;">▼</span>
+                                <span class="ic_classic ic_open" id="unfoldTab" style="display: none;">▲</span>
+                            </span>
+                        </li>
                     </div>
                 </div>
             </div>
@@ -356,9 +359,9 @@
              <section>
                 <div>
                     <div class="reply-wrap">
-                        <header class="single_title">
-                            <span class="txt">변경이력</span>
-                         </header>
+                        <div class="single_title">
+                            <span class="change_txt">변경이력</span>
+                         </div>
                          <div class="aside_wrapper_body">
 
                          </div>
@@ -373,6 +376,12 @@
     document.addEventListener('DOMContentLoaded', function() {
     const tabs = document.querySelectorAll('.tab_menu li');
     const contents = document.querySelectorAll('.tab_content');
+    
+    // 인사관리 클릭시 토글 생성
+    $('#hrMenu').click(function(event){
+            event.preventDefault();
+            $('#hrSubMenu').slideToggle();
+        });
 
     tabs.forEach((tab, index) => {
         tab.addEventListener('click', function() {
