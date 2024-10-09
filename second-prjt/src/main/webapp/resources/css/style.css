@@ -1,3 +1,6 @@
+/* ───────────────────────────────────────────────
+                    공통 초기화
+─────────────────────────────────────────────── */
 a {
     text-decoration: none;
     color: black;
@@ -9,6 +12,9 @@ body {
     padding: 0;
 }
 
+/* ───────────────────────────────────────────────
+                    헤더
+─────────────────────────────────────────────── */
 header {
     width: 100%;
     height: 60px;
@@ -61,6 +67,9 @@ header {
     text-decoration: none;
 }
 
+/* ───────────────────────────────────────────────
+                    사이드 바
+─────────────────────────────────────────────── */
 #sidebar {
     width: 220px;
     float: left;
@@ -168,10 +177,9 @@ header {
     transition: transform 0.3s ease;
 }
 
-.tab i {
-    margin-right: 5px;
-}
-
+/* ───────────────────────────────────────────────
+                공통 컨텐츠영역
+─────────────────────────────────────────────── */
 #content {
     margin-left: 220px;
     padding: 20px;
@@ -184,6 +192,9 @@ header {
     border-radius: 10px;
 }
 
+/* ───────────────────────────────────────────────
+                    탭
+─────────────────────────────────────────────── */
 #tabs-container {
     display: flex;
     overflow-x: auto;
@@ -218,6 +229,10 @@ header {
 .tab {
     display: inline-block;
     white-space: nowrap;
+}
+
+.tab i {
+    margin-right: 5px;
 }
 
 .tab-navigation {
@@ -280,18 +295,122 @@ header {
     display: block;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-th,
-td {
-    border: 1px solid #ccc;
+/* ───────────────────────────────────────────────
+                    모달
+─────────────────────────────────────────────── */
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 700px;
+    height: 300px;
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 10px;
+    display: none;
+    z-index: 1000;
     padding: 10px;
-    text-align: left;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
 }
 
-th {
-    background-color: #f4f4f4;
+.modal.active {
+    display: block;
+}
+
+.modal_content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+textarea {
+    width: 100%;
+    height: 200px;
+    background-color: white;
+    border: none;
+    resize: none;
+    font-size: 20px;
+    line-height: 1.5;
+}
+
+#saveTask {
+    margin-top: 40px;
+    padding: 5px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#saveTask:hover {
+    background-color: #555;
+}
+
+/* ───────────────────────────────────────────────
+                    달력
+─────────────────────────────────────────────── */
+#calendar {
+    /* width: 1180px; */
+    height: 800px;
+    border: 1px solid white;
+}
+
+#prev-month, #next-month {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    padding: 2px;
+}
+
+#calendar-title {
+    margin: 0;
+    margin-bottom: 5px;
+}
+
+.calendar-title-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    background-color: #eee;
+    padding: 15px;
+    gap: 30px;
+}
+
+#calendar table {
+    width: 100%;
+    height: 700px;
+    border-collapse: collapse;
+    color: black;
+    border-color: transparent;
+}
+
+#calendar th {
+    color: black;
+    width: 180px;
+    height: 80px;
+}
+
+#calendar tr,
+#calendar td {
+    color: black;
+    width: 180px;
+    height: 80px;
+    border-color: #bbb
+}
+
+#calendar td {
+    color: black;
+    text-align: left;
+    vertical-align: top;
+    padding: 10px;
+    cursor: pointer;
+}
+
+#calendar thead tr th {
+    text-align: center;
 }

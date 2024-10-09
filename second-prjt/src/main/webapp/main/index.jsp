@@ -1,158 +1,111 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-    <%@ page import="javax.servlet.http.HttpSession" %>
-        <!DOCTYPE html>
-        <html lang="ko">
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>메인 페이지</title>
+<!-- <link rel="stylesheet" href="main.css"> -->
+<!-- <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> -->
+</head>
+<body>
+    <%@ include file="../resources/util/header.jsp" %>
+        
+    <%@ include file="../resources/util/sidebar.jsp" %>
 
-        <head>
-            <meta charset="UTF-8">
-            <title>메인 페이지</title>
-            <link rel="stylesheet" href="style.css">
-            <link rel="stylesheet" href="kinari.css">
-
-            <!-- noto sans 구글 폰트 -->
-            <link rel="preconnect" href="https://fonts.googleapis.com">
-            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-            <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
-            
-            <!-- 폰트어썸 아이콘 -->
-            <script src="https://kit.fontawesome.com/d7e414b2e7.js" crossorigin="anonymous"></script>
-            <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/hung1001/font-awesome-pro@4cac1a6/css/all.css" />
-            
-            <%-- JQuery --%>
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
-            <script src="../js/sidebar.js"></script> <%-- 사이드바 스크립트 --%>
-            <script src="../js/calander.js"></script> <%-- 달력 스크립트 --%>
-
-        </head>
-
-        <body>
-            <%-- 공통 헤더 적용 --%>
-            <header>
-                <div class="header-right-side">
-                    <div class="header_logo">
-                        <i class="far fa-laugh"></i>
-                    </div>
-                    <div class="header-title">
-                        FUNFUN Office
-                    </div>
-                </div>
-                <div class="header-left-side">
-                    <div class="header_UserName">
-                        <% String userName=(String) session.getAttribute("userName"); if (userName !=null) { out.print(userName
-                            + " 님" ); } else { out.print("로그인된 사용자가 없습니다."); } %>
-                    </div>
-                    <div class="header_logout">
-                        <a href="../login/login.jsp" class="logout_item">
-                            로그아웃
-                        </a>
-                    </div>
-                </div>
-            </header>
-            <div id="sidebar">
-                <div class="sidebar-wrapper">
-                    <div class="sidebar-item">
-                        <a href="#" class="sidebar-toggle">
-                            <div class="sidebar-item-title"><i class="fas fa-user-circle"></i> 대시보드</div>
-                        </a>
-                    </div>
-                    <div class="sidebar-item">
-                        <a href="javascript:void(0)" data-cate="finance" class="sidebar-toggle">
-                            <div class="sidebar-item-title"><i class="fas fa-hand-holding-usd"></i> 재무 관리</div>
-                            <i id="finance-icon" class="fas fa-chevron-right"></i>
-                        </a>
-                        <div id="finance-submenu" class="sidebar-submenu">
-                            <a href="${pageContext.request.contextPath}/financial" data-content="finance1">수당등록</a>
-                            <a href="${pageContext.request.contextPath}/financial" data-content="finance2">공제등록</a>
-                            <a href="${pageContext.request.contextPath}/financial" data-content="finance3">급여계산/대장</a>
-                            <a href="${pageContext.request.contextPath}/financial" data-content="finance4">성과급/보너스</a>
-                            <a href="${pageContext.request.contextPath}/financial" data-content="finance5">사원별 급여조회</a>
-                            <a href="${pageContext.request.contextPath}/financial" data-content="finance6">급여현황</a>
-                            <a href="${pageContext.request.contextPath}/financial" data-content="finance7">급여 명세서</a>
-                            <a href="${pageContext.request.contextPath}/financial" data-content="finance8">근무확정현황</a>
-                            <a href="${pageContext.request.contextPath}/financial" data-content="finance9">급여이체현황</a>
-                        </div>
-                    </div>
-                    <div class="sidebar-item">
-                        <a href="javascript:void(0)" data-cate="purchase" class="sidebar-toggle">
-                            <div class="sidebar-item-title"><i class="fas fa-money-check"></i>구매 관리</div>
-                            <i id="purchase-icon" class="fas fa-chevron-right"></i>
-                        </a>
-                        <div id="purchase-submenu" class="sidebar-submenu">
-                            <a href="#">구매 주문</a>
-                            <a href="#">구매 보고서</a>
-                        </div>
-                    </div>
-                    <div class="sidebar-item">
-                        <a href="javascript:void(0)" data-cate="hr" class="sidebar-toggle">
-                            <div class="sidebar-item-title"><i class="fas fa-user-friends"></i>인사 관리</div>
-                            <i id="hr-icon" class="fas fa-chevron-right"></i>
-                        </a>
-                        <div id="hr-submenu" class="sidebar-submenu">
-                            <a href="#">인사정보등록</a>
-                            <a href="#">인사기록</a>
-                            <a href="#">교육관리</a>
-                            <a href="#">교육평가</a>
-                            <a href="#">인사발령</a>
-                            <a href="#">사원정보</a>
-                            <a href="#">상별현황</a>
-                            <a href="#">입퇴사현황</a>
-                            <a href="#">책정임금현황</a>
-                            <a href="#">근속년수현황</a>
-                            <a href="#">교육현황</a>
-                        </div>
-                    </div>
-                    <div class="sidebar-item">
-                        <a href="javascript:void(0)" data-cate="community" class="sidebar-toggle">
-                            <div class="sidebar-item-title"><i class="fas fa-comments"></i>커뮤니티</div>
-                            <i id="community-icon" class="fas fa-chevron-right"></i>
-                        </a>
-                        <div id="community-submenu" class="sidebar-submenu">
-                            <a href="${pageContext.request.contextPath}/community/communityMain.jsp">커뮤니티 홈</a>
-                            <a href="#">가입한 커뮤니티</a>
-                            <a href="#">커뮤니티 만들기</a>
-                        </div>
-                    </div>
-                    <div class="sidebar-item">
-                        <a href="#" class="sidebar-toggle">
-                            <div class="sidebar-item-title"><i class="fas fa-phone-alt"></i>문의하기</div>
-                        </a>
-                    </div>
-                </div>
+    <div id="content">
+        <%@ include file="../resources/util/calendar.jsp" %>
+        <!-- 할 일 입력 모달 -->
+        <div id="modal" class="modal">
+            <div class="modal_content">
+                <h3>할일 목록</h3>
+                <hr>
+                <textarea id="taskDescription"></textarea>
+                <button id="saveTask">저장</button>
             </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function() {
+        var selectedDay;
+        
+        // 인사관리 클릭시 토글 생성
+        $('#hrMenu').click(function(event){
+            event.preventDefault();
+            $('#hrSubMenu').slideToggle();
+        });
+        
+        // 모든 td 클릭 이벤트 설정 (날짜 클릭 시)
+        $('.day').click(function() {
+            var selectedDate = $(this).text();  // 클릭한 날짜 값 가져오기
+            console.log("날짜 클릭됨: " + selectedDate);
+            selectedDay = $(this);
+            $('#taskDescription').val('1. ');  // 설명 초기화
+            $('#modal').addClass('active');  // 모달 열기
+        });
 
-            <div id="content">
-                <div class="calendar">
-                    <div class="calendar-title-wrap">
-                        <button id="prev-month"><i class="fas fa-chevron-left"></i></button>
-                        <h2 id="calendar-title"></h2>
-                        <button id="next-month"><i class="fas fa-chevron-right"></i></button>
-                    </div>
-                    <table border="1">
-                        <thead>
-                            <tr>
-                                <th style="color:red">일요일</th>
-                                <th>월요일</th>
-                                <th>화요일</th>
-                                <th>수요일</th>
-                                <th>목요일</th>
-                                <th>금요일</th>
-                                <th style="color:blue">토요일</th>
-                            </tr>
-                        </thead>
-                        <tbody id="calendar-body">
-                        </tbody>
-                    </table>
-                </div>
-                <!-- 할 일 입력 모달 -->
-                <div id="modal" class="modal">
-                    <div class="modal_content">
-                        <h3>할일 목록</h3>
-                        <hr>
-                        <textarea id="taskDescription"></textarea>
-                        <button id="saveTask">저장</button>
-                    </div>
-                </div>
-            </div>
-    </body>
+        // 자동 번호 매기기 (엔터 칠 때마다 숫자 증가)
+        $('#taskDescription').keydown(function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();  // 기본 엔터 동작 방지
+                var lines = $(this).val().split('\n').length;  // 줄 개수 확인
+                $(this).val($(this).val() + '\n' + (lines + 1) + ". ");  // 번호 추가
+            }
+        });
+
+        // "1. "은 삭제하지 못하게 설정
+        $('#taskDescription').on('input', function(event) {
+            if (!$(this).val().startsWith('1. ')) {
+                $(this).val('1. ');  // 강제로 "1. "이 항상 첫 줄에 있도록 설정
+            }
+        });
+
+        // 모달 창 닫기 (클릭 이벤트)
+        $(document).click(function(event) {
+            if (!$(event.target).closest('.modal_content').length && !$(event.target).closest('.day').length) {
+                $('#modal').removeClass('active');  // 모달 닫기
+            }
+        });
+
+        // ESC 키로 모달 닫기
+        $(document).keydown(function(event) {
+            if (event.key === "Escape") {
+                $('#modal').removeClass('active');  // ESC 키로 모달 닫기
+            }
+        });
+
+        // 저장 버튼 클릭 시
+        $('#saveTask').click(function() {
+            if (selectedDay) {
+                var taskDescription = $('#taskDescription').val();
+                var taskContent = "<br><span class='task'>" + taskDescription.replace(/\n/g, "<br>") + "</span>";
+                selectedDay.append(taskContent);  // 달력 셀에 할 일 저장
+
+                // jQuery를 이용한 AJAX 요청
+                $.ajax({
+                    url: 'calendarProcess.jsp',  // 서버에 보낼 JSP 파일
+                    type: 'POST',  // POST 요청
+                    data: {
+                        taskDescription: taskDescription,  // 할 일 내용
+                        selectedDate: selectedDay.text()   // 선택된 날짜
+                    },
+                    success: function(response) {
+                        console.log("서버 응답: " + response);
+                        if (response === "Success") {
+                            alert("할 일이 저장되었습니다.");
+                            $('#modal').removeClass('active');  // 저장 후 모달 닫기
+                        } else {
+                            alert("할 일 저장에 실패했습니다.");
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.log("AJAX 오류: " + error);
+                    }
+                });
+            }
+        });
+    });
+    </script>
+    
+</body>
 </html>
