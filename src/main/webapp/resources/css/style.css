@@ -12,6 +12,148 @@ body {
     padding: 0;
 }
 
+
+/* ───────────────────────────────────────────────
+                    로그인
+─────────────────────────────────────────────── */
+
+.login-container {
+    background: url('https://images.pexels.com/photos/907485/pexels-photo-907485.jpeg') no-repeat center center;
+    background-size: cover;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login_box {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    padding: 20px 40px 20px 40px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    max-width: 300px;
+    width: 100%;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 1.5s ease forwards;
+}
+
+.login_box form {
+    width: 100%;
+}
+
+.title-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.title-area .logo i {
+    font-size: 35px;
+    color: black;
+}
+
+.title-area .title {
+    font-size: 30px;
+    font-weight: bold;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.login_id, .login_pw {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.login_id input, .login_pw input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    font-size: 14px;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.btn_login {
+    background-color: #408ed6;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100%;
+    font-size: 16px;
+    font-family: 'Noto Sans KR', sans-serif;
+    transition: background-color 0.3s ease;
+}
+
+.btn_login:hover {
+    background-color: #66a7e3;
+}
+
+.remember_login {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.remember_login input {
+    margin-right: 5px;
+}
+
+.login_info {
+    display: flex;
+    gap: 30px;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+}
+
+.login_info a {
+    font-size: 14px;
+    color: #408ed6;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.login_info a:hover {
+    color: #66a7e3;
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin: 0;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px); /* 아래에서 위로 올라오는 효과 */
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 /* ───────────────────────────────────────────────
                     헤더
 ─────────────────────────────────────────────── */

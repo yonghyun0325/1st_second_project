@@ -6,15 +6,15 @@
 
     <!-- 일정 등록 -->
     <insert id="insertTask" parameterType="com.human.web.vo.CalendarVO">
-        INSERT INTO calendar_tasks (emp_idx, task_date, task_description, created_at)
-        VALUES (#{empIdx}, #{taskDate}, #{taskDescription}, NOW())
+        INSERT INTO calendar_tasks (e_idx, task_date, task_description, created_at)
+        VALUES (#{e_idx}, #{taskDate}, #{taskDescription}, NOW())
     </insert>
 
     <!-- 일정 조회 -->
-    <select id="getTasksByEmpIdx" parameterType="int" resultType="com.human.web.vo.CalendarVO">
-        SELECT emp_idx, task_date, task_description
+    <select id="getTask" parameterType="int" resultType="com.human.web.vo.CalendarVO">
+        SELECT e_idx, task_date, task_description
         FROM calendar_tasks
-        WHERE emp_idx = #{empIdx}
+        WHERE e_idx = #{e_idx}
         ORDER BY task_date DESC
     </select>
     

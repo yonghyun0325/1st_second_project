@@ -23,7 +23,7 @@ public class CalendarDAO {
     }
 
     // 특정 사원의 일정 조회
-    public List<CalendarVO> getTasksByEmpIdx(int empIdx) {
-        return sqlSession.selectList(NAMESPACE + ".getTasksByEmpIdx", empIdx);
+    public List<CalendarVO> getTask(int empIdx) {
+        return sqlSession.selectList(NAMESPACE + ".getTask", empIdx);
     }
 }

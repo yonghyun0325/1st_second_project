@@ -28,13 +28,13 @@ public class EmployeesServiceImpl implements EmployeesService {
 	// 비밀번호 암호화 객체
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-	// 로그인 처리 (emp_idx와 비밀번호를 사용)
+	// 로그인 처리 (e_idx와 비밀번호를 사용)
 	@Override
-	public EmployeesVO login(int emp_idx, String emp_pw) {
+	public EmployeesVO login(int e_idx, String e_pw) {
 		// 로그인 정보 매핑
 		Map<String, Object> map = new HashMap<>();
-		map.put("emp_idx", emp_idx);
-		map.put("emp_pw", emp_pw);
+		map.put("e_idx", e_idx);
+		map.put("e_pw", e_pw);
 		
 		return dao.login(map);
 	}
@@ -45,22 +45,22 @@ public class EmployeesServiceImpl implements EmployeesService {
 		EmployeesVO newVo = null;
 
 		// 비밀번호 암호화
-		String rawPassword = vo.getEmp_pw();
+		String rawPassword = vo.getE_pw();
 		String encodePassword = bCryptPasswordEncoder.encode(rawPassword);
-		vo.setEmp_pw(encodePassword);
+		vo.setE_pw(encodePassword);
 
 		// 업데이트 성공 여부에 따른 처리
 		if (dao.updateEmployees(vo) == 1) {
-			newVo = dao.getEmployees(vo.getEmp_idx());
+			newVo = dao.getEmployees(vo.getE_idx());
 		}
 
 		return newVo;
 	}
 
-	// 회원 탈퇴 처리
+	// 최종 퇴사처리
 	@Override
-	public int cancel(int emp_idx) {
-		return dao.cancel(emp_idx);
+	public int cancel(int e_idx) {
+		return dao.cancel(e_idx);
 	}
 
 	// 메일 인증

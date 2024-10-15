@@ -30,15 +30,26 @@
         <div class="header_UserName">
             <% 
                 EmployeesVO employees = (EmployeesVO) session.getAttribute("employees");
-                if (employees != null && employees.getEmp_name() != null) {
-                    out.print(employees.getEmp_name() + " 님");
+                if (employees != null && employees.getName() != null) {
+                    int permission = employees.getPermission();
+                    String role = "";
+                    if (permission == 0) {
+                        role = "사원";
+                    } else if (permission == 1) {
+                        role = "인사담당자";
+                    } else if (permission == 2) {
+                        role = "관리자";
+                    }
+                    out.print(" (" + role + ") ");
+
+                    out.print(employees.getName() + " 님");
                 } else {
                     out.print("로그인된 사용자가 없습니다.");
                 }
             %>
         </div>
         <div class="header_logout">
-            <a href="/member/logout.do" class="logout_item">
+            <a href="/employees/logout.do" class="logout_item">
                 로그아웃
             </a>
         </div>

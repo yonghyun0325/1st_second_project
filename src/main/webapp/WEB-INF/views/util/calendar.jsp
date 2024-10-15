@@ -1,11 +1,68 @@
-<meta charset="UTF-8">
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<div id="calendar">
+    <div class="calendar-title-wrap">
+        <button id="prev-month"><i class="fas fa-chevron-left"></i></button>
+        <h2 id="calendar-title"></h2>
+        <button id="next-month"><i class="fas fa-chevron-right"></i></button>
+    </div>
+    <table border="1">
+        <thead>
+            <tr>
+                <th style="color:red">일요일</th>
+                <th>월요일</th>
+                <th>화요일</th>
+                <th>수요일</th>
+                <th>목요일</th>
+                <th>금요일</th>
+                <th style="color:blue">토요일</th>
+            </tr>
+        </thead>
+        <tbody id="calendar-body">
+        </tbody>
+    </table>
+</div>
+<!-- 할 일 입력 모달 -->
+<div id="modal" class="modal">
+    <div class="modal_content">
+        <h3>할일 목록</h3>
+        <hr>
+        <textarea id="taskDescription"></textarea>
+        <button id="saveTask">저장</button>
+    </div>
+</div>
 <script>
     $(document).ready(function() {
         let today = new Date();
         let currentMonth = today.getMonth();
         let currentYear = today.getFullYear();
 
-        function generateCalendar(month, year) {
+        function fetchTasks() {
+            return $.ajax({
+                url: '${pageContext.request.contextPath}/calendar/getTask',
+                type: 'POST',
+                dataType: 'json'
+            });
+        }
+
+        function displayTasks(tasks) {
+            tasks.forEach(function(task) {
+                const taskDateArray = task.taskDate.split('-');
+                const taskYear = parseInt(taskDateArray[0]);
+                const taskMonth = parseInt(taskDateArray[1]) - 1;
+                const taskDay = parseInt(taskDateArray[2]);
+                console.log(`taskDay: ${taskDay}, taskMonth: ${taskMonth}, taskYear: ${taskYear}`);
+
+                $('#calendar-body').find('td').each(function() {
+                    const cellDay = parseInt($(this).text());
+                    if (cellDay === taskDay && currentMonth === taskMonth && currentYear === taskYear) {
+                        let taskContent = "<br><span class='task'>" + task.taskDescription.replace(/\n/g, "<br>") + "</span>";
+                        $(this).append(taskContent);
+                    }
+                });
+            });
+        }
+
+        function generateCalendar(month, year, tasks) {
             const monthNames = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"];
             const firstDay = new Date(year, month).getDay();
             const daysInMonth = 32 - new Date(year, month, 32).getDate();
@@ -39,19 +96,24 @@
 
                 $('#calendar-body').append(row);
             }
+            displayTasks(tasks);
         }
 
-        // 초기 달력 생성
-        generateCalendar(currentMonth, currentYear);
+        function updateCalendar(month, year) {
+            fetchTasks().done(function(tasks) {
+                generateCalendar(month, year, tasks);
+            });
+        }
 
-        // 이전달, 다음달 버튼
+        updateCalendar(currentMonth, currentYear);
+
         $('#prev-month').on('click', function() {
             currentMonth--;
             if (currentMonth < 0) {
                 currentMonth = 11;
                 currentYear--;
             }
-            generateCalendar(currentMonth, currentYear);
+            updateCalendar(currentMonth, currentYear);
         });
 
         $('#next-month').on('click', function() {
@@ -60,17 +122,16 @@
                 currentMonth = 0;
                 currentYear++;
             }
-            generateCalendar(currentMonth, currentYear);
+            updateCalendar(currentMonth, currentYear); 
         });
 
-        // 모달 관련 내용
-        var modal = $('#modal');
-        var taskDescription = $('#taskDescription');
-        var selectedDay;
+        // 할일 저장 모달영역
+        let modal = $('#modal');
+        let taskDescription = $('#taskDescription');
+        let selectedDay;
 
-        // 각 일수 클릭마다 모달 띄우기(비어있는 칸 무시)
         $('#calendar-body').on('click', 'td.day', function () {
-            var selectedDate = $(this).text();
+            let selectedDate = $(this).text();
             if (selectedDate.trim() !== '') {
                 selectedDay = $(this);
                 taskDescription.val('1. ');
@@ -78,57 +139,50 @@
             }
         });
 
-        // 자동 번호 매기기 (엔터 칠 때마다 숫자 증가)
         $('#taskDescription').keydown(function(event) {
             if (event.key === 'Enter') {
-                event.preventDefault();  // 기본 엔터 동작 방지
-                var lines = $(this).val().split('\n').length;  // 줄 개수 확인
-                $(this).val($(this).val() + '\n' + (lines + 1) + ". ");  // 번호 추가
+                event.preventDefault(); 
+                let lines = $(this).val().split('\n').length; 
+                $(this).val($(this).val() + '\n' + (lines + 1) + ". "); 
             }
         });
 
-        // "1. "은 삭제하지 못하게 설정
-        $('#taskDescription').on('input', function(event) {
-            if (!$(this).val().startsWith('1. ')) {
-                $(this).val('1. ');  // 강제로 "1. "이 항상 첫 줄에 있도록 설정
-            }
-        });
+        // $('#taskDescription').on('input', function(event) {
+        //     if (!$(this).val().startsWith('1. ')) {
+        //         $(this).val('1. '); 
+        //     }
+        // });
 
-        // 모달 창 닫기 (클릭 이벤트)
         $(document).click(function(event) {
             if (!$(event.target).closest('.modal_content').length && !$(event.target).closest('.day').length) {
-                $('#modal').removeClass('active');  // 모달 닫기
+                $('#modal').removeClass('active');
             }
         });
 
-        // ESC 키로 모달 닫기
         $(document).keydown(function(event) {
             if (event.key === "Escape") {
-                $('#modal').removeClass('active');  // ESC 키로 모달 닫기
+                $('#modal').removeClass('active');
             }
         });
 
-        // 저장 버튼 클릭 시
         $('#saveTask').click(function() {
             if (selectedDay) {
-                var taskDescription = $('#taskDescription').val();
-                var taskContent = "<br><span class='task'>" + taskDescription.replace(/\n/g, "<br>") + "</span>";
-                selectedDay.append(taskContent);  // 달력 셀에 할 일 저장
+                let taskDescription = $('#taskDescription').val();
+                let selectedDate = currentYear + '-' + (currentMonth + 1) + '-' + selectedDay.text(); 
 
-                // jQuery를 이용한 AJAX 요청
                 $.ajax({
-                    url: '/calendar/addTask',  // Controller 경로로 변경
-                    type: 'POST',  // POST 요청
+                    url: '${pageContext.request.contextPath}/calendar/addTask',
+                    type: 'POST',
                     contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
                     data: {
-                        taskDescription: taskDescription,  // 할 일 내용
-                        selectedDate: selectedDay.text()   // 선택된 날짜
+                        taskDescription: taskDescription,
+                        selectedDate: selectedDate 
                     },
                     success: function(response) {
-                        console.log("서버 응답: " + response);
                         if (response === "Success") {
                             alert("할 일이 저장되었습니다.");
-                            $('#modal').removeClass('active');  // 저장 후 모달 닫기
+                            $('#modal').removeClass('active');
+                            updateCalendar(currentMonth, currentYear);
                         } else {
                             alert("할 일 저장에 실패했습니다.");
                         }

@@ -6,5 +6,5 @@ import com.human.web.vo.CalendarVO;
 
 public interface CalendarService {
     int insertTask(CalendarVO calendarVO);
-    List<CalendarVO> getTasksByEmpIdx(int empIdx);
+    List<CalendarVO> getTask(int empIdx);
 }

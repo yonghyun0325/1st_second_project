@@ -1,13 +1,18 @@
 package com.human.web.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.human.web.service.EmployeesService;
 import com.human.web.vo.EmployeesVO;
@@ -31,22 +36,23 @@ public class EmployeesController {
 
     // 로그인 처리 요청
     @PostMapping("/loginProcess.do")
-    public String loginProcess(int emp_idx, String emp_pw, HttpServletRequest request, Model model) {
-        String viewName = "login"; // 로그인 실패 시 뷰 이름
-        
-        // 사원번호(emp_idx)와 비밀번호로 로그인 처리
-        EmployeesVO vo = EmployeesServiceImpl.login(emp_idx, emp_pw);
+    @ResponseBody
+    public Map<String, String> loginProcess(int e_idx, String e_pw, HttpServletRequest request) {
+        Map<String, String> response = new HashMap<>();
 
-        if (vo != null) { // 로그인 성공
-            // 세션 객체에 회원 정보를 저장함
+        EmployeesVO vo = EmployeesServiceImpl.login(e_idx, e_pw);
+
+        if (vo != null) {
+            // 로그인 성공
             HttpSession session = request.getSession();
             session.setAttribute("employees", vo);
-            viewName = "redirect:/"; // 메인 페이지 재요청
-        } else { // 로그인 실패
-            model.addAttribute("msg", "사원번호나 비밀번호가 일치하지 않습니다");
+            response.put("status", "success");
+            response.put("redirect", "/");
+        } else {
+            // 로그인 실패
+            response.put("status", "fail");
         }
-
-        return viewName;
+        return response;
     }
 
     // 로그아웃 요청
@@ -54,7 +60,7 @@ public class EmployeesController {
     public String logout(HttpServletRequest request) {
         HttpSession session = request.getSession();
         session.invalidate(); // 세션 초기화
-        return "redirect:/login.do"; // 메인 페이지로 리다이렉트
+        return "redirect:/"; // 메인 페이지로 리다이렉트
     }
 
     // 회원 정보 변경 페이지 요청

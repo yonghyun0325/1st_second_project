@@ -21,7 +21,7 @@ public class CalendarServiceImpl implements CalendarService {
     }
 
     @Override
-    public List<CalendarVO> getTasksByEmpIdx(int empIdx) {
-        return calendarDAO.getTasksByEmpIdx(empIdx);
+    public List<CalendarVO> getTask(int empIdx) {
+        return calendarDAO.getTask(empIdx);
     }
 }

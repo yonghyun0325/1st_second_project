@@ -32,31 +32,31 @@
 	
     <!-- 비밀번호 -->
     <select id="getPassword" parameterType="int" resultType="string">
-        select emp_pw 
+        select e_pw 
         from employees
-        where emp_idx = #{emp_idx}
+        where e_idx = #{e_idx}
     </select>
 
     <!-- 로그인 정보 조회 -->
     <select id="login" parameterType="int" resultType="com.human.web.vo.EmployeesVO">
-        select emp_idx, emp_name, emp_pw
+        select e_idx, name, e_pw
         from employees
-        where emp_idx = #{emp_idx}
+        where e_idx = #{e_idx}
     </select>
 
     <!-- 회원정보 변경 -->
     <update id="updateMember" parameterType="com.human.web.vo.EmployeesVO">
         update employees 
-        set emp_name = #{emp_name},
-            emp_pw = #{emp_pw}
-        where emp_idx = #{emp_idx}
+        set name = #{name},
+            e_pw = #{e_pw}
+        where e_idx = #{e_idx}
     </update>
 
     <!-- 회원조회 -->
     <select id="getMember" parameterType="int" resultType="com.human.web.vo.EmployeesVO">
-        select emp_idx, emp_name, emp_pw
+        select e_idx, name, e_pw
         from employees
-        where emp_idx = #{emp_idx}
+        where e_idx = #{e_idx}
     </select>
 
     <!-- 회원탈퇴 -->
@@ -64,7 +64,7 @@
         update employees 
         set member_status = 'Y', 
             update_date = now()
-        where emp_idx = #{emp_idx}
+        where e_idx = #{e_idx}
     </update>
 	
 

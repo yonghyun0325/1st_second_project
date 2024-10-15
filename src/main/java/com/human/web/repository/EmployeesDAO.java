@@ -30,13 +30,13 @@ public class EmployeesDAO {
 		// String encodedPassword = bCryptPasswordEncoder.encode(rawPassword);
 		// System.out.println("암호화된 비밀번호: " + encodedPassword);
 		try {
-			// 사원번호(emp_idx)로 암호화된 비밀번호 가져오기
-			String encodePassword = sqlSession.selectOne(MAPPER + ".getPassword", map.get("emp_idx"));
+			// 사원번호(e_idx)로 암호화된 비밀번호 가져오기
+			String encodePassword = sqlSession.selectOne(MAPPER + ".getPassword", map.get("e_idx"));
 			// 입력된 비밀번호와 암호화된 비밀번호 비교
-			boolean flag = bCryptPasswordEncoder.matches((String) map.get("emp_pw"), encodePassword);
+			boolean flag = bCryptPasswordEncoder.matches((String) map.get("e_pw"), encodePassword);
 			// 비밀번호가 일치하는 경우에만 로그인 처리
 			if (flag) {
-				vo = sqlSession.selectOne(MAPPER + ".login", map.get("emp_idx"));
+				vo = sqlSession.selectOne(MAPPER + ".login", map.get("e_idx"));
 			}
 		} catch (Exception e) {
 			System.out.println("로그인 중 예외 발생");
@@ -61,11 +61,11 @@ public class EmployeesDAO {
 	}
 
 	// 회원 정보 조회
-	public EmployeesVO getEmployees(int emp_idx) {
+	public EmployeesVO getEmployees(int e_idx) {
 		EmployeesVO vo = null;
 
 		try {
-			vo = sqlSession.selectOne(MAPPER + ".getEmployees", emp_idx);
+			vo = sqlSession.selectOne(MAPPER + ".getEmployees", e_idx);
 		} catch (Exception e) {
 			System.out.println("회원정보 조회 중 예외 발생");
 			e.printStackTrace();
@@ -75,11 +75,11 @@ public class EmployeesDAO {
 	}
 
 	// 회원 탈퇴 처리
-	public int cancel(int emp_idx) {
+	public int cancel(int e_idx) {
 		int result = 0;
 
 		try {
-			result = sqlSession.update(MAPPER + ".cancel", emp_idx);
+			result = sqlSession.update(MAPPER + ".cancel", e_idx);
 		} catch (Exception e) {
 			System.out.println("회원탈퇴 중 예외 발생");
 			e.printStackTrace();
