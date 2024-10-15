@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.human.web.mapper.CalendarMapper">
+
+    <!-- 일정 등록 -->
+    <insert id="insertTask" parameterType="com.human.web.vo.CalendarVO">
+        INSERT INTO calendar_tasks (emp_idx, task_date, task_description, created_at)
+        VALUES (#{empIdx}, #{taskDate}, #{taskDescription}, NOW())
+    </insert>
+
+    <!-- 일정 조회 -->
+    <select id="getTasksByEmpIdx" parameterType="int" resultType="com.human.web.vo.CalendarVO">
+        SELECT emp_idx, task_date, task_description
+        FROM calendar_tasks
+        WHERE emp_idx = #{empIdx}
+        ORDER BY task_date DESC
+    </select>
+    
+</mapper>

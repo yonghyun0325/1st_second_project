@@ -1,6 +1,3 @@
 {
-  "java.configuration.updateBuildConfiguration": "automatic",
-  "[jsp]": {
-    "editor.defaultFormatter": "vscode.html-language-features"
-  },
+    "java.configuration.updateBuildConfiguration": "automatic"
 }
