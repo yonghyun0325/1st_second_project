@@ -37,9 +37,6 @@
                 <div class="login_pw">
                     <input type="password" name="e_pw" placeholder="비밀번호" required>
                 </div>
-                <!-- <div class="remember_login">
-                    <input type="checkbox" name="remember_login"> 로그인 기억하기
-                </div> -->
                 <p class="error-message"></p>
                 <button type="submit" class="btn_login">로그인</button>
             </form>

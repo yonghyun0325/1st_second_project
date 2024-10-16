@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
@@ -24,12 +25,23 @@
 	
 	<!--  파일업로드 관련 핵심적인 역할을 하는 객체 빈 등록 -->
 	<beans:bean id="multipartResolver"
-				class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
+		class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
 	</beans:bean>
 	
 	<!-- 프로젝트 내의 빈 등록을 컴포넌트 스캔을 이용해서 특정 어노테이션이 붙은 자바 클래스를 자동으로 빈으로 등록함 
 	     @Component, @Configuration, @Controller, @Service, @Repository @RestController 등-->
 	<context:component-scan base-package="com.human.web" />
 	
+    <!-- 로그인 세션 만료 체크 인터셉터 등록 -->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**" />
+            <mvc:exclude-mapping path="/login.do" />
+            <mvc:exclude-mapping path="/employees/loginProcess.do" />
+            <mvc:exclude-mapping path="/resources/**" />
+            
+            <beans:bean class="com.human.web.util.LoginInterceptor" />
+        </mvc:interceptor>
+    </mvc:interceptors>
 	
 </beans:beans>
