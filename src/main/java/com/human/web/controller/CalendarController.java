@@ -26,39 +26,38 @@ public class CalendarController {
 
     @PostMapping("/addTask")
     @ResponseBody
-    public String addTask(@RequestParam("taskDescription") String taskDescription,
-                          @RequestParam("selectedDate") String selectedDate,
+    public String addTask(@RequestParam("taskDescription") String setTask_description,
+                          @RequestParam("selectedDate") String selected_date,
                           HttpSession session) {
-        System.out.println("달력 데이터 저장, 받아온 데이터" + taskDescription + ", " + selectedDate);
                             
         EmployeesVO loginUser = (EmployeesVO) session.getAttribute("employees");
         if (loginUser == null) {
             return "Error: 로그인 세션이 만료되었습니다.";
         }
-
         
-        int eIdx = loginUser.getE_idx();
+        int e_idx = loginUser.getE_idx();
 
         CalendarVO calendarVO = new CalendarVO();
-        calendarVO.setE_idx(eIdx);
-        calendarVO.setTaskDate(selectedDate);
-        calendarVO.setTaskDescription(taskDescription);
+        calendarVO.setE_idx(e_idx);
+        calendarVO.setTask_date(selected_date);
+        calendarVO.setTask_description(setTask_description);
+        System.out.println("저장할 달력 데이터 CalendarVO: "+ e_idx + ", " + setTask_description + ", " + selected_date);
 
-        int result = calendarService.insertTask(calendarVO);
+        int result = calendarService.addTask(calendarVO);
 
         return (result > 0) ? "Success" : "Error";
     }
 
     @PostMapping("/getTask")
     @ResponseBody
-    public List<CalendarVO> getTasks(HttpSession session) {
+    public List<CalendarVO> getTask(HttpSession session) {
         EmployeesVO loginUser = (EmployeesVO) session.getAttribute("employees");
         if (loginUser == null) {
             return Collections.emptyList();
         }
 
         int eIdx = loginUser.getE_idx();
-        System.out.println("달력 데이터 호출, 호출자 eIdx" + eIdx);
+        System.out.println("달력 데이터 호출, 호출자 eIdx: " + eIdx);
         return calendarService.getTask(eIdx);
     }
 

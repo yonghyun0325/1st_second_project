@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class BoardVO {
+public class CommunityVO {
 	private int b_idx; //게시글 번호(기본키)
 	private String b_writer; //작성자
 	private String b_title; //제목

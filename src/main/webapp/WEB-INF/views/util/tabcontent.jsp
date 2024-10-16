@@ -53,29 +53,36 @@ $(document).ready(function () {
 
         // 서브카테고리 클릭했을 때 탭으로 추가
         $('.sidebar-submenu a').on('click', function (e) {
+            e.preventDefault();
             const tabName = $(this).text();
             const contentId = $(this).data('content');
-
+        
             // 메인 카테고리 이름 가져오기
             const mainCategory = $(this).closest('.sidebar-item').find('.sidebar-item-title').text().trim();
-
+        
             let currentPath = window.location.pathname;
             currentPath = currentPath.endsWith('/') ? currentPath.slice(0, -1) : currentPath;
             currentPath = currentPath.split('/').pop();
-
+        
             const targetPage = contentId.split('_')[0];
-
+            const subCategory = contentId.split('_')[1]; // 서브 카테고리 추출 (예: home)
+        
             if (currentPath === targetPage) {
-                addTab(tabName, contentId, mainCategory);
+                if (subCategory) {
+                    // 서브 카테고리 불러오기
+                    loadTabContent(tabName, subCategory);
+                } else {
+                    addTab(tabName, contentId, mainCategory);
+                }
             }
         });
-
+    
         // 탭 추가될때 내용 생성
         function loadTabContent(tabName, contentId) {
             const contentDiv = $('<div class="content" id="content-' + contentId + '"></div>');
             $('#content-wrapper').append(contentDiv);
             $.ajax({
-                url: '/resources/tabs/' + contentId + '.jsp',
+                url: '/community/' + contentId + '.jsp',
                 method: 'GET',
                 success: function (data) {
                     $('#content-' + contentId).html(data);

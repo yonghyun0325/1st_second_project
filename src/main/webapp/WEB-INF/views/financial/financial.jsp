@@ -6,11 +6,11 @@
     </head>
 
     <body>
-        <%@ include file="util/header.jsp" %>
+        <%@ include file="../util/header.jsp" %>
         
-        <%@ include file="util/sidebar.jsp" %>
+        <%@ include file="../util/sidebar.jsp" %>
 
-        <%@ include file="util/tabcontent.jsp" %>
+        <%@ include file="../util/tabcontent.jsp" %>
     </body>
        
 </html>

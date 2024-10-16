@@ -5,6 +5,6 @@ import java.util.List;
 import com.human.web.vo.CalendarVO;
 
 public interface CalendarService {
-    int insertTask(CalendarVO calendarVO);
-    List<CalendarVO> getTask(int empIdx);
+    int addTask(CalendarVO calendarVO);
+    List<CalendarVO> getTask(int eIdx);
 }

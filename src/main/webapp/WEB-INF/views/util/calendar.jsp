@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<!DOCTYPE html>
 <div id="calendar">
     <div class="calendar-title-wrap">
         <button id="prev-month"><i class="fas fa-chevron-left"></i></button>
@@ -37,30 +38,25 @@
         let currentYear = today.getFullYear();
 
         function fetchTasks() {
-            return $.ajax({
+        return $.ajax({
                 url: '${pageContext.request.contextPath}/calendar/getTask',
                 type: 'POST',
                 dataType: 'json'
             });
         }
 
-        function displayTasks(tasks) {
-            tasks.forEach(function(task) {
-                const taskDateArray = task.taskDate.split('-');
-                const taskYear = parseInt(taskDateArray[0]);
-                const taskMonth = parseInt(taskDateArray[1]) - 1;
-                const taskDay = parseInt(taskDateArray[2]);
-                console.log(`taskDay: ${taskDay}, taskMonth: ${taskMonth}, taskYear: ${taskYear}`);
-
+        function displayTasks(tasks, currentMonth, currentYear) {
+            tasks.forEach((task) => {
+                const [taskYear, taskMonth, taskDay] = task.task_date.split('-').map(Number);  // task_date를 년, 월, 일로 나눔
                 $('#calendar-body').find('td').each(function() {
-                    const cellDay = parseInt($(this).text());
-                    if (cellDay === taskDay && currentMonth === taskMonth && currentYear === taskYear) {
-                        let taskContent = "<br><span class='task'>" + task.taskDescription.replace(/\n/g, "<br>") + "</span>";
-                        $(this).append(taskContent);
+                    const cellDay = parseInt($(this).text());  // 달력 셀의 날짜
+                    if (cellDay === taskDay && currentMonth === (taskMonth - 1) && currentYear === taskYear) {  // 년, 월, 일 비교
+                        let taskContent = "<br><span class='task'>" + task.task_description.replace(/\n/g, "<br>") + "</span>";
+                        $(this).append(taskContent);  // 할 일 내용을 달력 셀에 추가
                     }
                 });
             });
-        }
+        }   
 
         function generateCalendar(month, year, tasks) {
             const monthNames = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"];
@@ -96,7 +92,7 @@
 
                 $('#calendar-body').append(row);
             }
-            displayTasks(tasks);
+            displayTasks(tasks, currentMonth, currentYear);
         }
 
         function updateCalendar(month, year) {
@@ -104,7 +100,7 @@
                 generateCalendar(month, year, tasks);
             });
         }
-
+    
         updateCalendar(currentMonth, currentYear);
 
         $('#prev-month').on('click', function() {
@@ -122,16 +118,15 @@
                 currentMonth = 0;
                 currentYear++;
             }
-            updateCalendar(currentMonth, currentYear); 
+            updateCalendar(currentMonth, currentYear);
         });
 
-        // 할일 저장 모달영역
-        let modal = $('#modal');
-        let taskDescription = $('#taskDescription');
-        let selectedDay;
+        var modal = $('#modal');
+        var taskDescription = $('#taskDescription');
+        var selectedDay;
 
         $('#calendar-body').on('click', 'td.day', function () {
-            let selectedDate = $(this).text();
+            var selectedDate = $(this).text();
             if (selectedDate.trim() !== '') {
                 selectedDay = $(this);
                 taskDescription.val('1. ');
@@ -142,7 +137,7 @@
         $('#taskDescription').keydown(function(event) {
             if (event.key === 'Enter') {
                 event.preventDefault(); 
-                let lines = $(this).val().split('\n').length; 
+                var lines = $(this).val().split('\n').length; 
                 $(this).val($(this).val() + '\n' + (lines + 1) + ". "); 
             }
         });
@@ -167,8 +162,8 @@
 
         $('#saveTask').click(function() {
             if (selectedDay) {
-                let taskDescription = $('#taskDescription').val();
-                let selectedDate = currentYear + '-' + (currentMonth + 1) + '-' + selectedDay.text(); 
+                var taskDescription = $('#taskDescription').val();
+                var selectedDate = currentYear + '-' + (currentMonth + 1) + '-' + selectedDay.text(); // 연-월-일 형식으로 변환
 
                 $.ajax({
                     url: '${pageContext.request.contextPath}/calendar/addTask',

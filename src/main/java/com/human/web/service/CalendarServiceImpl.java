@@ -16,12 +16,12 @@ public class CalendarServiceImpl implements CalendarService {
     private final CalendarDAO calendarDAO;
 
     @Override
-    public int insertTask(CalendarVO calendarVO) {
-        return calendarDAO.insertTask(calendarVO);
+    public int addTask(CalendarVO calendarVO) {
+        return calendarDAO.addTask(calendarVO);
     }
 
     @Override
-    public List<CalendarVO> getTask(int empIdx) {
-        return calendarDAO.getTask(empIdx);
+    public List<CalendarVO> getTask(int eIdx) {
+        return calendarDAO.getTask(eIdx);
     }
 }

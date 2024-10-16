@@ -63,8 +63,9 @@
                 data: formData,
                 dataType: 'json',
                 success: function(response) {
-                    if (response.status === 'success') {
-                        window.location.href = response.redirect;
+                    console.log("response: " + response.status.trim());
+                    if (response.status.trim() === 'success') {
+                        window.location.href = '/';
                     } else {
                         $('.error-message').html(`사원번호나 비밀번호가 일치하지 않습니다.`);
                     }

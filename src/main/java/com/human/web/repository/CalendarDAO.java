@@ -18,12 +18,12 @@ public class CalendarDAO {
     private static final String NAMESPACE = "com.human.web.mapper.CalendarMapper";
 
     // 일정 등록
-    public int insertTask(CalendarVO calendarVO) {
-        return sqlSession.insert(NAMESPACE + ".insertTask", calendarVO);
+    public int addTask(CalendarVO calendarVO) {
+        return sqlSession.insert(NAMESPACE + ".addTask", calendarVO);
     }
 
     // 특정 사원의 일정 조회
-    public List<CalendarVO> getTask(int empIdx) {
-        return sqlSession.selectList(NAMESPACE + ".getTask", empIdx);
+    public List<CalendarVO> getTask(int eIdx) {
+        return sqlSession.selectList(NAMESPACE + ".getTask", eIdx);
     }
 }

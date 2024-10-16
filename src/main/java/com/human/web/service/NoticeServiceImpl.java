@@ -21,13 +21,12 @@ public class NoticeServiceImpl implements NoticeService {
 	private NoticeDAO dao;
 	private FileManager fileManager;
 	
-
 	@Override
 	public List<NoticeVO> getNoticeList() {
 		return dao.getNoticeList();
 	}
-
-
+	
+	
 	//공지사항 등록
 	@Override
 	public int insertNotice(NoticeVO vo, HttpServletRequest request) {
@@ -39,7 +38,8 @@ public class NoticeServiceImpl implements NoticeService {
 			result = dao.insertNotice(modifiedVo);
 			
 		}else {//첨부파일이 없는 경우
-			result = dao.insertNotice(vo); 
+			result = dao.insertNotice(vo);
+			
 		}
 		
 		return result;
@@ -48,7 +48,8 @@ public class NoticeServiceImpl implements NoticeService {
 
 	@Override
 	public void updateReadCount(int nb_idx) {
-		dao.updateReadCount(nb_idx);
+		dao.updateReadCount(nb_idx);	
+		
 	}
 
 
@@ -61,7 +62,7 @@ public class NoticeServiceImpl implements NoticeService {
 	@Override
 	public void download(String origin_filename, String save_filename, HttpServletRequest request,
 			HttpServletResponse response) {
-		fileManager.download(origin_filename, save_filename, request, response);
+		fileManager.download(origin_filename, save_filename, request, response);	
 	}
 
 
@@ -69,20 +70,28 @@ public class NoticeServiceImpl implements NoticeService {
 	public int deleteAttached(int na_idx) {
 		return dao.deleteAttached(na_idx);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
+
+	// @Override
+	// public List<NoticeVO> getNoticeList(NoticeVO vo) {
+	// 	//NoticeMapper.xml에서 게시물 목록을 가져올 때 limit함수의 시작 인덱스 값으로 사용하기 위해
+	// 	//SearchPageVO의 startNum 필드를 (pageNum-1)*10으로 세팅함
+	// 	vo.setStartNum((vo.getPageNum()-1)*10);
+	// 	return dao.getNoticeList(vo);
+	// }
+
+
+	// @Override
+	// public int getTotalRows(SearchPageVO vo) {
+	// 	return dao.getTotalRows(vo);
+	// }
+
+
+	@Override
+	public int deleteNotice(int nb_idx) {
+		return dao.deleteNotice(nb_idx);
+	}
+	
+	
+	
 }

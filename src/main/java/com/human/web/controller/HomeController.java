@@ -12,26 +12,33 @@ public class HomeController {
     @GetMapping("/")
     public String home(HttpSession session) {
         Object loginUser = session.getAttribute("employees");
+        System.out.println("loginUser: " + loginUser);
         
         if (loginUser == null) {
-            return "login";
+            return "login/login";
         } else {
-            return "main";
+            return "dashboard/dashboard";
         }
     }
 
     // 재무 관리
     @GetMapping("/financial")
     public String financialPage() {
-        return "financial"; // 수당등록 페이지로 이동
+        return "financial/financial"; // 수당등록 페이지로 이동
     }
 
     // 인사 관리
     @GetMapping("/hr")
     public String hrPage() {
-        return "hr"; // 수당등록 페이지로 이동
+        return "hr/hr"; // 수당등록 페이지로 이동
     }
     
+    // 커뮤니티
+    @GetMapping("/community")
+    public String communityPage() {
+        return "community/community"; // 수당등록 페이지로 이동
+    }
+
     // 에러 페이지 처리
     @GetMapping("/error/error403.do")
     public String error403() {

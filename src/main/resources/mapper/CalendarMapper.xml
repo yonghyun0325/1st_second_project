@@ -5,14 +5,14 @@
 <mapper namespace="com.human.web.mapper.CalendarMapper">
 
     <!-- 일정 등록 -->
-    <insert id="insertTask" parameterType="com.human.web.vo.CalendarVO">
+    <insert id="addTask" parameterType="com.human.web.vo.CalendarVO">
         INSERT INTO calendar_tasks (e_idx, task_date, task_description, created_at)
-        VALUES (#{e_idx}, #{taskDate}, #{taskDescription}, NOW())
+        VALUES (#{e_idx}, #{task_date}, #{task_description}, NOW())
     </insert>
 
     <!-- 일정 조회 -->
     <select id="getTask" parameterType="int" resultType="com.human.web.vo.CalendarVO">
-        SELECT e_idx, task_date, task_description
+        SELECT *
         FROM calendar_tasks
         WHERE e_idx = #{e_idx}
         ORDER BY task_date DESC

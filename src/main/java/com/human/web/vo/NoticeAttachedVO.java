@@ -7,7 +7,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class NoticeAttachedVO {
 	private int na_idx; //공지사항 첨부파일 번호
-	private String origin_filename; //원번 파일명
+	private String origin_filename; //원본 파일명
 	private String save_filename; //저장 파일명
 	private int nb_idx; //공지사항 번호
+	
 }

@@ -25,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 public class EmployeesController {
 
     // 요청을 처리하는 데 사용되는 EmployeesServiceImpl 클래스를 의존 자동 주입받음
-    private final EmployeesService EmployeesServiceImpl;
+    private final EmployeesService employeesService;
 
     // 로그인 페이지 요청
     @GetMapping("/login.do")
@@ -37,22 +37,25 @@ public class EmployeesController {
     // 로그인 처리 요청
     @PostMapping("/loginProcess.do")
     @ResponseBody
-    public Map<String, String> loginProcess(int e_idx, String e_pw, HttpServletRequest request) {
+    public ResponseEntity<Map<String, String>> loginProcess(int e_idx, String e_pw, HttpServletRequest request) {
         Map<String, String> response = new HashMap<>();
 
-        EmployeesVO vo = EmployeesServiceImpl.login(e_idx, e_pw);
+        EmployeesVO vo = employeesService.login(e_idx, e_pw);
+        System.out.println("로그인 처리 요청 호출");
 
         if (vo != null) {
             // 로그인 성공
             HttpSession session = request.getSession();
             session.setAttribute("employees", vo);
             response.put("status", "success");
-            response.put("redirect", "/");
+            System.out.println("로그인 성공 response: " + response);
+            return ResponseEntity.ok(response);
         } else {
             // 로그인 실패
             response.put("status", "fail");
+            System.out.println("로그인 처리 실패 response: " + response);
+            return ResponseEntity.ok(response);
         }
-        return response;
     }
 
     // 로그아웃 요청
@@ -75,7 +78,7 @@ public class EmployeesController {
         String viewName = "employees/update"; // 회원 정보 변경 실패 시 뷰 이름
 
         // 회원 정보 업데이트 처리
-        EmployeesVO newVo = EmployeesServiceImpl.updateEmployees(vo);
+        EmployeesVO newVo = employeesService.updateEmployees(vo);
 
         if (newVo != null) { // 회원 정보 변경 성공
             HttpSession session = request.getSession();

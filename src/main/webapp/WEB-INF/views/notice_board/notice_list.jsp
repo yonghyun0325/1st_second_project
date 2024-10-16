@@ -6,14 +6,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>공지사항 게시판</title>
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/notice_list.css">
+<title>사내 공지</title>
 </head>
 <body>
-
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/notice_list.css">
+ <h2> 사내 공지 </h2>
     <div id="wrap">
-        
-
         <table id="board-table"
         	class="board-table">
             <thead>
@@ -36,7 +34,7 @@
                     <c:otherwise>
                         <c:forEach var="notice" items="${noticeList}" varStatus="vs">
                             <tr>
-                                <td>${vs.count}</td>
+                                <td>${noticeList[vs.count-1].nb_idx}</td>
                                 <td>
                                     <a href="${pageContext.request.contextPath}/notice_board/view.do?nb_idx=${notice.nb_idx}">
                                         ${notice.nb_title}
@@ -61,9 +59,21 @@
         </table>
         
         <!-- 검색기능 -->
-<div class="search-container">          
+<div class="search-container"> 
+<!-- 페이징 추가 -->
+		<div class="paging">
+             <c:if test="${not empty noticeList}">
+             	<tr>
+             		<td id="td_paging" colspan="6">
+             			<%@ include file="paging.jsp" %>
+             		
+             		</td>
+             	</tr>
+             </c:if> 
+             </div>        
             <div class="search-box">
                 <form>
+                
                     <select name="searchField" class="search-field">
                         <option value="title">제목</option>
                         <option value="content">내용</option>
@@ -71,16 +81,17 @@
                     </select>
                     <input type="text" name="searchWord" class="search-word" >
                     <input type="submit" id="search_btn" value="검색">
-        <c:if test="${not empty member}">
+      
             
-              <a class= "button-box" href="${pageContext.request.contextPath}/notice_board/write.do">
-                    <button type="button" id="write_btn">글 등록</button> 
+              <a class="button-box" href="${pageContext.request.contextPath}/notice_board/write.do">
+                    <button type="button" id="write_btn">글 쓰기</button> 
                 </a>
-         
-        </c:if>
-</form>
-    </div>
-    </div>
+           
+            
+      
+	</form>
+	</div>
+	</div>
     </div>
 
 </body>
