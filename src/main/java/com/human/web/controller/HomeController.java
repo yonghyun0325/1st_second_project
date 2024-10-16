@@ -99,6 +99,7 @@ public class HomeController {
         return "community/lost"; 
     }
 
+    
     /* ───────────────────────────────────
                 에러 페이지
      ──────────────────────────────────── */
