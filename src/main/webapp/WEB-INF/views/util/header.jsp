@@ -2,8 +2,10 @@
 <%@ page import="javax.servlet.http.HttpSession"%>
 <%@ page import="com.human.web.vo.EmployeesVO"%> 
 <meta charset="UTF-8">
-<!-- css -->
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/style.css">
+<!-- css, 스타일 초기화 적용  -->
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/reset.css">
+<!-- css, 헤더, 사이드바, 캘린더, 탭 스타일  -->
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/default.css">
 
 <!-- noto sans 구글 폰트 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">

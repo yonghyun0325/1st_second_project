@@ -27,13 +27,6 @@ public class EmployeesController {
     // 요청을 처리하는 데 사용되는 EmployeesServiceImpl 클래스를 의존 자동 주입받음
     private final EmployeesService employeesService;
 
-    // 로그인 페이지 요청
-    @GetMapping("/login.do")
-    public String login() {
-        return "login";
-    }
-    
-
     // 로그인 처리 요청
     @PostMapping("/loginProcess.do")
     @ResponseBody

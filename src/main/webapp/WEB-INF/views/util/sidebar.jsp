@@ -41,8 +41,8 @@
                 <i id="hr-icon" class="fas fa-chevron-right"></i>
             </a>
             <div id="hr-submenu" class="sidebar-submenu">
-                <a href="javascript:void(0)" data-content="hr_1">인사정보</a>
-                <a href="javascript:void(0)" data-content="hr_2">인사정보등록</a>
+                <a href="javascript:void(0)" data-content="hr_info">인사정보</a>
+                <!-- <a href="javascript:void(0)" data-content="hr_2">인사정보등록</a>
                 <a href="javascript:void(0)" data-content="hr_3">인사기록</a>
                 <a href="javascript:void(0)" data-content="hr_4">교육관리</a>
                 <a href="javascript:void(0)" data-content="hr_5">교육평가</a>
@@ -52,18 +52,18 @@
                 <a href="javascript:void(0)" data-content="hr_9">입퇴사현황</a>
                 <a href="javascript:void(0)" data-content="hr_10">책정임금현황</a>
                 <a href="javascript:void(0)" data-content="hr_11">근속년수현황</a>
-                <a href="javascript:void(0)" data-content="hr_12">교육현황</a>
+                <a href="javascript:void(0)" data-content="hr_12">교육현황</a> -->
             </div>
         </div>
         <div class="sidebar-item">
             <a href="javascript:void(0)" data-cate="community" class="sidebar-toggle">
-                <span class="sidebar-item-title"><i class="fas fa-comments"></i>커뮤니티</span>
+                <span class="sidebar-item-title"><i class="fas fa-comments"></i>게시판</span>
                 <i id="community-icon" class="fas fa-chevron-right"></i>
             </a>
             <div id="community-submenu" class="sidebar-submenu">
-                <a href="javascript:void(0)" data-content="community_home">커뮤니티 홈</a>
-                <!-- <a href="javascript:void(0)" data-content="community_2">가입한 커뮤니티</a>
-                <a href="javascript:void(0)" data-content="community_3">커뮤니티 만들기</a> -->
+                <a href="javascript:void(0)" data-content="community_notice">공지사항</a>
+                <a href="javascript:void(0)" data-content="community_home">커뮤니티</a>
+                <a href="javascript:void(0)" data-content="community_lost">분실물 신고</a>
             </div>
         </div>
         <div class="sidebar-item">
@@ -76,6 +76,8 @@
 
 <script>
     $(document).ready(function () {
+
+        // 사이드바 카테고리 클릭시 세부 카테고리 표시
         $('.sidebar-toggle').on('click', function () {
             const tabId = $(this).data('cate');
             $('#' + tabId + '-submenu').toggleClass('open');
@@ -83,39 +85,35 @@
             $('#' + tabId + '-title').toggleClass('active');
         });
         
-        // 서브카테고리 클릭했을때 현재 경로와 다르면 이동
+        // 서브카테고리 클릭했을 때, 경로가 다르면 이동
         $('.sidebar-submenu a').on('click', function (e) {
-        e.preventDefault();
+            e.preventDefault();
+            const tabName = $(this).text();
+            const contentId = $(this).data('content');
 
-        let targetPage = $(this).data('content');
+            const [category, subCategory] = contentId.split('_');
 
-        if (targetPage) {
-            let targetCategory = targetPage.split('_')[0];
             let currentPath = window.location.pathname.split('/')[1];
 
-                if (currentPath !== targetCategory) {
-                    let newPath = "/" + targetCategory;
-                    console.log("경로 변경:", newPath);
-                    window.location.href = newPath;
-                }
+            if (currentPath !== category) {
+                let newPath = '/' + category;
+                console.log("경로 변경:", newPath);
+                window.location.href = newPath; 
+                return;
             }
         });
-        
-        // 주소에서 카테고리 추출
-        function getPath() {
+
+        // 주소와 맞는 카테고리 자동 펼치기
+        function openDefaultCate() {
             const currentPath = window.location.pathname;
             const pathSegments = currentPath.split('/');
 
+            let matchedCategory = '';
+            
             if (pathSegments.length >= 2) {
-                return pathSegments[1].split('_')[0];
+                matchedCategory = pathSegments[1].split('_')[0];
             }
-            return '';
-        }
-        
-        // 주소와 맞는 카테고리 자동 펼치기
-        function openDefaultCate() {
-            const matchedCategory = getPath();
-        
+
             if (matchedCategory) {
                 $('#' + matchedCategory + '-submenu').addClass('open'); 
                 $('#' + matchedCategory + '-icon').addClass('rotate');

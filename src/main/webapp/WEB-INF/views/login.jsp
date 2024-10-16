@@ -42,7 +42,7 @@
                 <button type="submit" class="btn_login">로그인</button>
             </form>
             <div class="login_info">
-                <a href="#">비밀번호 찾기</a> <a href="#">인사과 문의하기</a>
+                <a href="#">인사과 문의하기</a>
             </div>
         </div>
     </div>

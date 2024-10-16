@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <head>
-    <!-- 캘린더 스크립트 적용 -->
-    <link rel="stylesheet" href="hr_1.css">
+    <!-- css, 스타일 초기화 적용  -->
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/reset.css">
+    <!-- css, 인사정보 스타일  -->
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/hr_info.css">
 </head>
 <div class="contain">
 <div class="hr_main">

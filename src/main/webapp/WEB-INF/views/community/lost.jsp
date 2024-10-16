@@ -3,11 +3,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
 <!DOCTYPE html>
-<html>
 <head>
-<meta charset="UTF-8">
-<title>분실물 게시판</title>
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/board_view.css">
+<!-- css, 스타일 초기화 적용  -->
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/reset.css">
+<!-- css, 분실물 게시판 스타일 -->
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/community_lost.css">
 </head>
 <body>
 	<div class="wrap">
@@ -44,4 +44,3 @@
 		}
 	</script>
 </body>
-</html>
