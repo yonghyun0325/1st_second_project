@@ -1,11 +1,12 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="javax.servlet.http.HttpSession"%>
 <%@ page import="com.human.web.vo.EmployeesVO"%> 
+
 <meta charset="UTF-8">
 <!-- css, 스타일 초기화 적용  -->
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/reset.css">
 <!-- css, 헤더, 사이드바, 캘린더, 탭 스타일  -->
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/default.css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/style.css">
 
 <!-- noto sans 구글 폰트 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -51,9 +52,9 @@
             %>
         </div>
         <div class="header_logout">
-            <a href="/employees/logout.do" class="logout_item">
+            <button onclick="window.location.href='/employees/logout.do'">
                 로그아웃
-            </a>
+            </button>
         </div>
     </div>
 </header>

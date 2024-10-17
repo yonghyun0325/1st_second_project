@@ -1,12 +1,17 @@
 package com.human.web.controller;
 
+import javax.servlet.http.HttpSession;
+
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.human.web.service.EmployeesService;
 import com.human.web.service.NoticeService;
+import com.human.web.vo.EmployeesVO;
 
 import lombok.AllArgsConstructor;
+
 
 @RestController //@Controller + @ResponseBody
 @AllArgsConstructor
@@ -45,16 +50,11 @@ public class AjaxController {
 		return result;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+    // 세션 요청
+    @GetMapping("/session/info")
+    public EmployeesVO getSessionInfo(HttpSession session) {
+        EmployeesVO employees = (EmployeesVO) session.getAttribute("employees");
+        return employees != null ? employees : new EmployeesVO();
+    }
+    
 }

@@ -127,23 +127,6 @@
     text-align: center;
 }
 
-@keyframes fadeIn {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-}
-
-@keyframes fadeOut {
-    0% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-    }
-}
 
 /* ───────────────────────────────────────────────
                     헤더
@@ -194,10 +177,6 @@ header {
     align-items: center;
     margin-right: 15px;
     gap: 20px;
-}
-
-.logout_item {
-    text-decoration: none;
 }
 
 /* ───────────────────────────────────────────────
@@ -481,11 +460,7 @@ textarea {
     cursor: pointer;
     font-size: 24px;
     padding: 2px;
-}
-
-#calendar-title {
-    margin: 0;
-    margin-bottom: 5px;
+    color: black;
 }
 
 .calendar-title-wrap {
@@ -531,4 +506,193 @@ textarea {
 
 #calendar thead tr th {
     text-align: center;
+}
+
+/* ───────────────────────────────────────────────
+                    커뮤니티
+─────────────────────────────────────────────── */
+/* 글 목록 */
+#board table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    background: white;
+}
+
+#board th, #board td {
+    border: 1px solid #ddd;
+}
+
+#board th, #board td {
+	width:100px;
+    padding: 12px;
+    text-align: center;
+}
+
+#board th {
+    background-color: #eee;
+    font-weight: bold;
+}
+
+#board th:nth-child(1) { width: 10%; }
+#board th:nth-child(2) { width: 40%; }
+#board th:nth-child(3) { width: 15%; }
+#board th:nth-child(4) { width: 15%; }
+#board th:nth-child(5) { width: 10%; }
+
+#board a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+#board a:hover {
+    text-decoration: underline;
+}
+
+/* 검색 */
+.search-container {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.total-count {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.search-box form {
+    display: flex;
+    align-items: center;
+}
+
+.search-field, .search-word {
+    padding: 8px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.search-btn {
+    padding: 10px 20px;
+    margin: 5px;
+    
+}
+
+/* 글 쓰기 */
+#write {
+    background-color: white;
+    padding: 20px;
+}
+
+#write form {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#write input[type="text"],
+#write textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+#write textarea {
+    resize: none;
+    height: 150px;
+}
+
+.write-button-bundle {
+    justify-content: right;
+    display: flex;
+    gap: 10px;
+}
+
+/* 글 상세 보기 */
+#view {
+    background-color: white;
+    padding: 20px;
+}
+
+.board-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    margin-bottom: 40px;
+    color: #555;
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+}
+
+.board-author, .board-date, .board-views {
+    display: inline-block;
+}
+
+.board-content-wrapper {
+    margin-bottom: 20px;
+    padding: 20px;
+}
+
+.board-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.board-content p {
+    white-space: pre-line;
+}
+
+
+/* ───────────────────────────────────────────────
+                    공통 요소
+─────────────────────────────────────────────── */
+/* 버튼 */
+button, 
+input[type="submit"],
+input[type="reset"],
+input[type="button"] {
+    background-color: #408ed6;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 10px;
+    transition: background-color .3s ease;
+}
+
+button:hover,
+input[type="submit"]:hover,
+input[type="reset"]:hover,
+input[type="button"]:hover {
+    background-color: #66a7e3;
+}
+
+/* 애니메이션 레퍼런스 */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
 }

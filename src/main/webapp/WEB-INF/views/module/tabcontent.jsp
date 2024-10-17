@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
 <div id="content">
-        
     <h2 class="content-title"> </h2>
     
     <div class="content-wrapper">
@@ -15,6 +15,18 @@
     $(document).ready(function () {
         const tabContainer = $('#tabs-container');
         const contentWrapper = $('#content-wrapper');
+
+        // 다른 경로에서 왔을때, 눌렀던 서브카테고리 탭으로 추가
+        function openDefaultCate() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const contentId = urlParams.get('addTab');
+
+            if (contentId) {
+                const tabName = $('[data-content="' + contentId + '"]').text();
+                const [category, subCategory] = contentId.split('_');
+                addTab(tabName, contentId, category);
+            }
+        }
     
         // 서브카테고리 클릭했을 때 현재 경로와 같으면 탭 추가
         $('.sidebar-submenu a').on('click', function (e) {
@@ -65,20 +77,16 @@
             showTab(contentId);
         }
     
-        // 탭 추가될때 내용 생성
+        // 탭 추가될때 내용 불러오기
         function loadTabContent(tabName, contentId) {
             const contentDiv = $('<div class="content" id="content-' + contentId + '"></div>');
             $('#content-wrapper').append(contentDiv);
-        
-            // contentId에서 카테고리와 서브 페이지를 구분하기 위한 작업
+
             const parts = contentId.split('_');
-            console.log("parts: " + parts)
-            const category = parts[0]; // 카테고리 (예: 'community')
-            const subPage = parts[1] || 'home'; // 서브 페이지가 없을 경우 기본값 'home' 사용
-        
-            // URL을 유동적으로 생성
+            const category = parts[0]; 
+            const subPage = parts[1];
+            
             const url = '/' + category + '/' + subPage;
-            console.log("Loading content from URL:", url); // 디버깅용
         
             $.ajax({
                 url: url,
@@ -120,20 +128,7 @@
             $('[data-content-id="' + contentId + '"]').addClass('active');
         }
     
-        function openFirstCate() {
-            // 기본적으로 1개는 열기
-            const firstSubcategory = $('.sidebar-submenu:visible a:first');
-            if (firstSubcategory.length > 0) {
-                const tabName = firstSubcategory.text();
-                const contentId = firstSubcategory.data('content');
-                const mainCategory = firstSubcategory.closest('.sidebar-item').find('.sidebar-item-title').text().trim();
-                addTab(tabName, contentId, mainCategory);
-            }
-        }
-    
-        openFirstCate();
-    
-        // 드래그 기능 구현
+        // 탭 부분 많아질경우 드래그 가능
         let isDragging = false;
         let startX;
         let scrollLeft;
@@ -160,6 +155,7 @@
         
             tabContainer.scrollLeft(scrollLeft - walk);
         });
-    
+        
+        openDefaultCate();
     });
 </script>

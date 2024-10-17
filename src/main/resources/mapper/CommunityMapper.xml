@@ -8,25 +8,29 @@
 	<!-- 글등록 -->
 	<insert id="insertBoard" parameterType="com.human.web.vo.CommunityVO">
 	
-		insert into tb_board (m_idx, b_writer, b_title, b_content)
-			values (#{m_idx}, #{b_writer}, #{b_title}, #{b_content})
+		insert into tb_board (e_idx, b_title, b_content)
+			values (#{e_idx}, #{b_title}, #{b_content})
 	
 	</insert>
 	
 	<!-- 글목록 조회  -->
 	<select id="getBoardList" resultType="com.human.web.vo.CommunityVO">
 	
-		select * from tb_board
-			where b_status = 'N'
-			order by b_idx desc
+		select b.*, e.name 
+        from tb_board b
+        join hr_employees e on b.e_idx = e.e_idx
+		where b.b_status = 'N'
+		order by b.b_idx desc
 	
 	</select>
 	
 	<!-- 게시글 조회 -->
 	<select id="getBoard" parameterType="_int" resultType="com.human.web.vo.CommunityVO">
 	
-		select * from tb_board
-			where b_idx = #{b_idx}
+		select b.*, e.name
+        from tb_board b
+        join hr_employees e on b.e_idx = e.e_idx
+		where b_idx = #{b_idx}
 	
 	</select>
 	

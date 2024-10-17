@@ -41,7 +41,6 @@ public class CalendarController {
         calendarVO.setE_idx(e_idx);
         calendarVO.setTask_date(selected_date);
         calendarVO.setTask_description(setTask_description);
-        System.out.println("저장할 달력 데이터 CalendarVO: "+ e_idx + ", " + setTask_description + ", " + selected_date);
 
         int result = calendarService.addTask(calendarVO);
 
@@ -57,7 +56,6 @@ public class CalendarController {
         }
 
         int eIdx = loginUser.getE_idx();
-        System.out.println("달력 데이터 호출, 호출자 eIdx: " + eIdx);
         return calendarService.getTask(eIdx);
     }
 

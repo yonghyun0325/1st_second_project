@@ -1,11 +1,15 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <div id="sidebar">
     <div class="sidebar-wrapper">
+
+        <!-- 대시보드 -->
         <div class="sidebar-item">
             <a href="${pageContext.request.contextPath}/" class="sidebar-toggle">
                 <span class="sidebar-item-title"><i class="fas fa-user-circle"></i> 대시보드</span>
             </a>
         </div>
+
+        <!-- 재무 관리 -->
         <div class="sidebar-item">
             <a href="javascript:void(0)" data-cate="financial" class="sidebar-toggle">
                 <span class="sidebar-item-title"><i class="fas fa-hand-holding-usd"></i> 재무 관리</span>
@@ -25,6 +29,8 @@
                 <a href="javascript:void(0)" data-content="financial_11">초과 근무</a> -->
             </div>
         </div>
+
+        <!-- 구매 관리 -->
         <div class="sidebar-item">
             <a href="javascript:void(0)" data-cate="purchase" class="sidebar-toggle">
                 <span class="sidebar-item-title"><i class="fas fa-money-check"></i>구매 관리</span>
@@ -35,6 +41,8 @@
                 <a href="#">구매 보고서</a>
             </div>
         </div>
+
+        <!-- 인사 관리 -->
         <div class="sidebar-item">
             <a href="javascript:void(0)" data-cate="hr" class="sidebar-toggle">
                 <span class="sidebar-item-title"><i class="fas fa-user-friends"></i>인사 관리</span>
@@ -55,6 +63,8 @@
                 <a href="javascript:void(0)" data-content="hr_12">교육현황</a> -->
             </div>
         </div>
+
+        <!-- 게시판 -->
         <div class="sidebar-item">
             <a href="javascript:void(0)" data-cate="community" class="sidebar-toggle">
                 <span class="sidebar-item-title"><i class="fas fa-comments"></i>게시판</span>
@@ -66,6 +76,8 @@
                 <a href="javascript:void(0)" data-content="community_lost">분실물 신고</a>
             </div>
         </div>
+
+        <!-- 문의하기 -->
         <div class="sidebar-item">
             <a href="#" class="sidebar-toggle">
                 <span class="sidebar-item-title"><i class="fas fa-phone-alt"></i>문의하기</span>
@@ -97,9 +109,7 @@
 
             if (currentPath !== category) {
                 let newPath = '/' + category;
-                console.log("경로 변경:", newPath);
-                window.location.href = newPath; 
-                return;
+                window.location.href = newPath + '?addTab=' + contentId; 
             }
         });
 

@@ -34,19 +34,16 @@ public class EmployeesController {
         Map<String, String> response = new HashMap<>();
 
         EmployeesVO vo = employeesService.login(e_idx, e_pw);
-        System.out.println("로그인 처리 요청 호출");
 
         if (vo != null) {
             // 로그인 성공
             HttpSession session = request.getSession();
             session.setAttribute("employees", vo);
             response.put("status", "success");
-            System.out.println("로그인 성공 response: " + response);
             return ResponseEntity.ok(response);
         } else {
             // 로그인 실패
             response.put("status", "fail");
-            System.out.println("로그인 처리 실패 response: " + response);
             return ResponseEntity.ok(response);
         }
     }

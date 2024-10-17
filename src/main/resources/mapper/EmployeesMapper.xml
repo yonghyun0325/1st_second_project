@@ -39,7 +39,7 @@
 
     <!-- 로그인 정보 조회 -->
     <select id="login" parameterType="int" resultType="com.human.web.vo.EmployeesVO">
-        select e_idx, name, e_pw
+        select e_idx, name, e_pw, permission
         from hr_employees
         where e_idx = #{e_idx}
     </select>
@@ -54,7 +54,7 @@
 
     <!-- 회원조회 -->
     <select id="getMember" parameterType="int" resultType="com.human.web.vo.EmployeesVO">
-        select e_idx, name, e_pw
+        select *
         from hr_employees
         where e_idx = #{e_idx}
     </select>

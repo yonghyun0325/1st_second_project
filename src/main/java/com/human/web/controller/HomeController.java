@@ -24,7 +24,6 @@ public class HomeController {
     @GetMapping("/")
     public void home(HttpSession session, HttpServletResponse response) throws IOException {
         Object loginUser = session.getAttribute("employees");
-        System.out.println("loginUser: " + loginUser);
         
         if (loginUser == null) {
             // 로그인 되어 있지 않으면 로그인 페이지로 이동
@@ -85,18 +84,6 @@ public class HomeController {
         List<CommunityVO> communityList = communityService.getBoardList();
         model.addAttribute("communityList", communityList);
         return "community/home";
-    }
-
-    // 공지사항
-    @GetMapping("/community/notice")
-    public String communityNotice() {
-        return "community/notice"; 
-    }
-
-    // 분실물
-    @GetMapping("/community/lost")
-    public String communityLost() {
-        return "community/lost"; 
     }
 
     
