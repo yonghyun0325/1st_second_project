@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="com.human.web.mapper.BoardMapper">
+	<!-- namespace: XML 파일에서 내용의 구분을 위해서 사용 -->
+
+	<!-- 글등록 -->
+	<insert id="insertBoard" parameterType="boardVO">
+	
+		insert into board (e_idx, title, content, type, category)
+			values (#{e_idx}, #{title}, #{content}, #{type}, #{category})
+	
+	</insert>
+	
+	<!-- 글목록 조회  -->
+	<select id="getBoardList" resultType="boardVO">
+	
+		select b.*, e.name
+        from board b
+        join employees e on b.e_idx = e.e_idx
+		where b.status = 'N'
+            and b.type = 'normal'
+		order by b.b_idx desc
+	
+	</select>
+
+	<!-- 공지 목록 조회  -->
+	<select id="getNoticeList" resultType="boardVO">
+	
+		select b.*, e.name
+        from board b
+        join employees e on b.e_idx = e.e_idx
+		where b.status = 'N'
+            and b.type = 'notice'
+		order by b.b_idx desc
+	
+	</select>
+	
+	<!-- 분실물 목록 조회  -->
+	<select id="getLostList" resultType="boardVO">
+	
+		select b.*, e.name
+        from board b
+        join employees e on b.e_idx = e.e_idx
+		where b.status = 'N'
+            and b.type = 'lost'
+		order by b.b_idx desc
+	
+	</select>
+
+	<!-- 게시글 조회 -->
+	<select id="getBoard" parameterType="_int" resultType="boardVO">
+	
+		select b.*, e.name
+        from board b
+        join employees e on b.e_idx = e.e_idx
+		where b_idx = #{b_idx}
+	
+	</select>
+	
+	<!-- 조회수 증가시키기 -->
+	<update id="updateReadCount" parameterType="_int">
+	
+		update board set read_cnt = read_cnt+1 
+			where b_idx=#{b_idx}
+	
+	</update>
+	
+	<!-- 글수정 -->
+	<update id="updateBoard" parameterType="boardVO">
+	
+		update board set b_title=#{b_title}, 
+						    b_content=#{b_content},
+			                update_date = now() 
+			  where b_idx = #{b_idx}
+	
+	</update>
+	
+	<!-- 글삭제 -->
+	<update id="deleteBoard" parameterType="_int">
+	
+		update board set b_status='Y', update_date = now() 
+			where b_idx = #{b_idx}
+	
+	</update>
+	
+	
+	
+	
+	
+</mapper>	

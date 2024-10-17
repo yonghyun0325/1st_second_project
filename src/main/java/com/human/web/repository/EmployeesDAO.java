@@ -1,5 +1,6 @@
 package com.human.web.repository;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -86,5 +87,10 @@ public class EmployeesDAO {
 		}
 
 		return result;
+	}
+    
+	//글목록 조회
+	public List<EmployeesVO> getEmployeesList() {
+		return sqlSession.selectList(MAPPER+".getEmployeesList");
 	}
 }

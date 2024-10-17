@@ -63,18 +63,3 @@ input, button, textarea, select {
 button:focus, input:focus, textarea:focus, select:focus {
     outline: none;
 }
-
-/* ───────────────────────────────────────────────
-                공통 컨텐츠영역
-─────────────────────────────────────────────── */
-#content {
-    margin-left: 220px;
-    padding: 20px;
-}
-
-.content-title {
-    margin: 0 0 20px 0;
-    padding: 10px 15px 10px 15px;
-    background-color: #eee;
-    border-radius: 10px;
-}

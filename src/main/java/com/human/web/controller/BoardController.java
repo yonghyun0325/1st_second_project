@@ -16,52 +16,63 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.human.web.service.CommunityService;
-import com.human.web.vo.CommunityVO;
+import com.human.web.service.BoardService;
+import com.human.web.vo.BoardVO;
 import com.human.web.vo.EmployeesVO;
 
 import lombok.AllArgsConstructor;
 
 @Controller
-@RequestMapping("/community")
+@RequestMapping("/board")
 @AllArgsConstructor
-public class CommunityController {
+public class BoardController {
 	
-	//일반게시판 요청 처리를 위한 객체 정의(lombok에 의한 의존자동주입: 생성자 이용)
-	private CommunityService communityService;
+	// 일반게시판 요청 처리를 위한 객체 정의(lombok에 의한 의존자동주입: 생성자 이용)
+	private BoardService boardService;
 	
-	//글등록 페이지 요청
+    
+    /* ───────────────────────────────────
+                게시판 관련 맵핑
+     ──────────────────────────────────── */
+
+    // 일반 게시글 목록
+    @GetMapping("/normal")
+    public String boardNormal(Model model) {
+        List<BoardVO> boardList = boardService.getBoardList();
+        model.addAttribute("boardList", boardList);
+        return "board/normal";
+    }
+
+    // 공지 게시글 목록
+    @GetMapping("/notice")
+    public String boardNotice(Model model) {
+        List<BoardVO> boardList = boardService.getNoticeList();
+        model.addAttribute("boardList", boardList);
+        return "board/notice";
+    }
+
+    // 분실물 게시글 목록
+    @GetMapping("/lost")
+    public String boardLost(Model model) {
+        List<BoardVO> boardList = boardService.getLostList();
+        model.addAttribute("boardList", boardList);
+        return "board/lost";
+    }
+
+	// 글 작성 페이지 요청
 	@GetMapping("/write.do")
 	public String write() {
-		return "community/write";
+		return "board/write";
 	}
-
-    // 글 목록 요청
-    @GetMapping("/getBoards")
-    public String getBoards(Model model) {
-        // 글 목록을 가져와서 모델에 추가
-        List<CommunityVO> boardList = communityService.getBoardList();
-        model.addAttribute("boardList", boardList);
-        // 글 목록을 출력할 뷰로 이동
-        return "community/community";
-    }
-
-    // 글 목록 요청
-    @GetMapping("/getBoardList.do")
-    public String getBoardList(Model model) {
-        List<CommunityVO> boardList = communityService.getBoardList();
-        model.addAttribute("boardList", boardList);
-        return "community/home";
-    }
 
 	//글등록 요청
 	@PostMapping("/writeProcess.do")
 	@ResponseBody
-    public ResponseEntity<Map<String, Object>> writeProcess(@ModelAttribute CommunityVO vo) {
+    public ResponseEntity<Map<String, Object>> writeProcess(@ModelAttribute BoardVO vo) {
         Map<String, Object> response = new HashMap<>();
         
         try {
-            int result = communityService.insertBoard(vo);
+            int result = boardService.insertBoard(vo);
             if (result == 1) { // 글 등록 성공
                 response.put("status", "success");
             } else {
@@ -80,36 +91,36 @@ public class CommunityController {
 	@GetMapping("/view.do")
 	public String view(int b_idx, Model model) {
 		//조회수 증가시키기
-		communityService.updateReadCount(b_idx);
-		//상세페이지 정보를 저장하고 있는 CommunityVO 객체 얻기
-		CommunityVO vo =communityService.getBoard(b_idx);
-		model.addAttribute("CommunityVO", vo);
-		return "community/view";
+		boardService.updateReadCount(b_idx);
+		//상세페이지 정보를 저장하고 있는 boardVO 객체 얻기
+		BoardVO vo =boardService.getBoard(b_idx);
+		model.addAttribute("boardVO", vo);
+		return "board/view";
 	}
 	
 	//수정 페이지 요청
 	@GetMapping("/update.do")
 	public String update(int b_idx, Model model) {
-		//상세페이지 정보를 저장하고 있는 CommunityVO 객체 얻기
-		CommunityVO vo =communityService.getBoard(b_idx);
-		model.addAttribute("CommunityVO", vo);
-		return "community/update";
+		//상세페이지 정보를 저장하고 있는 boardVO 객체 얻기
+		BoardVO vo =boardService.getBoard(b_idx);
+		model.addAttribute("boardVO", vo);
+		return "board/update";
 	}
 	
 	//글수정 요청
 		@PostMapping("/updateProcess.do")
-		public String updateBoard(CommunityVO vo, Model model) {
-			String viewName = "community/update";//글수정 실패시 뷰이름
+		public String updateBoard(BoardVO vo, Model model) {
+			String viewName = "board/update";//글수정 실패시 뷰이름
 			
-			int result = communityService.updateBoard(vo);
+			int result = boardService.updateBoard(vo);
 			if(result ==1) {//글등록 성공
 				//viewName = "redirect:/index.do"; //메인 페이지 재요청
 				
-				//community/view 를 뷰이름으로 반환하는 경우
-				//게시글에 대한 변경된 내용을 CommunityVO객체에 저장해서 Model객체에 추가함
-				CommunityVO newVo = communityService.getBoard(vo.getB_idx());
-				model.addAttribute("CommunityVO", newVo);
-				viewName = "community/view";
+				//board/view 를 뷰이름으로 반환하는 경우
+				//게시글에 대한 변경된 내용을 boardVO객체에 저장해서 Model객체에 추가함
+				BoardVO newVo = boardService.getBoard(vo.getB_idx());
+				model.addAttribute("boardVO", newVo);
+				viewName = "board/view";
 				
 			}
 			
@@ -128,13 +139,13 @@ public class CommunityController {
         int loggedInIdx = employees.getE_idx();
         boolean isAdmin = employees.getPermission() == 2;
 
-        CommunityVO board = communityService.getBoard(b_idx);
+        BoardVO board = boardService.getBoard(b_idx);
         if (board == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("게시글을 찾을 수 없습니다.");
         }
 
         if (board.getE_idx() == loggedInIdx || isAdmin) {
-            int result = communityService.deleteBoard(b_idx);
+            int result = boardService.deleteBoard(b_idx);
             if (result == 1) {
                 return ResponseEntity.ok("글이 성공적으로 삭제되었습니다.");
             } else {

@@ -8,11 +8,9 @@
   <typeAliases>
   	<typeAlias alias="calendarVO" type="com.human.web.vo.CalendarVO"/>
   	<typeAlias alias="employeesVO" type="com.human.web.vo.EmployeesVO"/>
-  	<typeAlias alias="CommunityVO" type="com.human.web.vo.CommunityVO"/>
+  	<typeAlias alias="boardVO" type="com.human.web.vo.BoardVO"/>
   	<typeAlias alias="noticeVO" type="com.human.web.vo.NoticeVO"/>
   	<typeAlias alias="naVO" type="com.human.web.vo.NoticeAttachedVO"/>
-  	
-  	
   	
   </typeAliases>
   

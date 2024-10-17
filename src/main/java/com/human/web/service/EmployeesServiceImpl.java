@@ -1,6 +1,7 @@
 package com.human.web.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.mail.internet.MimeMessage;
@@ -93,4 +94,9 @@ public class EmployeesServiceImpl implements EmployeesService {
 			e.printStackTrace();
 		}
 	}
+
+    @Override
+    public List<EmployeesVO> getEmployeesList() {
+        return dao.getEmployeesList();
+    }
 }

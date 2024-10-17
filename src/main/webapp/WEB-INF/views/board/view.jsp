@@ -51,11 +51,21 @@
             }
         });
         
-        // 목록으로 돌아가기
+        // 목록보기 버튼
         $('#back_to_list').on('click', function () {
-            $('#write-container').hide();
-            $('#board').show();
-            location.reload();
+            const contentDiv = $('#tab-wrapper .content.active');
+            const type = $('#type').val();
+
+            $.ajax({
+                url: '${pageContext.request.contextPath}/board/' + type,
+                method: 'GET',
+                success: function (data) {
+                    $(contentDiv).html(data);
+                },
+                error: function (jqXHR) {
+                    alert('글 목록을 불러오는 중 오류가 발생했습니다. (' + jqXHR.status + ')');
+                }
+            });
         });
 
         $('#edit_button').on('click', function () {

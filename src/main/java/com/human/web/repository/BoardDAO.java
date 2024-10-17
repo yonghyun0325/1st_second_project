@@ -5,32 +5,41 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
-import com.human.web.vo.CommunityVO;
+import com.human.web.vo.BoardVO;
 
 import lombok.AllArgsConstructor;
 @Repository //DB와 관련된 작업을 하는 클래스에 붙여줌
 @AllArgsConstructor
-public class CommunityDAO {
+public class BoardDAO {
 	
 	//lombok API를 이용한 의존 자동주입: 생성자 방식
 		private SqlSession sqlSession;
 		
 		//MyBatis의 Mapper를 이용하기 위해 사용되는 상수 정의
-		public static final String MAPPER = "com.human.web.mapper.CommunityMapper";
+		public static final String MAPPER = "com.human.web.mapper.BoardMapper";
 
 	//글등록
-	public int insertBoard(CommunityVO vo) {
+	public int insertBoard(BoardVO vo) {
 		return sqlSession.insert(MAPPER+".insertBoard", vo);
-	
 	}
 
 	//글목록 조회
-	public List<CommunityVO> getBoardList() {
-		
+	public List<BoardVO> getBoardList() {
 		return sqlSession.selectList(MAPPER+".getBoardList");
 	}
+
+	//공지 글 목록 조회
+	public List<BoardVO> getNoticeList() {
+		return sqlSession.selectList(MAPPER+".getNoticeList");
+	}
+    
+	//분실물 목록 조회
+	public List<BoardVO> getLostList() {
+		return sqlSession.selectList(MAPPER+".getLostList");
+	}
+    
 	//게시글 조회
-	public CommunityVO getBoard(int b_idx) {
+	public BoardVO getBoard(int b_idx) {
 		return sqlSession.selectOne(MAPPER+".getBoard", b_idx);
 	}
 	
@@ -40,11 +49,16 @@ public class CommunityDAO {
 		
 	}
 	//글수정
-	public int updateBoard(CommunityVO vo) {
+	public int updateBoard(BoardVO vo) {
 		return sqlSession.update(MAPPER+".updateBoard",vo);
 	}
 
 	public int deleteBoard(int b_idx) {
 		return sqlSession.update(MAPPER+".deleteBoard", b_idx);
+	}
+    
+	//첨부파일 삭제
+	public int deleteAttached(int na_idx) {
+		return sqlSession.delete(MAPPER+".deleteAttached", na_idx);
 	}
 }

@@ -1,6 +1,7 @@
 package com.human.web.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -80,8 +81,14 @@ public class EmployeesController {
 
         return viewName;
     }
+    
+    @GetMapping("/getEmployeesList.do")
+    @ResponseBody
+    public List<EmployeesVO> getEmployeesList() {
+        return employeesService.getEmployeesList();
+    }
 
-    // 회원 탈퇴 요청
+    // 퇴사 요청
 //    @GetMapping("/cancelProcess.do")
 //    public String cancelProcess(HttpServletRequest request, Model model) {
 //        HttpSession session = request.getSession();

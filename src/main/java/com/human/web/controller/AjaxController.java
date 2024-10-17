@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.human.web.service.EmployeesService;
-import com.human.web.service.NoticeService;
+// import com.human.web.service.NoticeService;
 import com.human.web.vo.EmployeesVO;
 
 import lombok.AllArgsConstructor;
@@ -19,7 +19,7 @@ public class AjaxController {
 	
 	//필드 정의
 	private EmployeesService memberServiceImpl;
-	private NoticeService noticeServiceImpl;
+	// private NoticeService noticeServiceImpl;
 	
 	//아이디 중복검사
 //	@PostMapping("/member/checkId.do")
@@ -44,9 +44,9 @@ public class AjaxController {
 	public String deleteAttached(int na_idx) {
 		String result = "FAIL";
 		
-		if(noticeServiceImpl.deleteAttached(na_idx) == 1) {
-			result = "OK";
-		}
+		// if(noticeServiceImpl.deleteAttached(na_idx) == 1) {
+		// 	result = "OK";
+		// }
 		return result;
 	}
 	
