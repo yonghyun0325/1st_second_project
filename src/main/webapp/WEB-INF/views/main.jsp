@@ -5,8 +5,11 @@
 <!DOCTYPE html>
 <html lang="ko">
     <head>
+        <title>FUNFUN Office</title>
+        
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
         <!-- css  -->
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/reset.css">
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/style.css">
@@ -23,8 +26,6 @@
         <!-- icon -->
         <script src="https://kit.fontawesome.com/d7e414b2e7.js"></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/hung1001/font-awesome-pro@4cac1a6/css/all.css" />
-
-        <title>FUNFUN Office</title>
     </head>
     <body>
         <header>

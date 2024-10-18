@@ -12,7 +12,7 @@
     align-items: center;
 }
 
-.login_box {
+.login-wrapper {
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -24,14 +24,13 @@
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
     opacity: 0;
-    transform: translateY(30px);
     animation: fadeIn 1.5s ease forwards;
+    border: 1px solid rgba(255, 255, 255, 0.3);
     z-index: 9999;
 }
 
-.login_box form {
+.login-wrapper form {
     width: 100%;
 }
 
@@ -40,18 +39,11 @@
     justify-content: center;
     align-items: center;
     gap: 10px;
-    margin-bottom: 10px;
-}
-
-.title-area .logo i {
-    font-size: 35px;
-    color: black;
 }
 
 .title-area .title {
     font-size: 30px;
     font-weight: bold;
-    font-family: 'Noto Sans KR', sans-serif;
 }
 
 .login_id, .login_pw {
@@ -60,7 +52,6 @@
     align-items: center;
     gap: 10px;
     margin-bottom: 15px;
-    font-family: 'Noto Sans KR', sans-serif;
 }
 
 .login_id input, .login_pw input {
@@ -69,10 +60,9 @@
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     font-size: 14px;
-    font-family: 'Noto Sans KR', sans-serif;
 }
 
-.btn_login {
+.button-login {
     background-color: #408ed6;
     color: white;
     border: none;
@@ -81,26 +71,24 @@
     border-radius: 5px;
     width: 100%;
     font-size: 16px;
-    font-family: 'Noto Sans KR', sans-serif;
     transition: background-color 0.3s ease;
 }
 
-.btn_login:hover {
+.button-login:hover {
     background-color: #66a7e3;
 }
 
-.remember_login {
+.remember {
     margin-bottom: 20px;
     display: flex;
     align-items: center;
-    font-family: 'Noto Sans KR', sans-serif;
 }
 
-.remember_login input {
+.remember input {
     margin-right: 5px;
 }
 
-.login_info {
+.contact {
     display: flex;
     gap: 30px;
     justify-content: space-around;
@@ -108,14 +96,14 @@
     width: 100%;
 }
 
-.login_info a {
+.contact a {
     font-size: 14px;
     color: #408ed6;
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
-.login_info a:hover {
+.contact a:hover {
     color: #66a7e3;
 }
 
