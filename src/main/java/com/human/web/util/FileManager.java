@@ -15,8 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.human.web.vo.NoticeAttachedVO;
-import com.human.web.vo.NoticeVO;
+import com.human.web.vo.BoardAttachedVO;
+import com.human.web.vo.BoardVO;
 
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.name.Rename;
@@ -24,13 +24,12 @@ import net.coobird.thumbnailator.name.Rename;
 @Component
 public class FileManager {
 
-	@SuppressWarnings("null")
-    public NoticeVO handleFile(NoticeVO vo, HttpServletRequest request) {
+    public BoardVO handleFile(BoardVO vo, HttpServletRequest request) {
 		//서버로 업로드한 파일들 가져오기
 		MultipartFile[] uploadFiles = vo.getUploadFiles();
 		
 		//업로드된 파일들을 실제 파일과 저장파일로 구분해서 저장하기 위한 List객체 생성
-		List<NoticeAttachedVO> attachedList = new ArrayList<>();
+		List<BoardAttachedVO> attachedList = new ArrayList<>();
 		
 		for(int i=0; i<uploadFiles.length; i++) {
 			if(uploadFiles[i].getSize() != 0) { //파일이 업로드된 경우
@@ -53,8 +52,8 @@ public class FileManager {
 				}
 				
 				
-				//3. 파일 관련 값들을 NoticeVO에 저장하기
-				NoticeAttachedVO naVO = new NoticeAttachedVO();
+				//3. 파일 관련 값들을 BoardVO에 저장하기
+				BoardAttachedVO naVO = new BoardAttachedVO();
 				naVO.setOrigin_filename(originFileName);
 				naVO.setSave_filename(saveFileName);
 				attachedList.add(naVO);

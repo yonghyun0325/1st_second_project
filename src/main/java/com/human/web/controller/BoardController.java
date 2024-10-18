@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
@@ -12,8 +14,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.human.web.service.BoardService;
@@ -29,50 +33,61 @@ public class BoardController {
 	
 	// 일반게시판 요청 처리를 위한 객체 정의(lombok에 의한 의존자동주입: 생성자 이용)
 	private BoardService boardService;
-	
-    
-    /* ───────────────────────────────────
-                게시판 관련 맵핑
-     ──────────────────────────────────── */
 
-    // 일반 게시글 목록
-    @GetMapping("/normal")
-    public String boardNormal(Model model) {
-        List<BoardVO> boardList = boardService.getBoardList();
+    // 타입에 따른 게시글 목록 요청
+    @GetMapping("/{type}")
+    public String boardList(
+        @PathVariable("type") String type, 
+        @RequestParam(value = "searchField", required = false) String searchField,
+        @RequestParam(value = "searchWord", required = false) String searchWord,
+        @RequestParam(value = "startNum", defaultValue = "0") int startNum,
+        Model model) {
+        
+        System.out.println("(BoardController.java) 받은 파라미터 - type: " + type + ", searchField: " + searchField + ", searchWord: " + searchWord + ", startNum: " + startNum);
+        List<BoardVO> boardList = boardService.getBoardList(type, searchField, searchWord, startNum);
         model.addAttribute("boardList", boardList);
-        return "board/normal";
+        return "board/list";
     }
 
-    // 공지 게시글 목록
-    @GetMapping("/notice")
-    public String boardNotice(Model model) {
-        List<BoardVO> boardList = boardService.getNoticeList();
-        model.addAttribute("boardList", boardList);
-        return "board/notice";
-    }
+	//상세보기 페이지 요청
+	@GetMapping("/view.do")
+	public String view(@RequestParam("b_idx") int b_idx, @RequestParam("type") String type, Model model) {
+		//조회수 증가시키기
+		boardService.updateReadCount(b_idx);
 
-    // 분실물 게시글 목록
-    @GetMapping("/lost")
-    public String boardLost(Model model) {
-        List<BoardVO> boardList = boardService.getLostList();
-        model.addAttribute("boardList", boardList);
-        return "board/lost";
-    }
+		//상세페이지 정보를 저장하고 있는 boardVO 객체 얻기
+		BoardVO vo =boardService.getBoard(b_idx);
+		model.addAttribute("boardVO", vo);
+        model.addAttribute("type", vo);
 
-	// 글 작성 페이지 요청
-	@GetMapping("/write.do")
-	public String write() {
-		return "board/write";
+		return "board/view";
 	}
+	
+	//다운로드 요청
+	@GetMapping("/download.do")
+	public void download(String origin_filename, String save_filename,
+			HttpServletRequest request, HttpServletResponse response) {
+		//request: 파일의 실제 경로를 알아내는데 사용됨
+		//response: 파일을 출력하는데 사용됨
+		
+		boardService.download(origin_filename, save_filename, request, response);
+	}
+	
+	// 글 작성 페이지 요청
+    @GetMapping("/write.do")
+    public String write(@RequestParam("type") String type, Model model) {
+        model.addAttribute("type", type);
+        return "board/write";
+    }
 
-	//글등록 요청
+	// 글 등록 요청
 	@PostMapping("/writeProcess.do")
 	@ResponseBody
-    public ResponseEntity<Map<String, Object>> writeProcess(@ModelAttribute BoardVO vo) {
+    public ResponseEntity<Map<String, Object>> writeProcess(@ModelAttribute BoardVO vo, HttpServletRequest request) {
         Map<String, Object> response = new HashMap<>();
         
         try {
-            int result = boardService.insertBoard(vo);
+            int result = boardService.insertBoard(vo, request);
             if (result == 1) { // 글 등록 성공
                 response.put("status", "success");
             } else {
@@ -86,19 +101,8 @@ public class BoardController {
         
         return ResponseEntity.ok(response);
     }
-	
-	//상세보기 페이지 요청
-	@GetMapping("/view.do")
-	public String view(int b_idx, Model model) {
-		//조회수 증가시키기
-		boardService.updateReadCount(b_idx);
-		//상세페이지 정보를 저장하고 있는 boardVO 객체 얻기
-		BoardVO vo =boardService.getBoard(b_idx);
-		model.addAttribute("boardVO", vo);
-		return "board/view";
-	}
-	
-	//수정 페이지 요청
+
+	// 글 수정 페이지 요청
 	@GetMapping("/update.do")
 	public String update(int b_idx, Model model) {
 		//상세페이지 정보를 저장하고 있는 boardVO 객체 얻기
@@ -107,34 +111,29 @@ public class BoardController {
 		return "board/update";
 	}
 	
-	//글수정 요청
-		@PostMapping("/updateProcess.do")
-		public String updateBoard(BoardVO vo, Model model) {
-			String viewName = "board/update";//글수정 실패시 뷰이름
+	// 글 수정 요청
+	@PostMapping("/updateProcess.do")
+	public String updateBoard(BoardVO vo, Model model) {
+		String viewName = "board/update";//글수정 실패시 뷰이름
+		
+		int result = boardService.updateBoard(vo);
+		if(result ==1) {//글등록 성공
+			//viewName = "redirect:/index.do"; //메인 페이지 재요청
 			
-			int result = boardService.updateBoard(vo);
-			if(result ==1) {//글등록 성공
-				//viewName = "redirect:/index.do"; //메인 페이지 재요청
-				
-				//board/view 를 뷰이름으로 반환하는 경우
-				//게시글에 대한 변경된 내용을 boardVO객체에 저장해서 Model객체에 추가함
-				BoardVO newVo = boardService.getBoard(vo.getB_idx());
-				model.addAttribute("boardVO", newVo);
-				viewName = "board/view";
-				
-			}
-			
-			return viewName;
+			//board/view 를 뷰이름으로 반환하는 경우
+			//게시글에 대한 변경된 내용을 boardVO객체에 저장해서 Model객체에 추가함
+			BoardVO newVo = boardService.getBoard(vo.getB_idx());
+			model.addAttribute("boardVO", newVo);
+			viewName = "board/view";
 		}
+		return viewName;
+	}
 		
 	//글삭제 요청
-    @PostMapping("deleteProcess.do")
+    @PostMapping("/deleteProcess.do")
     @ResponseBody
     public ResponseEntity<String> deleteProcess(int b_idx, HttpSession session) {
         EmployeesVO employees = (EmployeesVO) session.getAttribute("employees");
-        if (employees == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
-        }
 
         int loggedInIdx = employees.getE_idx();
         boolean isAdmin = employees.getPermission() == 2;

@@ -1,6 +1,9 @@
 package com.human.web.vo;
 
 import java.util.Date;
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,4 +22,10 @@ public class BoardVO {
 	private Date post_date; // 등록일
 	private Date update_date; // 수정일
 	private String status; // 게시글 상태
+
+	//게시글 등록 폼에서 입력된 값을 커맨드 객체로 받기 위해서 첨부파일을
+	//MultipartFile 타입의 필드로 정의해야 함
+	private MultipartFile[] uploadFiles; //첨부 파일(최대 4개, 1개 최대 5MB, 1회 최대 20MB)
+	
+	private List<BoardAttachedVO> attachedList;//첨부파일 리스트
 }

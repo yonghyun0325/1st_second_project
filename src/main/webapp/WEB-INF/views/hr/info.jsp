@@ -1,13 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<head>
-    <!-- css, 스타일 초기화 적용  -->
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/reset.css">
-    <!-- css, 인사정보 스타일  -->
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/hr_info.css">
-</head>
-<div class="contain">
-<div class="hr_main">
-    <h1>인사정보</h1>
+<!-- css, 인사정보 스타일  -->
+<section id="hr_info">
     <div class="hr_main_top">
         <div>
             <table class="type_list_box">
@@ -16,7 +9,7 @@
                         <td class="profile_image" rowspan="4">
                             <span class="img_profile">
                                 <!-- 이미지 사진 -->
-                                <img src="../resources/img/토심이.PNG" alt="토심이">
+                                <img src="/resources/img/토심이.PNG" alt="토심이">
                             </span>
                         </td>
                         <th>이름</th>
@@ -127,14 +120,14 @@
                     </span>
                 </li>
             </ul>
-            <div class=".tool_bar">
-                <li class="tool_bar_li"> <!-- 화살표를 넣을 li -->
+            <!-- <div class=".tool_bar">
+                <li class="tool_bar_li">
                     <span class="btn_wrap">
                         <span class="ic_classic ic_close" id="foldTab" style="display: inline-block;">▼</span>
                         <span class="ic_classic ic_open" id="unfoldTab" style="display: none;">▲</span>
                     </span>
                 </li>
-            </div>
+            </div> -->
         </div>
     </div>
     <!-- 각 뷰화면 -->
@@ -315,60 +308,46 @@
         <span class="btn_major" data-role="button" id="hrcard_btn_submit"><span class="txt">저장</span></span>
         <span class="btn_minor" data-role="button" id="hrcard_btn_cancel"><span class="txt">취소</span></span>   
      </div>
-     
-     <section>
-        <div>
-            <div class="reply-wrap">
-                <div class="single_title">
-                    <span class="change_txt">변경이력</span>
-                 </div>
-                 <div class="aside_wrapper_body">
-
-                 </div>
-            </div>
-        </div>
-     </section>
-</div>
-</div>
+</section>
 <script>
     $(document).ready(function() {
-        const tabs = document.querySelectorAll('.tab_menu li');
-        const contents = document.querySelectorAll('.tab_content');
-        
+        const tabs = $('.tab_menu li');
+        const contents = $('.tab_content');
+    
         // 인사관리 클릭시 토글 생성
-        $('#hrMenu').click(function(event){
-                event.preventDefault();
-                $('#hrSubMenu').slideToggle();
-            });
-        
-        tabs.forEach((tab, index) => {
-            tab.addEventListener('click', function() {
+        $('#hrMenu').click(function(event) {
+            event.preventDefault();
+            $('#hrSubMenu').slideToggle();
+        });
+    
+        tabs.each(function(index) {
+            $(this).on('click', function() {
                 // 모든 탭과 내용을 비활성화
-                tabs.forEach(item => item.classList.remove('active'));
-                contents.forEach(content => content.classList.remove('active'));
+                tabs.removeClass('active');
+                contents.removeClass('active');
             
                 // 선택된 탭과 내용 활성화
-                tab.classList.add('active');
-                contents[index].classList.add('active');
+                $(this).addClass('active');
+                contents.eq(index).addClass('active');
             });
         });
     
-        const foldTab = document.getElementById('foldTab');
-        const unfoldTab = document.getElementById('unfoldTab');
-        const tabMenuWrap = document.querySelector('.tab_menu_wrap');
+        const foldTab = $('#foldTab');
+        const unfoldTab = $('#unfoldTab');
+        const tabMenuWrap = $('.tab_menu_wrap');
     
-        foldTab.addEventListener('click', function() {
+        foldTab.on('click', function() {
             // 메뉴 숨기기
-            tabMenuWrap.classList.add('collapsed');
-            foldTab.style.display = 'none'; // ▲ 버튼 숨기기
-            unfoldTab.style.display = 'inline-block'; // ▼ 버튼 표시
+            tabMenuWrap.addClass('collapsed');
+            foldTab.hide(); // ▲ 버튼 숨기기
+            unfoldTab.show(); // ▼ 버튼 표시
         });
     
-        unfoldTab.addEventListener('click', function() {
+        unfoldTab.on('click', function() {
             // 메뉴 보이기
-            tabMenuWrap.classList.remove('collapsed');
-            unfoldTab.style.display = 'none'; // ▼ 버튼 숨기기
-            foldTab.style.display = 'inline-block'; // ▲ 버튼 표시
+            tabMenuWrap.removeClass('collapsed');
+            unfoldTab.hide(); // ▼ 버튼 숨기기
+            foldTab.show(); // ▲ 버튼 표시
         });
     });
 </script>

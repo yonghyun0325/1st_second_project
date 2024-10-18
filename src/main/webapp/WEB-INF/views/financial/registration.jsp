@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
-<div id="registration">
+<section id="registration">
     <div class="employees-list-wrap">
         <h3>기본 정보</h3>
         <div class="employees-list">
@@ -23,7 +23,7 @@
             상세 정보 화면
         </div>
     </div>
-</div>
+</section>
 <script>
     $(document).ready(function() {
         $.ajax({
