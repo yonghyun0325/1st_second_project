@@ -70,12 +70,6 @@ button:focus, input:focus, textarea:focus, select:focus {
 
 /* ---- 공유 스타일 요소 */
 
-/* 섹션 배경색과 기본 여백 */
-section {
-    background-color: white;
-    padding: 10px;
-}
-
 /* 버튼 스타일 통일 */
 button, 
 input[type="submit"],

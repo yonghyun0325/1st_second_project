@@ -1,18 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<section id="write-normal" class="write">
-    <form id="frmBoardWrite" name="frmBoardWrite" action="${pageContext.request.contextPath}/board/writeProcess.do" method="post" enctype="multipart/form-data">
+<section id="write-notice" class="write">
+    <form id="frmBoardWrite" name="frmBoardWrite" action="${pageContext.request.contextPath}/notice/writeProcess.do" method="post" enctype="multipart/form-data">
 
-        <h3 id="write-title">새로운 글 작성</h3>
+        <h3 id="write-title">새로운 공지 작성</h3>
 
         <!-- 사원번호와 타입 -->
         <input type="hidden" id="e_idx" name="e_idx">
-        <input type="hidden" name="type" value="normal">
+        <input type="hidden" name="type" value="notice">
         
         <div class="input-title-wrapper">
             <!-- 카테고리 선택 부분 -->
             <select id="category" name="category">
                 <option value="일반">일반</option>
-                <option value="분실물">분실물</option>
+                <option value="행사">행사</option>
             </select>
 
             <!-- 글 제목 입력 부분 -->
@@ -52,7 +52,7 @@
         });
         
         // 목록보기
-        $('#write-normal').off('click', '#back_to_list').on('click', '#back_to_list', function () {
+        $('#write-notice').off('click', '#back_to_list').on('click', '#back_to_list', function () {
             loadList();
         });
 
@@ -65,7 +65,7 @@
             let formData = new FormData(this);
 
             $.ajax({
-                url: '${pageContext.request.contextPath}/board/writeProcess.do',
+                url: '${pageContext.request.contextPath}/notice/writeProcess.do',
                 method: 'POST',
                 data: formData,
                 processData: false,
@@ -88,7 +88,7 @@
 
         function loadList() {
             $.ajax({
-                url: '/board/normal',
+                url: '/notice/notice',
                 method: 'GET',
                 success: function (data) {
                     const contentDiv = $('#tab-body .tbody.active');

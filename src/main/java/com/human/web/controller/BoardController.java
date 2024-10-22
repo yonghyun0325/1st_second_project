@@ -40,25 +40,33 @@ public class BoardController {
         @PathVariable("type") String type, 
         @RequestParam(value = "searchField", required = false) String searchField,
         @RequestParam(value = "searchWord", required = false) String searchWord,
-        @RequestParam(value = "startNum", defaultValue = "0") int startNum,
+        @RequestParam(value = "page", defaultValue = "1") int page,
         Model model) {
+
+        int pageSize = 10;
+        int startNum = (page - 1) * pageSize;
+        int totalCount = boardService.getBoardCount(type, searchField, searchWord);
+        int totalPages = (int) Math.ceil((double) totalCount / pageSize);
+
+        List<BoardVO> boardList = boardService.getBoardList(type, searchField, searchWord, startNum, pageSize);
         
-        System.out.println("(BoardController.java) 받은 파라미터 - type: " + type + ", searchField: " + searchField + ", searchWord: " + searchWord + ", startNum: " + startNum);
-        List<BoardVO> boardList = boardService.getBoardList(type, searchField, searchWord, startNum);
         model.addAttribute("boardList", boardList);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPages);
+
         return "board/list";
     }
 
 	//상세보기 페이지 요청
 	@GetMapping("/view.do")
-	public String view(@RequestParam("b_idx") int b_idx, @RequestParam("type") String type, Model model) {
+	public String view(@RequestParam("b_idx") int b_idx, Model model) {
+
 		//조회수 증가시키기
 		boardService.updateReadCount(b_idx);
 
 		//상세페이지 정보를 저장하고 있는 boardVO 객체 얻기
-		BoardVO vo =boardService.getBoard(b_idx);
+		BoardVO vo = boardService.getBoard(b_idx);
 		model.addAttribute("boardVO", vo);
-        model.addAttribute("type", vo);
 
 		return "board/view";
 	}
@@ -75,8 +83,7 @@ public class BoardController {
 	
 	// 글 작성 페이지 요청
     @GetMapping("/write.do")
-    public String write(@RequestParam("type") String type, Model model) {
-        model.addAttribute("type", type);
+    public String write() {
         return "board/write";
     }
 
@@ -104,29 +111,31 @@ public class BoardController {
 
 	// 글 수정 페이지 요청
 	@GetMapping("/update.do")
-	public String update(int b_idx, Model model) {
-		//상세페이지 정보를 저장하고 있는 boardVO 객체 얻기
-		BoardVO vo =boardService.getBoard(b_idx);
-		model.addAttribute("boardVO", vo);
-		return "board/update";
+	public String update(@RequestParam("b_idx") int b_idx, Model model) {
+        BoardVO vo = boardService.getBoard(b_idx);
+        model.addAttribute("boardVO", vo);
+        return "board/update";
 	}
 	
 	// 글 수정 요청
 	@PostMapping("/updateProcess.do")
-	public String updateBoard(BoardVO vo, Model model) {
-		String viewName = "board/update";//글수정 실패시 뷰이름
-		
-		int result = boardService.updateBoard(vo);
-		if(result ==1) {//글등록 성공
-			//viewName = "redirect:/index.do"; //메인 페이지 재요청
-			
-			//board/view 를 뷰이름으로 반환하는 경우
-			//게시글에 대한 변경된 내용을 boardVO객체에 저장해서 Model객체에 추가함
-			BoardVO newVo = boardService.getBoard(vo.getB_idx());
-			model.addAttribute("boardVO", newVo);
-			viewName = "board/view";
-		}
-		return viewName;
+    public ResponseEntity<Map<String, Object>> updateProcess(@ModelAttribute BoardVO vo) {
+        Map<String, Object> response = new HashMap<>();
+        
+        try {
+            int result = boardService.updateBoard(vo);
+            if (result == 1) { // 글 등록 성공
+                response.put("status", "success");
+            } else {
+                response.put("status", "fail");
+                response.put("message", "글 등록에 실패했습니다.");
+            }
+        } catch (Exception e) {
+            response.put("status", "error");
+            response.put("message", "서버 오류가 발생했습니다: " + e.getMessage());
+        }
+        
+        return ResponseEntity.ok(response);
 	}
 		
 	//글삭제 요청

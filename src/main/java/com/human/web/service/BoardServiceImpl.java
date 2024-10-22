@@ -23,10 +23,15 @@ public class BoardServiceImpl implements BoardService {
     
 	// 글 목록 불러오기
 	@Override
-	public List<BoardVO> getBoardList(String type, String searchField, String searchWord, int startNum) {
-        System.out.println("(BoardServiceImpl.java) 서비스에서 전달받은 파라미터 - type: " + type + ", searchField: " + searchField + ", searchWord: " + searchWord + ", startNum: " + startNum);
-		return dao.getBoardList(type, searchField, searchWord, startNum);
+	public List<BoardVO> getBoardList(String type, String searchField, String searchWord, int startNum, int pageSize) {
+		return dao.getBoardList(type, searchField, searchWord, startNum, pageSize);
 	}
+
+	// 전체 글 개수 불러오기
+    @Override
+    public int getBoardCount(String type, String searchField, String searchWord) {
+        return dao.getBoardCount(type, searchField, searchWord);
+    }
 
 	// 글 세부 조회
 	@Override

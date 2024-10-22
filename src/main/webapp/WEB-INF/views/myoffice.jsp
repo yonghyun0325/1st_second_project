@@ -84,7 +84,6 @@
                     method: 'GET',
                     success: function (data) {
                         $('#tbody-' + contentId).html(data);
-                        console.log("(main.jsp) " + subPage + ".jsp 페이지 데이터 받음")
                     },
                     error: function (jqXHR) {
                         if (jqXHR.status === 404) {

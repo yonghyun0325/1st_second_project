@@ -74,6 +74,7 @@
                 <i id="board-icon" class="fas fa-chevron-right"></i>
             </a>
             <div id="board-submenu" class="sidebar-submenu">
+                <a href="javascript:void(0)" data-content="notice_notice">공지사항</a>
                 <a href="javascript:void(0)" data-content="board_normal">커뮤니티</a>
             </div>
         </div>

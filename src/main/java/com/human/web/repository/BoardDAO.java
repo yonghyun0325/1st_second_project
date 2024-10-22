@@ -28,16 +28,25 @@ public class BoardDAO {
 	// 트랜잭션 작업 관련 객체
 	private PlatformTransactionManager transactionManager;
 
-	//글목록 조회
-	public List<BoardVO> getBoardList(String type, String searchField, String searchWord, int startNum) {
+	// 글목록 조회
+	public List<BoardVO> getBoardList(String type, String searchField, String searchWord, int startNum, int pageSize) {
         Map<String, Object> params = new HashMap<>();
         params.put("type", type);
         params.put("searchField", searchField);
         params.put("searchWord", searchWord);
         params.put("startNum", startNum);
-        System.out.println("(BoardDAO.java) 맵퍼에 전달하는 파라미터 - type: " + type + ", searchField: " + searchField + ", searchWord: " + searchWord + ", startNum: " + startNum);
+        params.put("pageSize", pageSize); 
 		return sqlSession.selectList(MAPPER+".getBoardList", params);
 	}
+    
+    // 전체 글 개수 조회
+    public int getBoardCount(String type, String searchField, String searchWord) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("type", type);
+        params.put("searchField", searchField);
+        params.put("searchWord", searchWord);
+        return sqlSession.selectOne(MAPPER+".getBoardCount", params);
+    }
 
 	//게시글 조회
 	public BoardVO getBoard(int b_idx) {

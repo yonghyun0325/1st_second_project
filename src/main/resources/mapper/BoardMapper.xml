@@ -11,7 +11,7 @@
 	<insert id="insertBoard" parameterType="boardVO">
 	
 		insert into board (e_idx, title, content, category, type)
-			values (#{e_idx}, #{title}, #{content}, #{category}, normal)
+			values (#{e_idx}, #{title}, #{content}, #{category}, #{type})
 	
 	</insert>
 
@@ -24,25 +24,51 @@
           and b.type = #{type}
 
         <choose>
-            <when test="searchWord != null">
+            <when test="searchWord != null and searchWord != ''">
                 <!-- 검색어가 있는 경우 -->
                 <choose>
                     <when test="searchField == 'title'">
-                        and b.nb_title like CONCAT('%', #{searchWord}, '%')
+                        and b.title like CONCAT('%', #{searchWord}, '%')
                     </when>
                     <when test="searchField == 'writer'">
                         and e.name like CONCAT('%', #{searchWord}, '%')
                     </when>
                     <otherwise>
-                        and b.nb_content like CONCAT('%', #{searchWord}, '%')
+                        and b.content like CONCAT('%', #{searchWord}, '%')
                     </otherwise>
                 </choose>
             </when>
             <!-- 검색어가 없는 경우는 따로 추가 조건 없음 -->
         </choose>
 
-        order by b.b_idx desc
-        limit #{startNum}, 10
+        order by b.post_date desc
+        limit #{startNum}, #{pageSize}
+    </select>
+
+    <!-- 타입에 따른 글 개수 조회 -->
+	<select id="getBoardCount" resultType="_int" parameterType="map">
+        select count(*)
+        from board b
+        join employees e on b.e_idx = e.e_idx
+        where b.status = 'N'
+          and b.type = #{type}
+
+        <choose>
+            <when test="searchWord != null and searchWord != ''">
+                <!-- 검색어가 있는 경우 -->
+                <choose>
+                    <when test="searchField == 'title'">
+                        and b.title like CONCAT('%', #{searchWord}, '%')
+                    </when>
+                    <when test="searchField == 'writer'">
+                        and e.name like CONCAT('%', #{searchWord}, '%')
+                    </when>
+                    <otherwise>
+                        and b.content like CONCAT('%', #{searchWord}, '%')
+                    </otherwise>
+                </choose>
+            </when>
+        </choose>
     </select>
 
     <!-- 게시글 테이블에서 번호 최고값 얻기 -->
@@ -74,8 +100,9 @@
 	<!-- 글수정 -->
 	<update id="updateBoard" parameterType="boardVO">
 	
-		update board set b_title=#{b_title}, 
-						 b_content=#{b_content},
+		update board set title=#{title}, 
+						 content=#{content},
+                         category=#{category},
 			             update_date = now() 
 			  where b_idx = #{b_idx}
 	

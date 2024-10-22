@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
-<section id="board-normal" class="board">
+<section id="board-notice" class="board">
     <div class="board-header">
-        <form action="${pageContext.request.contextPath}/board/normal" method="get">
+        <form action="${pageContext.request.contextPath}/notice/notice" method="get">
             <select name="searchField" class="search-field">
                 <option value="title">제목</option>
                 <option value="content">내용</option>
@@ -13,7 +13,7 @@
                 <button type="submit" id="search_btn"><i class="fas fa-search"></i></button>
                 <input type="text" name="searchWord" class="search-word" placeholder="검색">
             </div>
-            <button type="button" id="write_btn_normal">새 글 작성</button>
+            <button type="button" id="write_btn_notice">새 글 작성</button>
         </form>
     </div>
 
@@ -77,11 +77,11 @@
 <script>
     $(document).ready(function () {
         // 글쓰기
-        $('#board-normal').off('click', '#write_btn_normal').on('click', '#write_btn_normal', function () {
+        $('#board-notice').off('click', '#write_btn_notice').on('click', '#write_btn_notice', function () {
             const contentDiv = $('#tab-body .tbody.active');
         
             $.ajax({
-                url: '/board/write.do',
+                url: '/notice/write.do',
                 method: 'GET',
                 success: function (data) {
                     $(contentDiv).html(data); 
@@ -93,13 +93,13 @@
         });
 
         // 내용 보기
-        $('#board-normal').off('click', '.board-table a').on('click', '.board-table a', function (e) {
+        $('#board-notice').off('click', '.board-table a').on('click', '.board-table a', function (e) {
             e.preventDefault();
             const contentDiv = $('#tab-body .tbody.active');
             const boardId = $(this).data('b_idx');
 
             $.ajax({
-                url: '/board/view.do',
+                url: '/notice/view.do',
                 method: 'GET',
                 data: { 
                     b_idx: boardId,
@@ -114,14 +114,14 @@
         });
 
         // 검색
-        $('#board-normal').off('click', '#search_btn').on('click', '#search_btn', function (e) {
+        $('#board-notice').off('click', '#search_btn').on('click', '#search_btn', function (e) {
             e.preventDefault();
             const searchField = $('select[name="searchField"]').val();
             const searchWord = $('input[name="searchWord"]').val();
             const contentDiv = $('#tab-body .tbody.active');
 
             $.ajax({
-                url: '/board/normal',
+                url: '/notice/notice',
                 method: 'GET',
                 data: {
                     searchField: searchField,
@@ -137,13 +137,13 @@
         });
 
         // 페이지네이션
-        $('#board-normal').off('click', '.pagination .page-link').on('click', '.pagination .page-link', function () {
+        $('#board-notice').off('click', '.pagination .page-link').on('click', '.pagination .page-link', function () {
             const page = $(this).data('page'); 
             const searchField = $('select[name="searchField"]').val();
             const searchWord = $('input[name="searchWord"]').val();
 
             $.ajax({
-                url: '/board/normal',
+                url: '/notice/notice',
                 method: 'GET',
                 data: {
                     page: page,

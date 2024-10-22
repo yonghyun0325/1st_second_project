@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<section id="view-normal" class="view">
+<section id="view-notice" class="view">
     <div class="board-info">
         <span class="board-author">${boardVO.name}</span>
         <span class="board-date"><fmt:formatDate value="${boardVO.post_date}" pattern="yyyy-MM-dd HH:MM" /></span>
@@ -50,17 +50,17 @@
         });
         
         // 목록보기
-        $('#view-normal').off('click', '#back_to_list').on('click', '#back_to_list', function () {
+        $('#view-notice').off('click', '#back_to_list').on('click', '#back_to_list', function () {
             loadList();
         });
 
         // 수정 버튼
-        $('#view-normal').off('click', '#edit_button').on('click', '#edit_button', function () {
+        $('#view-notice').off('click', '#edit_button').on('click', '#edit_button', function () {
             const contentDiv = $('#tab-body .tbody.active');
             const b_idx = '${boardVO.b_idx}';
 
             $.ajax({
-                url: '/board/update.do',
+                url: '/notice/update.do',
                 method: 'GET',
                 data: { 
                     b_idx: '${boardVO.b_idx}',
@@ -75,10 +75,10 @@
         });
 
         // 삭제 버튼
-        $('#view-normal').off('click', '#delete_button').on('click', '#delete_button', function () {
+        $('#view-notice').off('click', '#delete_button').on('click', '#delete_button', function () {
             if (confirm('정말 삭제하시겠습니까?')) {
                 $.ajax({
-                    url: '/board/deleteProcess.do',
+                    url: '/notice/deleteProcess.do',
                     method: 'POST',
                     data: { b_idx: '${boardVO.b_idx}' },
                     success: function() {
@@ -94,7 +94,7 @@
         
         function loadList() {
             $.ajax({
-                url: '/board/normal',
+                url: '/notice/notice',
                 method: 'GET',
                 success: function (data) {
                     const contentDiv = $('#tab-body .tbody.active');

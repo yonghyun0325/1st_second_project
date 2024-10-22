@@ -14,12 +14,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.human.web.service.NoticeService;
+import com.human.web.service.BoardService;
 import com.human.web.vo.BoardVO;
 import com.human.web.vo.EmployeesVO;
 
@@ -31,32 +32,44 @@ import lombok.AllArgsConstructor;
 public class NoticeController {
 	
 	// 일반게시판 요청 처리를 위한 객체 정의(lombok에 의한 의존자동주입: 생성자 이용)
-	private NoticeService noticeService;
+	private BoardService boardService;
 
-    // 일반타입 게시글 요청
-    @GetMapping("/notice")
-    public String noticeList(
+    // 타입에 따른 게시글 목록 요청
+    @GetMapping("/{type}")
+    public String boardList(
+        @PathVariable("type") String type, 
         @RequestParam(value = "searchField", required = false) String searchField,
         @RequestParam(value = "searchWord", required = false) String searchWord,
-        @RequestParam(value = "startNum", defaultValue = "0") int startNum,
+        @RequestParam(value = "page", defaultValue = "1") int page,
         Model model) {
+
+        System.out.println("type: " + type);
+        int pageSize = 10;
+        int startNum = (page - 1) * pageSize;
+        int totalCount = boardService.getBoardCount(type, searchField, searchWord);
+        int totalPages = (int) Math.ceil((double) totalCount / pageSize);
+
+        List<BoardVO> boardList = boardService.getBoardList(type, searchField, searchWord, startNum, pageSize);
         
-        List<BoardVO> boardList = noticeService.getNoticeList(searchField, searchWord, startNum);
         model.addAttribute("boardList", boardList);
-        return "notice/list";
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPages);
+
+        return "board/list";
     }
 
 	//상세보기 페이지 요청
 	@GetMapping("/view.do")
 	public String view(@RequestParam("b_idx") int b_idx, Model model) {
+
 		//조회수 증가시키기
-		noticeService.updateReadCount(b_idx);
+		boardService.updateReadCount(b_idx);
 
 		//상세페이지 정보를 저장하고 있는 boardVO 객체 얻기
-		BoardVO vo =noticeService.getNotice(b_idx);
+		BoardVO vo = boardService.getBoard(b_idx);
 		model.addAttribute("boardVO", vo);
 
-		return "notice/view";
+		return "board/view";
 	}
 	
 	//다운로드 요청
@@ -66,14 +79,13 @@ public class NoticeController {
 		//request: 파일의 실제 경로를 알아내는데 사용됨
 		//response: 파일을 출력하는데 사용됨
 		
-		noticeService.download(origin_filename, save_filename, request, response);
+		boardService.download(origin_filename, save_filename, request, response);
 	}
 	
 	// 글 작성 페이지 요청
     @GetMapping("/write.do")
-    public String write(@RequestParam("type") String type, Model model) {
-        model.addAttribute("type", type);
-        return "notice/write";
+    public String write() {
+        return "board/write";
     }
 
 	// 글 등록 요청
@@ -83,7 +95,7 @@ public class NoticeController {
         Map<String, Object> response = new HashMap<>();
         
         try {
-            int result = noticeService.insertNotice(vo, request);
+            int result = boardService.insertBoard(vo, request);
             if (result == 1) { // 글 등록 성공
                 response.put("status", "success");
             } else {
@@ -100,29 +112,31 @@ public class NoticeController {
 
 	// 글 수정 페이지 요청
 	@GetMapping("/update.do")
-	public String update(int b_idx, Model model) {
-		//상세페이지 정보를 저장하고 있는 boardVO 객체 얻기
-		BoardVO vo =noticeService.getNotice(b_idx);
-		model.addAttribute("boardVO", vo);
-		return "notice/update";
+	public String update(@RequestParam("b_idx") int b_idx, Model model) {
+        BoardVO vo = boardService.getBoard(b_idx);
+        model.addAttribute("boardVO", vo);
+        return "board/update";
 	}
 	
 	// 글 수정 요청
 	@PostMapping("/updateProcess.do")
-	public String updateBoard(BoardVO vo, Model model) {
-		String viewName = "notice/update";//글수정 실패시 뷰이름
-		
-		int result = noticeService.updateNotice(vo);
-		if(result ==1) {//글등록 성공
-			//viewName = "redirect:/index.do"; //메인 페이지 재요청
-			
-			//board/view 를 뷰이름으로 반환하는 경우
-			//게시글에 대한 변경된 내용을 boardVO객체에 저장해서 Model객체에 추가함
-			BoardVO newVo = noticeService.getNotice(vo.getB_idx());
-			model.addAttribute("boardVO", newVo);
-			viewName = "board/view";
-		}
-		return viewName;
+    public ResponseEntity<Map<String, Object>> updateProcess(@ModelAttribute BoardVO vo) {
+        Map<String, Object> response = new HashMap<>();
+        
+        try {
+            int result = boardService.updateBoard(vo);
+            if (result == 1) { // 글 등록 성공
+                response.put("status", "success");
+            } else {
+                response.put("status", "fail");
+                response.put("message", "글 등록에 실패했습니다.");
+            }
+        } catch (Exception e) {
+            response.put("status", "error");
+            response.put("message", "서버 오류가 발생했습니다: " + e.getMessage());
+        }
+        
+        return ResponseEntity.ok(response);
 	}
 		
 	//글삭제 요청
@@ -134,13 +148,13 @@ public class NoticeController {
         int loggedInIdx = employees.getE_idx();
         boolean isAdmin = employees.getPermission() == 2;
 
-        BoardVO board = noticeService.getNotice(b_idx);
+        BoardVO board = boardService.getBoard(b_idx);
         if (board == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("게시글을 찾을 수 없습니다.");
         }
 
         if (board.getE_idx() == loggedInIdx || isAdmin) {
-            int result = noticeService.deleteNotice(b_idx);
+            int result = boardService.deleteBoard(b_idx);
             if (result == 1) {
                 return ResponseEntity.ok("글이 성공적으로 삭제되었습니다.");
             } else {

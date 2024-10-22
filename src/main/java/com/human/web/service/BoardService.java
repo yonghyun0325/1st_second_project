@@ -10,8 +10,11 @@ import com.human.web.vo.BoardVO;
 public interface BoardService {
 
     // 글 목록 조회 인터페이스
-	List<BoardVO> getBoardList(String type, String searchField, String searchWord, int startNum);
-    
+	List<BoardVO> getBoardList(String type, String searchField, String searchWord, int startNum, int pageSize);
+
+    // 전체 글 개수 인터페이스
+    int getBoardCount(String type, String searchField, String searchWord);
+
     // 글 세부 조회 인터페이스
 	BoardVO getBoard(int b_idx);
 
