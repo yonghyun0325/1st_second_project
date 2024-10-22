@@ -2,10 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
-<section id="board" data-type="${type}">
+<section id="board-normal" class="board">
     <table class="board-table">
         <tr>
-            <th>번호</th>
             <th>구분</th>
             <th>제목</th>
             <th>작성자</th>
@@ -15,13 +14,12 @@
         <c:choose>
             <c:when test="${empty boardList}">
                 <tr>
-                    <td colspan="6">등록된 게시물이 없습니다</td>
+                    <td colspan="5">등록된 게시물이 없습니다</td>
                 </tr>
             </c:when>
             <c:otherwise>
-                <c:forEach var="board" items="${boardList}" varStatus="vs">
+                <c:forEach var="board" items="${boardList}">
                     <tr>
-                        <td>${vs.count}</td>
                         <td>${board.category}</td>
                         <td><a href="${pageContext.request.contextPath}/board/view.do?b_idx=${board.b_idx}">
                                 ${board.title}

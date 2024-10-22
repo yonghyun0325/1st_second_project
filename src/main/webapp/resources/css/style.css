@@ -291,7 +291,7 @@ aside {
 
 /* 메인 화면 영역 */
 
-#content {
+main {
     margin-left: 220px;
     padding: 20px;
 }
@@ -716,45 +716,44 @@ table th {
 ----------------------------------------- */
 
 /* 글 목록 */
-#board table {
+.board table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
     background: white;
 }
 
-#board th, #board td {
+.board th, .board td {
     border: 1px solid #ddd;
 }
 
-#board th, #board td {
+.board th, .board td {
 	width:100px;
     padding: 12px;
     text-align: center;
 }
 
-#board th {
+.board th {
     background-color: #eee;
     font-weight: bold;
 }
 
-#board th:nth-child(1) { width: 5%; }
-#board th:nth-child(2) { width: 10%; }
-#board th:nth-child(3) { width: 40%; }
-#board th:nth-child(4) { width: 15%; }
-#board th:nth-child(5) { width: 15%; }
-#board th:nth-child(6) { width: 10%; }
+.board th:nth-child(1) { width: 10%; }
+.board th:nth-child(2) { width: 55%; }
+.board th:nth-child(3) { width: 10%; }
+.board th:nth-child(4) { width: 15%; }
+.board th:nth-child(5) { width: 10%; }
 
-#board td:nth-child(3) {
+.board td:nth-child(2) {
     text-align: left;
 }
 
-#board a {
+.board a {
     color: #3498db;
     text-decoration: none;
 }
 
-#board a:hover {
+.board a:hover {
     text-decoration: underline;
 }
 

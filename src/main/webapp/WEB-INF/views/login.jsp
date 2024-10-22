@@ -2,31 +2,9 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
-    <head>
+    <%@ include file="module/head.jsp" %>
+    <title>FUNFUN Office - 로그인</title>
 
-        <title>FUNFUN Office - 로그인</title>
-        
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-        <!-- css  -->
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/reset.css">
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/style.css">
-
-        <!-- js -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> <!-- jquery -->
-        <script src="${pageContext.request.contextPath}/resources/js/login.js"></script>
-        
-        <!-- font -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
-
-        <!-- icon -->
-        <script src="https://kit.fontawesome.com/d7e414b2e7.js"></script>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/hung1001/font-awesome-pro@4cac1a6/css/all.css" />
-
-    </head>
     <body>
         <div class="login-container">
             <div class="login-wrapper">
@@ -49,5 +27,35 @@
                 </div>
             </div>
         </div>
+        <script>
+            $(document).ready(function() {
+                $('form').on('submit', function(e) {
+                    e.preventDefault();
+                
+                    const formData = {
+                        e_idx: $('input[name="e_idx"]').val(),
+                        e_pw: $('input[name="e_pw"]').val()
+                    };
+                
+                    $.ajax({
+                        type: 'POST',
+                        url: '/employees/loginProcess.do',
+                        data: formData,
+                        dataType: 'json',
+                        success: function(response) {
+                            console.log("response: " + response.status.trim());
+                            if (response.status.trim() === 'success') {
+                                window.location.href = '/';
+                            } else {
+                                $('.error-message').html(`사원번호나 비밀번호가 일치하지 않습니다.`);
+                            }
+                        },
+                        error: function() {
+                            $('.error-message').html('서버 오류가 발생했습니다. 다시 시도해주세요.');
+                        }
+                    });
+                });
+            });
+        </script>
     </body>
 </html>
