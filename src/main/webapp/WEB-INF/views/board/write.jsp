@@ -38,7 +38,9 @@
         </div>
 
         <!-- 글 내용 입력 부분 -->
-        <textarea name="content" cols="30" rows="10"></textarea>
+        <div class="input-content-wrapper">
+            <textarea name="content" cols="30" rows="10"></textarea>
+        </div>
 
         <!-- 버튼 부분 -->
         <div class="board-button-bundle">

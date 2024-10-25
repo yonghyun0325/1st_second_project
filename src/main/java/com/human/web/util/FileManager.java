@@ -18,8 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.human.web.vo.BoardAttachedVO;
 import com.human.web.vo.BoardVO;
 
-import net.coobird.thumbnailator.Thumbnails;
-import net.coobird.thumbnailator.name.Rename;
+// import net.coobird.thumbnailator.Thumbnails;
+// import net.coobird.thumbnailator.name.Rename;
 
 @Component
 public class FileManager {

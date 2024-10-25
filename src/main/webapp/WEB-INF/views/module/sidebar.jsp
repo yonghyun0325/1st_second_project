@@ -3,7 +3,6 @@
 
 <aside>
     <div class="sidebar-wrapper">
-
         <!-- 대시보드 메뉴 -->
 
         <!-- 내 사무실 이동 -->
@@ -80,19 +79,4 @@
             </div>
         </div>
     </div>
-    
-    <script>
-        $(document).ready(function() {
-            const currentPath = window.location.pathname;
-            $('.dashboard-item').toggle(currentPath === '/dashboard');
-            $('.myoffice-item').toggle(currentPath === '/myoffice');
-                
-            $('.sidebar-toggle').on('click', function () {
-                const tabId = $(this).data('cate');
-                $('#' + tabId + '-submenu').toggleClass('open');
-                $('#' + tabId + '-icon').toggleClass('rotate');
-                $('#' + tabId + '-title').toggleClass('active');
-            });
-        })
-    </script>
 </aside>

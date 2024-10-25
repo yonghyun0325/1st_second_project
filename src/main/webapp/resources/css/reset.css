@@ -110,3 +110,10 @@ input[type="button"]:hover {
         opacity: 0;
     }
 }
+
+:root {
+    --blue-dark: #5AB2FF;
+    --blue-medium: #A0DEFF;
+    --blue-light: #CAF4FF;
+    --white-neutral: #F8F8F8;
+}

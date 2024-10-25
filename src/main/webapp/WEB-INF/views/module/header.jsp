@@ -2,15 +2,17 @@
 <%@ page import="javax.servlet.http.HttpSession"%>
 <%@ page import="com.human.web.vo.EmployeesVO"%> 
 <header>
-    <a href="${pageContext.request.contextPath}/" class="header-right-side">
-        <div class="header_logo">
+    <div class="header-right-side">
+        <a href="javascript:void(0)" class="header_logo">
             <i class="far fa-laugh"></i>
-        </div>
-        <div class="header-title">
-            FUNFUN Office
-        </div>
-        <div class="workspace-title"></div>
-    </a>
+        </a>
+        <a href="${pageContext.request.contextPath}/" class="header_title">
+            <div class="header-title">
+                FUNFUN Office
+            </div>
+            <div class="workspace-title"></div>
+        </a>
+    </div>
     <div class="header-left-side">
         <div class="header_UserName">
             <% 
@@ -42,7 +44,23 @@
 </header>
 <script>
     $(document).ready(function() {
-        const title = window.location.pathname === '/dashboard' ? '대시보드' : window.location.pathname === '/myoffice' ? '내 사무실' : '내 회의실'
+        const currentPath = window.location.pathname;
+        const title = currentPath === '/dashboard' ? '대시보드' : currentPath === '/myoffice' ? '내 사무실' : '내 회의실'
         $('.workspace-title').text(title);
+
+        $('.dashboard-item').toggle(currentPath === '/dashboard');
+        $('.myoffice-item').toggle(currentPath === '/myoffice');
+        
+        $('.header_logo').on('click', function() {
+            const mainWrapper = $('#main-wrapper');
+            mainWrapper.toggleClass('sidebar-hidden');
+            $.toggleClass('sidebar-hidden');
+        });
+
+        $('.sidebar-toggle').on('click', function () {
+            const tabId = $(this).data('cate');
+            $('#' + tabId + '-submenu').toggleClass('open');
+            $('#' + tabId + '-icon').toggleClass('rotate');
+        });
     })
 </script>

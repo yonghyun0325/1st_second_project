@@ -8,12 +8,12 @@
         <!-- 헤더 -->
         <%@ include file="module/header.jsp" %>
 
-        <!-- 사이드 바 -->
-        <%@ include file="module/sidebar.jsp" %>
-        
-        <!-- 다른 페이지들 들어갈 공간 -->
-        <main>
-            내 회의실 페이지
-        </main>
+        <div id="main-wrapper">
+            <%@ include file="module/sidebar.jsp" %>
+            
+            <main>
+                내 회의실 페이지
+            </main>
+        </div>
     </body>
 </html>

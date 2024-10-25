@@ -14,7 +14,7 @@ public class FinancialController {
     // 급여 관리
     @GetMapping("/registration")
     public String financialRegistration() {
-        return "pages/financial/registration"; 
+        return "financial/registration"; 
     }
     
 }
