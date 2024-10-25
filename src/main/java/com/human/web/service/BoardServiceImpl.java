@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.human.web.repository.BoardDAO;
 import com.human.web.util.FileManager;
+import com.human.web.vo.BoardAttachedVO;
 import com.human.web.vo.BoardVO;
 
 import lombok.AllArgsConstructor;
@@ -42,7 +43,7 @@ public class BoardServiceImpl implements BoardService {
 	// 글 작성
 	@Override
 	public int insertBoard(BoardVO vo, HttpServletRequest request) {
-		int result = 0; //공지사항 등록 실패시 결과값
+		int result = 0;
 		
 		//첨부파일이 있는 경우 FileManager 클래스를 이용해서 첨부파일을 처리함
 		if(vo.getUploadFiles() != null) {
@@ -62,8 +63,17 @@ public class BoardServiceImpl implements BoardService {
 	
     // 글 수정
 	@Override
-	public int updateBoard(BoardVO vo) {
-		return dao.updateBoard(vo);
+	public int updateBoard(BoardVO vo, HttpServletRequest request) {
+		int result = 0;
+        
+		//첨부파일이 있는 경우 FileManager 클래스를 이용해서 첨부파일을 처리함
+		if(vo.getUploadFiles() != null) {
+			BoardVO modifiedVo = fileManager.handleFile(vo, request);
+			result = dao.updateBoard(modifiedVo);
+		} else {//첨부파일이 없는 경우
+			result = dao.updateBoard(vo);
+		}
+		return result;
 	}
 
     // 글 삭제
@@ -78,6 +88,11 @@ public class BoardServiceImpl implements BoardService {
 			HttpServletResponse response) {
 		fileManager.download(origin_filename, save_filename, request, response);	
 	}
+
+    @Override
+    public List<BoardAttachedVO> getAttachedList(int b_idx) {
+        return dao.getAttachedList(b_idx);
+    }
 
     // 첨부파일 삭제
 	@Override

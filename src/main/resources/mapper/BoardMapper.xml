@@ -129,5 +129,10 @@
     		values (#{origin_filename},#{save_filename},#{b_idx})
     
     </insert>
-	
+
+	<!-- 특정 첨부파일 삭제 -->
+    <delete id="deleteAttached" parameterType="int">
+        DELETE FROM board_attached WHERE a_idx = #{a_idx}
+    </delete>
+
 </mapper>	

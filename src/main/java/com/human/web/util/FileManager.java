@@ -48,7 +48,7 @@ public class FileManager {
 					uploadFiles[i].transferTo(new File(fullPath)); //지정된 경로에 파일저장
 					//업로드된 파일을 지정된 경로에 저장 파일명으로 저장
 				} catch (Exception e) {
-					System.out.println("파일저장 중 예외발생");
+					System.out.println("파일저장 중 예외발생: " + e);
 				}
 				
 				
@@ -68,28 +68,28 @@ public class FileManager {
 					</dependency>
 
 				 */
-				if(ext.equals(".png") || ext.equals(".jpg") || ext.equals("gif")) {
-					String extFormat = ext.substring(1); //확장자명에서 점(.) 제거
-					saveThumnail(fullPath, extFormat);
-				}
+				// if(ext.equals(".png") || ext.equals(".jpg") || ext.equals("gif")) {
+				// 	String extFormat = ext.substring(1); //확장자명에서 점(.) 제거
+				// 	saveThumnail(fullPath, extFormat);
+				// }
 			}
 		}//end of for
 		vo.setAttachedList(attachedList);
 		return vo;
 	}
 
-	//섬네일로 이미비 파일 저장하기
-	private void saveThumnail(String fullPath, String extFormat) {
-		try {
-			Thumbnails.of(new File(fullPath))
-			.size(120, 90) //섬네일 크기
-			.outputFormat(extFormat) //포맷 형식
-			.toFiles(Rename.PREFIX_HYPHEN_THUMBNAIL); //새로운 이름: thumbnail-이 파일명 앞에 붙음
-		} catch (Exception e) {
-			System.out.println("섬네일 저장 중 예외발생");
-		}
+	//섬네일로 이미지 파일 저장하기
+	// private void saveThumnail(String fullPath, String extFormat) {
+	// 	try {
+	// 		Thumbnails.of(new File(fullPath))
+	// 		.size(120, 90) //섬네일 크기
+	// 		.outputFormat(extFormat) //포맷 형식
+	// 		.toFiles(Rename.PREFIX_HYPHEN_THUMBNAIL); //새로운 이름: thumbnail-이 파일명 앞에 붙음
+	// 	} catch (Exception e) {
+	// 		System.out.println("섬네일 저장 중 예외발생");
+	// 	}
 		
-	}
+	// }
 
 	//첨부파일 다운로드
 	public void download(String origin_filename, String save_filename, HttpServletRequest request,
@@ -97,6 +97,7 @@ public class FileManager {
 		
 		try {
 			String saveDirectory = request.getServletContext().getRealPath("resources/uploads/");//저장경로
+            System.out.println("FileManager.java: saveDirectory - " + saveDirectory);
 			File file = new File(saveDirectory, save_filename);//파일 작업을 하기 위해 파일객체 생성
 			InputStream in = new FileInputStream(file);//파일 작업을 하기 위한 파일입력 객체 생성
 			
@@ -133,7 +134,7 @@ public class FileManager {
 			out.close();
 			
 		} catch (Exception e) {
-			System.out.println("다운로드 중 예외발생");
+			System.out.println("다운로드 중 예외발생: " + e);
 		}
 		
 		

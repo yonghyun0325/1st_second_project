@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.human.web.vo.BoardAttachedVO;
 import com.human.web.vo.BoardVO;
 
 public interface BoardService {
@@ -25,7 +26,7 @@ public interface BoardService {
 	void updateReadCount(int b_idx);
 
     // 글 수정 인터페이스
-	int updateBoard(BoardVO vo);
+	int updateBoard(BoardVO vo, HttpServletRequest request);
 
     // 글 삭제 인터페이스
 	int deleteBoard(int b_idx);
@@ -37,4 +38,6 @@ public interface BoardService {
     // 첨부파일 삭제 인터페이스
 	int deleteAttached(int na_idx);
 
+    // 첨부파일 목록 조회 인터페이스
+    List<BoardAttachedVO> getAttachedList(int b_idx);
 }

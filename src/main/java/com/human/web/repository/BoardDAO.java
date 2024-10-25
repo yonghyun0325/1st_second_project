@@ -89,14 +89,41 @@ public class BoardDAO {
 
 	// 글 수정
 	public int updateBoard(BoardVO vo) {
-		return sqlSession.update(MAPPER+".updateBoard",vo);
+        
+		int result = 0;
+		//트랜잭션을 처리할 수 있는 트랜잭션 상태 객체 정의
+		TransactionStatus txStatus = 
+				transactionManager.getTransaction(new DefaultTransactionDefinition());
+		try {
+            sqlSession.update(MAPPER+".updateBoard",vo);
+
+			int b_idx = sqlSession.selectOne(MAPPER+".getMax_bidx");
+			List<BoardAttachedVO> attachedList = vo.getAttachedList();
+			for(BoardAttachedVO naVo : attachedList) {
+				naVo.setB_idx(b_idx);
+				sqlSession.insert(MAPPER+".insertAttached", naVo);
+			}
+			result = 1; //입력성공시 결과값
+			
+		} catch (Exception e) {
+			System.out.println("(BoardDAO.java) 글 수정중 예외 발생");
+			transactionManager.rollback(txStatus);
+			throw e;
+		}
+		transactionManager.commit(txStatus);
+		return result;
 	}
 
     // 글 삭제
 	public int deleteBoard(int b_idx) {
 		return sqlSession.update(MAPPER+".deleteBoard", b_idx);
 	}
-    
+
+    // 첨부파일 목록 조회
+    public List<BoardAttachedVO> getAttachedList(int b_idx) {
+        return sqlSession.selectList(MAPPER + ".getAttachedList", b_idx);
+    }
+
 	// 첨부파일 삭제
 	public int deleteAttached(int na_idx) {
 		return sqlSession.delete(MAPPER+".deleteAttached", na_idx);

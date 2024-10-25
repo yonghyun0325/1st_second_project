@@ -1,13 +1,14 @@
 
+// 로그인 화면 스크립트
 $(document).ready(function() {
     $('form').on('submit', function(e) {
         e.preventDefault();
-
+    
         const formData = {
             e_idx: $('input[name="e_idx"]').val(),
             e_pw: $('input[name="e_pw"]').val()
         };
-
+    
         $.ajax({
             type: 'POST',
             url: '/employees/loginProcess.do',

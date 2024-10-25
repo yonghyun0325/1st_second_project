@@ -1,26 +1,61 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<section id="update-normal" class="write">
-    <form id="frmBoardUpdate" name="frmBoardUpdate" action="${pageContext.request.contextPath}/board/updateProcess.do" method="post" enctype="multipart/form-data">
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
+
+<section id="update-${type}" class="write"  data-type="${type}">
+    <form id="frmBoardUpdate-${type}" name="frmBoardUpdate" action="/board/updateProcess.do" method="post" enctype="multipart/form-data">
 
         <h3 id="update-title">게시글 수정</h3>
 
         <input type="hidden" id="b_idx" name="b_idx" value="${boardVO.b_idx}">
-
         <input type="hidden" id="e_idx" name="e_idx" value="${boardVO.e_idx}">
         <input type="hidden" name="type" value="${boardVO.type}">
         
         <div class="input-title-wrapper">
+            
+            <!-- 카테고리 선택 부분 -->
             <select id="category" name="category">
-                <option value="일반" ${boardVO.category == '일반' ? 'selected' : ''}>일반</option>
-                <option value="일반" ${boardVO.category == '분실물' ? 'selected' : ''}>분실물</option>
+                <c:choose>
+                    <c:when test="${type eq 'notice'}">
+                        <option value="공지" ${boardVO.category == '공지' ? 'selected' : ''}>공지</option>
+                        <option value="행사" ${boardVO.category == '행사' ? 'selected' : ''}>행사</option>
+                    </c:when>
+
+                    <c:when test="${type eq 'normal'}">
+                        <option value="일반" ${boardVO.category == '일반' ? 'selected' : ''}>일반</option>
+                    </c:when>
+
+                    <c:when test="${type eq 'lost'}">
+                        <option value="분실" ${boardVO.category == '분실' ? 'selected' : ''}>분실</option>
+                        <option value="습득" ${boardVO.category == '습득' ? 'selected' : ''}>습득</option>
+                    </c:when>
+                </c:choose>
             </select>
 
             <input type="text" name="title" placeholder="글 제목" value="${boardVO.title}" required>
 
-            <input type="file" name="uploadFiles" multiple>
+            <input type="file" name="uploadFiles">
+            
         </div>
-
-        <textarea name="content" cols="30" rows="10">${boardVO.content}</textarea>
+        
+        <div class="input-content-wrapper">
+            <!-- 기존 첨부파일 목록 -->
+            <div class="attached-files">
+                <ul>
+                    <c:forEach var="file" items="${attachedFiles}">
+                        <li>
+                            <a href="${pageContext.request.contextPath}/board/download.do?origin_filename=${file.origin_filename}&save_filename=${file.save_filename}">
+                                <i class="fas fa-save"></i> ${file.origin_filename}
+                            </a>
+                            <label>
+                                <input type="checkbox" name="deleteFiles" value="${file.a_idx}">
+                                삭제
+                            </label>
+                        </li>
+                    </c:forEach>
+                </ul>
+            </div>
+            <textarea name="content" cols="30" rows="10">${boardVO.content}</textarea>
+        </div>
 
         <div class="board-button-bundle">
             <input type="button" value="작성취소" id="back_to_list">
@@ -29,68 +64,4 @@
         </div>
     </form>
 </section>
-
-<script>
-    $(document).ready(function() {
-        // 로그인 세션 불러오기
-        $.ajax({
-            url: '${pageContext.request.contextPath}/session/info',
-            method: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                if (data && data.e_idx) {
-                    $('#e_idx').val(data.e_idx); 
-                }
-            },
-            error: function (jqXHR) {
-                alert('세션 데이터를 불러오는 중 오류가 발생했습니다.');
-            }
-        });
-        
-        // 목록보기
-        $('#update-normal').off('click', '#back_to_list').on('click', '#back_to_list', function () {
-            loadList();
-        });
-        
-        // 수정완료
-        $('#frmBoardUpdate').on('submit', function (e) {
-            e.preventDefault();  // 기본 폼 제출 방지
-            let formData = new FormData(this);  // FormData 객체로 폼 데이터 생성 (첨부파일 포함)
-
-            $.ajax({
-                url: '/board/updateProcess.do',
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (response) {
-                    if (response.status === 'success') {
-                        alert('글이 성공적으로 수정되었습니다.');
-                        loadList();
-                    } else if (response.status === 'fail') {
-                        alert('글 수정에 실패했습니다. 다시 시도해 주세요.');
-                    } else if (response.status === 'error') {
-                        alert('오류가 발생했습니다: ' + response.message);
-                    }
-                },
-                error: function (jqXHR) {
-                    alert('글을 수정하는 중 오류가 발생했습니다. (' + jqXHR.status + ')');
-                }
-            });
-        });
-
-        function loadList() {
-            $.ajax({
-                url: '/board/normal',
-                method: 'GET',
-                success: function (data) {
-                    const contentDiv = $('#tab-body .tbody.active');
-                    $(contentDiv).html(data);
-                },
-                error: function (jqXHR) {
-                    alert('글 목록을 불러오는 중 오류가 발생했습니다. (' + jqXHR.status + ')');
-                }
-            });
-        }
-    });
-</script>
+<script src="${pageContext.request.contextPath}/resources/js/board.js"></script>

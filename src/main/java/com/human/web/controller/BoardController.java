@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.human.web.service.BoardService;
 import com.human.web.vo.BoardVO;
 import com.human.web.vo.EmployeesVO;
+import com.human.web.vo.BoardAttachedVO;
 
 import lombok.AllArgsConstructor;
 
@@ -33,6 +34,7 @@ public class BoardController {
 	
 	// 일반게시판 요청 처리를 위한 객체 정의(lombok에 의한 의존자동주입: 생성자 이용)
 	private BoardService boardService;
+    private HttpSession session;
 
     // 타입에 따른 게시글 목록 요청
     @GetMapping("/{type}")
@@ -43,6 +45,10 @@ public class BoardController {
         @RequestParam(value = "page", defaultValue = "1") int page,
         Model model) {
 
+        // 로그인한 사용자의 권한까지 같이 전송
+        EmployeesVO employees = (EmployeesVO) session.getAttribute("employees");
+        int permission = (employees != null) ? employees.getPermission() : 0;
+
         int pageSize = 10;
         int startNum = (page - 1) * pageSize;
         int totalCount = boardService.getBoardCount(type, searchField, searchWord);
@@ -50,6 +56,7 @@ public class BoardController {
 
         List<BoardVO> boardList = boardService.getBoardList(type, searchField, searchWord, startNum, pageSize);
         
+        model.addAttribute("permission", permission);
         model.addAttribute("boardList", boardList);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", totalPages);
@@ -58,34 +65,55 @@ public class BoardController {
     }
 
 	//상세보기 페이지 요청
-	@GetMapping("/view.do")
-	public String view(@RequestParam("b_idx") int b_idx, Model model) {
+    @GetMapping("/view.do")
+    public String view(@RequestParam("id") int b_idx, @RequestParam("type") String type, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        String clientIp = request.getRemoteAddr();
+        
+        // 세션에서 조회한 게시글과 IP 확인
+        String viewedKey = "viewed_" + b_idx;
+        String viewedIp = (String) session.getAttribute(viewedKey);
+        EmployeesVO employees = (EmployeesVO) session.getAttribute("employees");
 
-		//조회수 증가시키기
-		boardService.updateReadCount(b_idx);
+        if (viewedIp == null || !viewedIp.equals(clientIp)) {
+            boardService.updateReadCount(b_idx);
+            session.setAttribute(viewedKey, clientIp);
+        }
+    
+        //상세페이지 정보를 저장하고 있는 boardVO 객체 얻기
+        BoardVO vo = boardService.getBoard(b_idx);
+        List<BoardAttachedVO> attachedFiles = boardService.getAttachedList(b_idx);
 
-		//상세페이지 정보를 저장하고 있는 boardVO 객체 얻기
-		BoardVO vo = boardService.getBoard(b_idx);
-		model.addAttribute("boardVO", vo);
-
-		return "board/view";
-	}
-	
-	//다운로드 요청
-	@GetMapping("/download.do")
-	public void download(String origin_filename, String save_filename,
-			HttpServletRequest request, HttpServletResponse response) {
-		//request: 파일의 실제 경로를 알아내는데 사용됨
-		//response: 파일을 출력하는데 사용됨
-		
-		boardService.download(origin_filename, save_filename, request, response);
-	}
-	
+        model.addAttribute("boardVO", vo);
+        model.addAttribute("employees", employees);
+        model.addAttribute("attachedFiles", attachedFiles);
+        model.addAttribute("type", type);
+    
+        return "board/view";
+    }
+    
 	// 글 작성 페이지 요청
     @GetMapping("/write.do")
-    public String write() {
+    public String write(@RequestParam("type") String type, HttpServletRequest request, Model model) {
+        EmployeesVO employees = (EmployeesVO) session.getAttribute("employees");
+        int e_idx = employees.getE_idx();
+
+		model.addAttribute("type", type);
+		model.addAttribute("e_idx", e_idx);
         return "board/write";
     }
+
+	// 글 수정 페이지 요청
+	@GetMapping("/update.do")
+	public String update(@RequestParam("id") int b_idx, @RequestParam("type") String type, Model model) {
+        BoardVO vo = boardService.getBoard(b_idx);
+        List<BoardAttachedVO> attachedFiles = boardService.getAttachedList(b_idx);
+
+        model.addAttribute("boardVO", vo);
+		model.addAttribute("type", type);
+        model.addAttribute("attachedFiles", attachedFiles);
+        return "board/update";
+	}
 
 	// 글 등록 요청
 	@PostMapping("/writeProcess.do")
@@ -108,22 +136,25 @@ public class BoardController {
         
         return ResponseEntity.ok(response);
     }
-
-	// 글 수정 페이지 요청
-	@GetMapping("/update.do")
-	public String update(@RequestParam("b_idx") int b_idx, Model model) {
-        BoardVO vo = boardService.getBoard(b_idx);
-        model.addAttribute("boardVO", vo);
-        return "board/update";
-	}
 	
 	// 글 수정 요청
 	@PostMapping("/updateProcess.do")
-    public ResponseEntity<Map<String, Object>> updateProcess(@ModelAttribute BoardVO vo) {
+    public ResponseEntity<Map<String, Object>> updateProcess(
+        @ModelAttribute BoardVO vo,
+        @RequestParam(value = "deleteFiles", required = false) List<Integer> deleteFiles,
+        HttpServletRequest request) {
+            
         Map<String, Object> response = new HashMap<>();
         
         try {
-            int result = boardService.updateBoard(vo);
+            
+            if (deleteFiles != null) {
+                for (Integer a_idx : deleteFiles) {
+                    boardService.deleteAttached(a_idx);
+                }
+            }
+            
+            int result = boardService.updateBoard(vo, request);
             if (result == 1) { // 글 등록 성공
                 response.put("status", "success");
             } else {
@@ -141,7 +172,7 @@ public class BoardController {
 	//글삭제 요청
     @PostMapping("/deleteProcess.do")
     @ResponseBody
-    public ResponseEntity<String> deleteProcess(int b_idx, HttpSession session) {
+    public ResponseEntity<String> deleteProcess(@RequestParam("id") int b_idx, HttpSession session) {
         EmployeesVO employees = (EmployeesVO) session.getAttribute("employees");
 
         int loggedInIdx = employees.getE_idx();
@@ -164,4 +195,14 @@ public class BoardController {
         }
     }
 
+	//다운로드 요청
+	@GetMapping("/download.do")
+	public void download(String origin_filename, String save_filename,
+			HttpServletRequest request, HttpServletResponse response) {
+		//request: 파일의 실제 경로를 알아내는데 사용됨
+		//response: 파일을 출력하는데 사용됨
+		System.out.println("boardController.java:  download.do 호출됨");
+		boardService.download(origin_filename, save_filename, request, response);
+	}
+	
 }

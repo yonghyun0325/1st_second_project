@@ -803,7 +803,6 @@ table th {
 }
 
 .board-button-bundle {
-    border-top: 1px solid #ccc;
     padding-top: 20px;
     margin-bottom: 15px;
     justify-content: center;
@@ -899,8 +898,19 @@ table th {
 
 .input-title-wrapper {
     display: flex;
+    align-items: center;
     gap: 15px;
+}
+
+.input-content-wrapper {
+    padding: 12px;
+    border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
+}
+
+.input-content-wrapper .attached-files {
+    text-align: right;
+    padding: 5px 21px;
 }
 
 .write select {
@@ -912,8 +922,7 @@ table th {
 
 .write input[type="text"],
 .write textarea {
-    width: 100%;
-    padding: 12px;
+    flex: 1;
     border: none;
     box-sizing: border-box;
 }
@@ -923,6 +932,41 @@ table th {
     min-height: 200px;
     max-height: 400px;
 }
+
+.write input[type="file"] {
+    max-width: 19%;
+    background-color: white;
+    cursor: pointer;
+}
+
+.write input[type="file"]::file-selector-button {
+    padding: 5px 12px;
+    margin-right: 10px;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+/* 커스텀 아이콘 추가 */
+.write input[type="file"]::file-selector-button::before {
+    content: "\f055";
+    font-family: "Font Awesome 5 Pro";
+    font-weight: 900;
+    margin-right: 8px;
+}
+
+/* hover 및 focus 효과 */
+.write input[type="file"]::file-selector-button:hover {
+    background-color: #e6e6e6;
+}
+
+.write input[type="file"]::file-selector-button:focus {
+    outline: none;
+    border-color: #bbb;
+}
+
 
 /* 글 상세 보기 */
 .view {
@@ -935,7 +979,6 @@ table th {
     justify-content: space-between;
     font-size: 16px;
     color: #555;
-    border-bottom: 1px solid #ddd;
     padding: 10px;
 }
 
@@ -945,6 +988,14 @@ table th {
 
 .board-content-wrapper {
     padding: 20px;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+
+.board-content-title-wrapper {
+    display:flex;
+    align-items: start;
+    justify-content: space-between;
 }
 
 .board-title {

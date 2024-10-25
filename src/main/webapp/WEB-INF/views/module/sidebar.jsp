@@ -74,8 +74,9 @@
                 <i id="board-icon" class="fas fa-chevron-right"></i>
             </a>
             <div id="board-submenu" class="sidebar-submenu">
-                <a href="javascript:void(0)" data-content="notice_notice">공지사항</a>
+                <a href="javascript:void(0)" data-content="board_notice">공지사항</a>
                 <a href="javascript:void(0)" data-content="board_normal">커뮤니티</a>
+                <a href="javascript:void(0)" data-content="board_lost">분실물</a>
             </div>
         </div>
     </div>
@@ -85,7 +86,7 @@
             const currentPath = window.location.pathname;
             $('.dashboard-item').toggle(currentPath === '/dashboard');
             $('.myoffice-item').toggle(currentPath === '/myoffice');
-
+                
             $('.sidebar-toggle').on('click', function () {
                 const tabId = $(this).data('cate');
                 $('#' + tabId + '-submenu').toggleClass('open');
