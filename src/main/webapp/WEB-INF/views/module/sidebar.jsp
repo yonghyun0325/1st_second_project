@@ -33,14 +33,14 @@
             </div>
         </div>
 
-        <!-- 재무 관리 -->
+        <!-- 급여 관리 -->
         <div class="sidebar-item myoffice-item">
             <a href="javascript:void(0)" data-cate="financial" class="sidebar-toggle">
-                <span class="sidebar-item-title"><i class="fas fa-hand-holding-usd"></i> 재무 관리</span>
+                <span class="sidebar-item-title"><i class="fas fa-hand-holding-usd"></i> 급여 관리</span>
                 <i id="financial-icon" class="fas fa-chevron-right"></i>
             </a>
             <div id="financial-submenu" class="sidebar-submenu">
-                <a href="javascript:void(0)" data-content="financial_registration">급여 관리</a>
+                <a href="javascript:void(0)" data-content="financial_registration">수당 등록</a>
             </div>
         </div>
 

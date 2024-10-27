@@ -64,7 +64,6 @@ public class EmployeesDAO {
 	// 회원 정보 조회
 	public EmployeesVO getEmployees(int e_idx) {
 		EmployeesVO vo = null;
-
 		try {
 			vo = sqlSession.selectOne(MAPPER + ".getEmployees", e_idx);
 		} catch (Exception e) {

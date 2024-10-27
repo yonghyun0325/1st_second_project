@@ -15,4 +15,6 @@ public interface EmployeesService {
 	int cancel(int e_idx);
 
 	String authEmail(String email);
+
+    EmployeesVO getEmployees(int e_idx);
 }

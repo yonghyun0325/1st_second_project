@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.human.web.mapper.FinancialMapper">
+
+    <!-- 특정 사원의 급여 정보 조회 -->
+    <select id="getFinancialInfo" parameterType="int" resultType="com.human.web.vo.FinancialVO">
+        SELECT * FROM emp_financial WHERE e_idx = #{e_idx}
+    </select>
+
+    <!-- 급여 정보 추가 -->
+    <insert id="insertFinancialInfo" parameterType="com.human.web.vo.FinancialVO">
+        INSERT INTO emp_financial (e_idx, base_salary, position_allowance, tenure_allowance, fixed_allowance, daily_attendance_allowance,
+                                   meal_allowance, overtime_allowance, night_allowance, extended_work_allowance, project_bonus, 
+                                   performance_bonus, team_bonus, work_performance_bonus, income_tax, national_pension, 
+                                   health_insurance, employment_insurance, long_term_care, other_deductions)
+        VALUES (#{e_idx}, #{base_salary}, #{position_allowance}, #{tenure_allowance}, #{fixed_allowance}, #{daily_attendance_allowance}, 
+                #{meal_allowance}, #{overtime_allowance}, #{night_allowance}, #{extended_work_allowance}, #{project_bonus}, 
+                #{performance_bonus}, #{team_bonus}, #{work_performance_bonus}, #{income_tax}, #{national_pension}, 
+                #{health_insurance}, #{employment_insurance}, #{long_term_care}, #{other_deductions})
+    </insert>
+
+    <!-- 급여 정보 업데이트 -->
+    <update id="updateFinancialInfo" parameterType="com.human.web.vo.FinancialVO">
+        UPDATE emp_financial
+        SET base_salary = #{base_salary}, position_allowance = #{position_allowance}, tenure_allowance = #{tenure_allowance}, 
+            fixed_allowance = #{fixed_allowance}, daily_attendance_allowance = #{daily_attendance_allowance}, 
+            meal_allowance = #{meal_allowance}, overtime_allowance = #{overtime_allowance}, night_allowance = #{night_allowance},
+            extended_work_allowance = #{extended_work_allowance}, project_bonus = #{project_bonus}, performance_bonus = #{performance_bonus}, 
+            team_bonus = #{team_bonus}, work_performance_bonus = #{work_performance_bonus}, income_tax = #{income_tax}, 
+            national_pension = #{national_pension}, health_insurance = #{health_insurance}, employment_insurance = #{employment_insurance}, 
+            long_term_care = #{long_term_care}, other_deductions = #{other_deductions}
+        WHERE e_idx = #{e_idx}
+    </update>
+</mapper>

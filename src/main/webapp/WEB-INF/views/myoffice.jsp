@@ -16,5 +16,4 @@
             </main>
         </div>
     </body>
-    <script src="${pageContext.request.contextPath}/resources/js/tab.js"></script>
 </html>

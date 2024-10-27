@@ -67,5 +67,11 @@
         where e_idx = #{e_idx}
     </update>
 	
+    <!-- 사원 정보 조회 -->
+    <select id="getEmployees" parameterType="int" resultType="com.human.web.vo.EmployeesVO">
+        SELECT *
+        FROM employees
+        WHERE e_idx = #{e_idx}
+    </select>
 
 </mapper>	

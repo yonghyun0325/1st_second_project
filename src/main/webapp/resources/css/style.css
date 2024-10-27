@@ -1,9 +1,164 @@
 /* -----------------------------------------
+    초기화 및 스타일 공유 시트: reset.css
+----------------------------------------- */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    font-size: 18px;
+    font-family: 'Noto Sans KR', sans-serif;
+    line-height: 1.5;
+    min-width: 1680px;
+    overflow: auto;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+blockquote, q {
+    quotes: none;
+}
+
+blockquote:before, blockquote:after, q:before, q:after {
+    content: '';
+    content: none;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+button, input, select, textarea {
+    font-family: inherit;
+    font-size: 100%;
+    margin: 0;
+}
+
+button {
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+input, button, textarea {
+    border-radius: 0;
+    appearance: none;
+}
+
+button:focus, input:focus, textarea:focus, select:focus {
+    outline: none;
+}
+
+
+/* ---- 공유 스타일 요소 */
+
+/* 스크롤바 스타일 통일 */
+* ::-webkit-scrollbar {
+    width: 12px;
+}
+
+* ::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+    border-radius: 10px;
+}
+
+* ::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 10px;
+    border: 3px solid #f1f1f1;
+}
+
+* ::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+
+* .scroll-container {
+    scrollbar-width: thin;
+    scrollbar-color: #888 #f1f1f1;
+}
+
+/* 버튼 스타일 통일 */
+button, 
+input[type="submit"],
+input[type="reset"],
+input[type="button"] {
+    background-color: var(--btn-color);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: background-color .3s ease;
+}
+
+button:hover,
+input[type="submit"]:hover,
+input[type="reset"]:hover,
+input[type="button"]:hover {
+    background-color: #66a7e3;
+}
+
+/* 색상 레퍼런스 */
+:root {
+    --btn-color: #408ed6;
+    --btn-color-hover: #66a7e3;
+
+    --blue-dark: #5AB2FF;
+    --blue-medium: #A0DEFF;
+    --blue-light: #CAF4FF;
+    --white-neutral: #F8F8F8;
+}
+
+/* 애니메이션 레퍼런스 */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+
+/* -----------------------------------------
     로그인 페이지 스타일시트: login.css
 ----------------------------------------- */
 
 .login-container {
-    background: url('https://images.pexels.com/photos/907485/pexels-photo-907485.jpeg') no-repeat center center;
+    background: url('/resources/img/login-background.jpeg') no-repeat center center;
     background-size: cover;
     width: 100vw;
     height: 100vh;
@@ -63,19 +218,8 @@
 }
 
 .button-login {
-    background-color: #408ed6;
-    color: white;
-    border: none;
     padding: 10px;
-    cursor: pointer;
-    border-radius: 5px;
     width: 100%;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-}
-
-.button-login:hover {
-    background-color: #66a7e3;
 }
 
 .remember {
@@ -121,9 +265,10 @@
 
 header {
     width: 100%;
-    height: 80px;
+    height: 60px;
     background-color: #ddd;
     display: flex;
+    flex-shrink: 0;
     color: black;
     justify-content: space-between;
     align-items: center;
@@ -200,7 +345,7 @@ header {
 /* 사이드 바 */
 
 aside {
-    width: 240px;
+    width: 220px;
     font-size: 1.2em;
     font-weight: bold;
 }
@@ -307,16 +452,20 @@ aside {
     transition: transform 0.3s ease;
 }
 
-
 /* 메인 화면 영역 */
 
 #main-wrapper {
     display: flex;
+    height: calc(100% - 60px);
     gap: 15px;
     padding: 15px;
+    flex: 1;
 }
 
 main {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
     flex: 1;
 }
 
@@ -324,6 +473,7 @@ main {
 section {
     background-color: white;
     padding: 1em;
+    height: 100%;
 }
 
 
@@ -337,6 +487,7 @@ section {
     cursor: grab;
     -webkit-overflow-scrolling: touch;
     user-select: none;
+    flex-shrink: 0;
 }
 
 #tab-head::-webkit-scrollbar {
@@ -415,20 +566,25 @@ section {
 
 /* 탭 몸통에 대한 스타일 */
 #tab-body {
+    display: flex;
     overflow: hidden;
-    border-top-right-radius: 10px;
+    max-height: 100%;
+    flex-grow: 1;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
 }
 
 .tbody {
-    padding: 1em;
     display: none;
-    background-color: #eee;
 }
 
 .tbody.active {
     display: block;
+    font-size: 0.9em;
+    flex: 1;
+    padding: 1em;
+    height: 100%;
+    background-color: #eee;
 }
 
 /* -----------------------------------------
@@ -550,23 +706,18 @@ textarea {
     인사관리 페이지 스타일시트: hr.css
 ----------------------------------------- */
 
-.hr_info {
-    width: 1180px;
-    height: 800px;
-}
-
-table {
+#hr_info table {
     width: 100%;
     border-collapse: collapse; /* 테이블 테두리 중첩 방지 */
 }
 
-table th, table td {
+#hr_info table th, #hr_info table td {
     border: 1px solid #ddd; /* 셀 테두리 */
     padding: 8px; /* 셀 내부 패딩 */
     text-align: left; /* 텍스트 정렬 */
 }
 
-table th {
+#hr_info table th {
     background-color: #f2f2f2; /* 헤더 배경색 */
     font-weight: bold; /* 헤더 텍스트 굵게 */
 }
@@ -689,55 +840,133 @@ table th {
 }
 
 /* -----------------------------------------
-    재무관리 페이지 스타일시트: board.css
+    재무관리 페이지 스타일시트: financial.css
 ----------------------------------------- */
 
 #registration {
     display: flex;
-    gap: 2em;
+    gap: 1em;
 }
 
-#registration h3 {
+#registration h2 {
     margin-bottom: 10px;
 }
 
-/* 사원 리스트 */
-.employees-list {
-    max-height: 500px;
+.employees-list-section {
+    flex: 1;
+    flex-shrink: 0;
     max-width: 360px;
     overflow-y: auto;
-    border-radius: 5px;
 }
 
-.employees-list table {
-    width: 100%;
+.employees-list {
     border-collapse: collapse;
     background-color: white;
 }
 
-/* 각 셀마다 기본 여백 지정, 텍스트 가운데 정렬, 테두리 적용 */
-.employees-list table th, .employees-list table td {
+.employees-list tr {
+    cursor: pointer;
+}
+
+.employees-list th, .employees-list td {
     padding: 12px;
     text-align: center;
     border-right: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
 }
 
-/* 각 셀의 줄 맨 오른쪽에는 테두리 적용 없음 */
-.employees-list table th:last-child, .employees-list table td:last-child {
+.employees-list th:first-child, .employees-list td:first-child {
+    border-left: none;
+}
+.employees-list th:last-child, .employees-list td:last-child {
     border-right: none;
 }
 
-/* 목록 영역 셀, 번갈아가면서 칸 배경색 구분두기 */
-.employees-list table tbody tr:nth-child(odd) { background-color: #f9f9f9; }
-.employees-list table tbody tr:nth-child(even) { background-color: #fff; }
-.employees-list table tbody tr:hover { background-color: #e6e6e6; }
+.employees-list tbody tr:nth-child(odd) { background-color: #f9f9f9; }
+.employees-list tbody tr:nth-child(even) { background-color: #fff; }
+.employees-list tbody tr:hover { background-color: #e6e6e6; }
 
-/* 테이블 헤더 셀, 강조하고 위쪽  */
-.employees-list table thead tr {
-    border-top: 2px solid #aaa;
+.employees-list thead {
     font-weight: bold;
-    background-color: #f1f1f1;
+    border-top: 2px solid #aaa;
+    border-bottom: 2px solid #aaa;
+}
+
+.employees-details-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.salary-toggle-ico {
+    margin-left: 10px;
+}
+
+.employees-details-table, 
+.salary-details-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.employees-details-table {
+    margin-bottom: 30px;
+    table-layout: fixed;
+}
+
+.employees-details-table th:nth-child(1) { width: 12%; }
+.employees-details-table th:nth-child(2) { width: 38%; }
+.employees-details-table th:nth-child(3) { width: 12%; }
+.employees-details-table th:nth-child(4) { width: 38%; }
+
+.employees-details-table th, .salary-details-table th {
+    background-color: #f7f7f7;
+    font-weight: bold;
+    padding: 8px;
+    text-align: left;
+}
+
+.employees-details-table td, .salary-details-table td {
+    padding: 8px;
+    border-top: 1px solid #ddd;
+}
+
+.salary-section input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.salary-form-save-btn {
+    margin-top: 10px;
+}
+
+.salary-details-table th:nth-child(1),
+.salary-details-table td:nth-child(1) {
+    width: 15%;
+}
+
+.salary-details-table th:nth-child(2),
+.salary-details-table td:nth-child(2) {
+    width: 35%;
+}
+
+.salary-details-table th:nth-child(3),
+.salary-details-table td:nth-child(3) {
+    width: 15%;
+}
+
+.salary-details-table th:nth-child(4),
+.salary-details-table td:nth-child(4) {
+    width: 35%;
+}
+
+.salary-details-table td input {
+    width: 100%;
+    border: none;
+    text-align: right;
 }
 
 /* -----------------------------------------
