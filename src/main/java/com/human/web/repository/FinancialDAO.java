@@ -16,7 +16,7 @@ public class FinancialDAO {
     }
 
     public int saveFinancialInfo(FinancialVO vo) {
-        FinancialVO existingInfo = sqlSession.selectOne(MAPPER + ".getFinancialInfo", vo.getE_idx());
+        FinancialVO existingInfo = getFinancialInfo(vo.getE_idx());
         if (existingInfo != null) {
             return sqlSession.update(MAPPER + ".updateFinancialInfo", vo);
         } else {

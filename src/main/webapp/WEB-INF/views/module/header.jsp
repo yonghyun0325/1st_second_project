@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="javax.servlet.http.HttpSession"%>
 <%@ page import="com.human.web.vo.EmployeesVO"%> 
+<script src="${pageContext.request.contextPath}/resources/js/header.js"></script>
 <header>
     <div class="header-right-side">
         <a href="javascript:void(0)" class="header_logo">

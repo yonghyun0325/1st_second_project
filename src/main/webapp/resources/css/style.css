@@ -77,27 +77,21 @@ button:focus, input:focus, textarea:focus, select:focus {
 
 /* 스크롤바 스타일 통일 */
 * ::-webkit-scrollbar {
-    width: 12px;
+    width: 10px; 
 }
 
 * ::-webkit-scrollbar-track {
-    background-color: #f1f1f1;
-    border-radius: 10px;
+    background-color: #fff; 
 }
 
 * ::-webkit-scrollbar-thumb {
-    background-color: #888;
-    border-radius: 10px;
-    border: 3px solid #f1f1f1;
+    background-color: #bbb; 
+    border-radius: 8px;
+    border: none;
 }
 
 * ::-webkit-scrollbar-thumb:hover {
-    background-color: #555;
-}
-
-* .scroll-container {
-    scrollbar-width: thin;
-    scrollbar-color: #888 #f1f1f1;
+    background-color: #999;
 }
 
 /* 버튼 스타일 통일 */
@@ -839,134 +833,115 @@ textarea {
     font-weight: 800;
 }
 
-/* -----------------------------------------
+/* ------------------------------------------
     재무관리 페이지 스타일시트: financial.css
------------------------------------------ */
+------------------------------------------- */
 
 #registration {
     display: flex;
     gap: 1em;
 }
 
-#registration h2 {
-    margin-bottom: 10px;
+/* 표 랩퍼 공통 스타일시트 */
+.employees-info-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
-.employees-list-section {
-    flex: 1;
-    flex-shrink: 0;
-    max-width: 360px;
-    overflow-y: auto;
+#registration h4 {
+    text-align: left;
 }
 
-.employees-list {
-    border-collapse: collapse;
+/* 사원 목록 테이블 */
+#registration table {
+	border-collapse: separate;
+	border-spacing: 0;
+    width: 100%;
+    table-layout: fixed;
     background-color: white;
 }
 
-.employees-list tr {
-    cursor: pointer;
-}
-
-.employees-list th, .employees-list td {
-    padding: 12px;
-    text-align: center;
-    border-right: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
-}
-
-.employees-list th:first-child, .employees-list td:first-child {
-    border-left: none;
-}
-.employees-list th:last-child, .employees-list td:last-child {
-    border-right: none;
-}
-
-.employees-list tbody tr:nth-child(odd) { background-color: #f9f9f9; }
-.employees-list tbody tr:nth-child(even) { background-color: #fff; }
-.employees-list tbody tr:hover { background-color: #e6e6e6; }
-
-.employees-list thead {
+/* 표 thead 공통 스타일 */
+#registration thead {
+    background-color: white;
+    position: sticky;
+    top: 0;
     font-weight: bold;
+    z-index: 1;
+}
+
+#registration thead th {
     border-top: 2px solid #aaa;
     border-bottom: 2px solid #aaa;
 }
 
-.employees-details-section {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
+/* 표 목록 테두리 공통 스타일 */
+#registration th, #registration td{
+    padding: 5px 10px;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
 }
 
-.salary-toggle-ico {
-    margin-left: 10px;
+/* 표 목록 테두리 공통 스타일 */
+#registration th:first-child, #registration td:first-child {
+    border-left: none;
 }
 
-.employees-details-table, 
-.salary-details-table {
+#registration th:last-child, #registration td:last-child {
+    border-right: none;
+}
+
+/* 표 줄 구분 공통 스타일 */
+#registration tbody tr:nth-child(odd) { background-color: #f9f9f9; }
+#registration tbody tr:nth-child(even) { background-color: #fff; }
+
+/* 입력란 스타일 설정 */
+#registration input[type="text"] {
     width: 100%;
-    border-collapse: collapse;
-}
-
-.employees-details-table {
-    margin-bottom: 30px;
-    table-layout: fixed;
-}
-
-.employees-details-table th:nth-child(1) { width: 12%; }
-.employees-details-table th:nth-child(2) { width: 38%; }
-.employees-details-table th:nth-child(3) { width: 12%; }
-.employees-details-table th:nth-child(4) { width: 38%; }
-
-.employees-details-table th, .salary-details-table th {
-    background-color: #f7f7f7;
-    font-weight: bold;
-    padding: 8px;
-    text-align: left;
-}
-
-.employees-details-table td, .salary-details-table td {
-    padding: 8px;
-    border-top: 1px solid #ddd;
-}
-
-.salary-section input[type="number"] {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-}
-
-.salary-form-save-btn {
-    margin-top: 10px;
-}
-
-.salary-details-table th:nth-child(1),
-.salary-details-table td:nth-child(1) {
-    width: 15%;
-}
-
-.salary-details-table th:nth-child(2),
-.salary-details-table td:nth-child(2) {
-    width: 35%;
-}
-
-.salary-details-table th:nth-child(3),
-.salary-details-table td:nth-child(3) {
-    width: 15%;
-}
-
-.salary-details-table th:nth-child(4),
-.salary-details-table td:nth-child(4) {
-    width: 35%;
-}
-
-.salary-details-table td input {
-    width: 100%;
+    background: none;
     border: none;
     text-align: right;
+}
+
+/* 사원 목록 섹션 */
+.employees-details-section{
+    flex-shrink: 0;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.employees-list-section,
+.salary-info-section {
+    position: relative;
+    overflow-y: auto;
+    padding-right: 5px;
+    text-align: center;
+}
+
+/* 사원 목록 커서 포인터 변경 */
+.employees-list tr { cursor: pointer; }
+.employees-list tr:hover { background-color: #e6e6e6; }
+
+/* 각 표들의 칸당 너비 조정 */
+.employees-list th:nth-child(1) { width: 26%; }
+.employees-list th:nth-child(2) { width: 20%; }
+.employees-list th:nth-child(3) { width: 24%; }
+.employees-list th:nth-child(4) { width: 25%; }
+
+.employees-details th:nth-child(1) { width: 20%; }
+.employees-details th:nth-child(2) { width: 35%; }
+
+.salary-details th:nth-child(1) { width: 25%; }
+.salary-details th:nth-child(2) { width: 35%; }
+.salary-details th:nth-child(3) { width: 15%; }
+.salary-details th:nth-child(4) { width: 25%; }
+
+.salary-button-bundle {
+    padding-top: 10px;
+    justify-content: right;
+    display: flex;
+    gap: 10px;
 }
 
 /* -----------------------------------------

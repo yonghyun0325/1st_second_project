@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.human.web.service.FinancialService;
 import com.human.web.vo.FinancialVO;
+import java.util.HashMap;
+import java.util.Map;
 
 import lombok.AllArgsConstructor;
 
@@ -21,7 +23,6 @@ public class FinancialController {
 
     private final FinancialService financialService;
 
-    // 급여 관리
     @GetMapping("/registration")
     public String financialRegistration() {
         return "financial/registration"; 
@@ -35,15 +36,24 @@ public class FinancialController {
 
     @PostMapping("/saveFinancialInfo.do")
     @ResponseBody
-    public ResponseEntity<String> saveFinancialInfo(@ModelAttribute FinancialVO vo) {
-        int result = financialService.saveFinancialInfo(vo);
-        if (result == 1) {
-            return ResponseEntity.ok("급여 정보가 업데이트되었습니다.");
-        } else if (result == 2) {
-            return ResponseEntity.ok("급여 정보가 추가되었습니다.");
-        } else {
-            return ResponseEntity.status(500).body("업데이트 또는 추가 실패");
+    public ResponseEntity<Map<String, Object>> saveFinancialInfo(@ModelAttribute FinancialVO vo) {
+        
+        Map<String, Object> response = new HashMap<>();
+        
+        try {
+            int result = financialService.saveFinancialInfo(vo);
+            if (result == 1) {
+                response.put("status", "success");
+            } else {
+                response.put("status", "fail");
+                response.put("message", "저장에 실패했습니다.");
+            }
+        } catch (Exception e) {
+            response.put("status", "error");
+            response.put("message", "서버 오류가 발생했습니다: " + e.getMessage());
         }
+        
+        return ResponseEntity.ok(response);
     }
     
 }

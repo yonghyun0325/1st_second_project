@@ -3,12 +3,12 @@
 <mapper namespace="com.human.web.mapper.FinancialMapper">
 
     <!-- 특정 사원의 급여 정보 조회 -->
-    <select id="getFinancialInfo" parameterType="int" resultType="com.human.web.vo.FinancialVO">
+    <select id="getFinancialInfo" parameterType="int" resultType="financialVO">
         SELECT * FROM emp_financial WHERE e_idx = #{e_idx}
     </select>
 
     <!-- 급여 정보 추가 -->
-    <insert id="insertFinancialInfo" parameterType="com.human.web.vo.FinancialVO">
+    <insert id="insertFinancialInfo" parameterType="financialVO">
         INSERT INTO emp_financial (e_idx, base_salary, position_allowance, tenure_allowance, fixed_allowance, daily_attendance_allowance,
                                    meal_allowance, overtime_allowance, night_allowance, extended_work_allowance, project_bonus, 
                                    performance_bonus, team_bonus, work_performance_bonus, income_tax, national_pension, 
@@ -20,7 +20,7 @@
     </insert>
 
     <!-- 급여 정보 업데이트 -->
-    <update id="updateFinancialInfo" parameterType="com.human.web.vo.FinancialVO">
+    <update id="updateFinancialInfo" parameterType="financialVO">
         UPDATE emp_financial
         SET base_salary = #{base_salary}, position_allowance = #{position_allowance}, tenure_allowance = #{tenure_allowance}, 
             fixed_allowance = #{fixed_allowance}, daily_attendance_allowance = #{daily_attendance_allowance}, 

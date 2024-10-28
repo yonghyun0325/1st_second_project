@@ -8,8 +8,6 @@
 
     <!-- js -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> <!-- jquery -->
-    <script src="${pageContext.request.contextPath}/resources/js/tab.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/js/header.js"></script>
 
     <!-- font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

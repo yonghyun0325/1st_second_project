@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="ko">
     <%@ include file="module/head.jsp" %>
+    <script src="${pageContext.request.contextPath}/resources/js/tab.js"></script>
     <title>FUNFUN Office - 내 사무실</title>
 
     <body>
