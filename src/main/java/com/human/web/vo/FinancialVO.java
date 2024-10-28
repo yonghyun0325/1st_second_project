@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FinancialVO {
-    private int eIdx;
+    private int e_idx;
     private double baseSalary;
     private double positionAllowance;
     private double tenureAllowance;
@@ -17,11 +17,11 @@ public class FinancialVO {
     private double mealAllowance;
     private double overtimeAllowance;
     private double nightAllowance;
-    private double holidayAllowance;            // 휴일수당
-    private double holidayNightAllowance;       // 휴일야간수당
-    private double holidayExtendedAllowance;    // 휴일연장수당
-    private double maternityCare;               // 출산보육
-    private double selfDrivingAllowance;        // 자가운전수당
+    private double holidayAllowance;          
+    private double holidayNightAllowance;     
+    private double holidayExtendedAllowance;  
+    private double maternityCare;             
+    private double selfDrivingAllowance;      
     private double extendedWorkAllowance;
     private double projectBonus;
     private double performanceBonus;
