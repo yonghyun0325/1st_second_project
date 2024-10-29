@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
+
 <div id="calendar">
     <div class="calendar-title-wrap">
         <button id="prev-month"><i class="fas fa-chevron-left"></i></button>

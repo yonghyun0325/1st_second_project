@@ -6,7 +6,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import lombok.AllArgsConstructor;
 
@@ -33,21 +35,15 @@ public class MainController {
         return "login";
     }
 
-    // 메인, 대시보드
     @GetMapping("/dashboard")
-    public String dashboardPage() {
-        return "dashboard"; 
+    public String dashboard(@PathVariable("pageName") String pageName, Model model) {
+        model.addAttribute("page", pageName);
+        return "main";
     }
 
-    // 메인, 내 사무실
     @GetMapping("/myoffice")
-    public String officePage() {
-        return "myoffice"; 
-    }
-
-    // 메인, 내 회의실
-    @GetMapping("/cabinet")
-    public String cabinetPage() {
-        return "cabinet"; 
+    public String myoffice(@PathVariable("pageName") String pageName, Model model) {
+        model.addAttribute("page", pageName);
+        return "main";
     }
 }

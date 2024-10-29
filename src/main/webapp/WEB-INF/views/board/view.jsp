@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <section id="view-${type}" class="view" data-type="${type}" data-b_idx="${boardVO.b_idx}">
     <div class="board-info">

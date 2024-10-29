@@ -4,6 +4,7 @@
 <aside>
     <div class="sidebar-wrapper">
         <!-- 대시보드 메뉴 -->
+        <div class="workspace-title"></div>
 
         <!-- 내 사무실 이동 -->
         <div class="sidebar-item dashboard-item">
@@ -80,3 +81,31 @@
         </div>
     </div>
 </aside>
+<script>
+    $(document).ready(function() {
+        const currentPath = window.location.pathname;
+        const title = currentPath === '/dashboard' ? '대시보드' : currentPath === '/myoffice' ? '내 사무실' : '내 회의실'
+
+        // 현재 경로를 토대로 사이드바에 페이지 위치 표시
+        $('.workspace-title').text(title);
+
+        // 위치에 따라 사이드바에 보이는 메뉴 다르게 하기
+        $('.dashboard-item').toggle(currentPath === '/dashboard');
+        $('.myoffice-item').toggle(currentPath === '/myoffice');
+        
+        // 사이드바 카테고리 클릭시 펼쳐지기
+        $('.sidebar-toggle').on('click', function () {
+            const tabId = $(this).data('cate');
+            $('#' + tabId + '-submenu').toggleClass('open');
+            $('#' + tabId + '-icon').toggleClass('rotate');
+        });
+    
+        // 헤더에 사이드바 접기 누르면 숨기기
+        $('.sidbar-expand-btn').on('click', function() {
+            const mainWrapper = $('#main-wrapper');
+            mainWrapper.toggleClass('sidebar-hidden');
+            $(this).toggleClass('sidebar-hidden');
+        });
+    })
+    
+</script>

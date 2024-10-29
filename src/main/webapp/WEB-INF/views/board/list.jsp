@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
+<script src="${pageContext.request.contextPath}/resources/js/board.js"></script>
+
 <section id="board-${type}" class="board" data-type="${type}">
     <div class="board-header">
         <form action="${pageContext.request.contextPath}/board/normal" method="get">
@@ -83,4 +85,3 @@
         </div>
     </div>
 </section>
-<script src="${pageContext.request.contextPath}/resources/js/board.js"></script>

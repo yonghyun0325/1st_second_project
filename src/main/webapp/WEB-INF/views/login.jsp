@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="ko">
     <%@ include file="module/head.jsp" %>
+    
     <script src="${pageContext.request.contextPath}/resources/js/login.js"></script>
     <title>FUNFUN Office - 로그인</title>
 

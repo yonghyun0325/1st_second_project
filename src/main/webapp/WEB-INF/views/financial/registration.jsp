@@ -1,5 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<!DOCTYPE html>
 
 <!-- 급여 관리 수당등록 화면 -->
 <section id="registration">
@@ -11,9 +10,9 @@
             <table class="employees-list">
                 <thead>
                     <tr>
-                        <th>사원번호</th>
-                        <th>성명</th>
-                        <th>직급</th>
+                        <th>사원번호<div class="resize-handle"></div></th>
+                        <th>성명<div class="resize-handle"></div></th>
+                        <th>직급<div class="resize-handle"></div></th>
                         <th>부서</th>
                     </tr>
                 </thead>
@@ -31,7 +30,7 @@
             <table class="employees-details">
                 <thead>
                     <tr>
-                        <th>종류</th>
+                        <th>종류<div class="resize-handle"></div></th>
                         <th>내용</th>
                     </tr>
                 </thead>
@@ -114,9 +113,9 @@
                 <table class="salary-details">
                     <thead>
                         <tr>
-                            <th>지급 항목</th>
-                            <th>금액</th>
-                            <th>구분</th>
+                            <th>지급 항목<div class="resize-handle"></div></th>
+                            <th>금액<div class="resize-handle"></div></th>
+                            <th>구분<div class="resize-handle"></div></th>
                             <th>비과세한도</th>
                         </tr>
                     </thead>
@@ -486,5 +485,21 @@
             return date.toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' });
         }
 
+        // 표 너비 직접 조정
+        $('.resize-handle').on('mousedown', function (e) {
+            e.preventDefault();
+            let $th = $(this).parent();
+            let startX = e.pageX;
+            let startWidth = $th.width();
+
+            $(document).on('mousemove.resizeColumn', function (e) {
+                let newWidth = startWidth + (e.pageX - startX);
+                $th.css('width', newWidth + 'px');
+            });
+        
+            $(document).on('mouseup.resizeColumn', function () {
+                $(document).off('.resizeColumn');
+            });
+        });
     });
 </script>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.human.web.mapper.CabinetMapper">
+
+    <!-- todo 등록-->
+    <insert id="insertCabinet" parameterType="com.human.web.vo.CabinetVO">
+        INSERT INTO cabinet (title, description)
+        VALUES ( #{title}, #{description} )
+    </insert>
+
+    <!-- todo 가져오기-->
+    <select id="getCabinet" resultType="com.human.web.vo.CabinetVO">
+        select * from cabinet
+    </select>
+
+    <select id="getCabinets" resultType="com.human.web.vo.CabinetVO">
+        select * from cabinet
+    </select>
+
+</mapper>
