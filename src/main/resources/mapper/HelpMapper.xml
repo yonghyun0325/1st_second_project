@@ -6,8 +6,8 @@
 
 <!-- 문의 등록-->
     <insert id="insertHelp" parameterType="com.human.web.vo.HelpVO">
-        INSERT INTO help (product, service, etc_question)
-        VALUES ( #{product}, #{service}, #{etcQuestion})
+        INSERT INTO help (e_idx, product, service, help_detail)
+        VALUES ( #{e_idx}, #{product}, #{service}, #{help_detail})
     </insert>
 
 </mapper>

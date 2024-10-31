@@ -1,7 +1,7 @@
 
 // 로그인 화면 스크립트
 $(document).ready(function() {
-    $('form').on('submit', function(e) {
+    $('form[action="/employees/loginProcess.do"]').on('submit', function(e) {
         e.preventDefault();
     
         const formData = {
@@ -27,4 +27,15 @@ $(document).ready(function() {
             }
         });
     });
+
+    $('.contact-help').on('click', function(event) {
+        const $btnOpenHelp = $('.btn-open-help');
+        const $modalContent = $('.help-content');
+
+        event.stopPropagation();
+
+        $btnOpenHelp.addClass('expanded');
+        $modalContent.css('opacity', '1');
+    });
+
 });

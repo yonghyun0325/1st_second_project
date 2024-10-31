@@ -3,7 +3,7 @@
 <div id="calendar">
     <div class="calendar-title-wrap">
         <button id="prev-month"><i class="fas fa-chevron-left"></i></button>
-        <h2 id="calendar-title"></h2>
+        <h3 id="calendar-title"></h2>
         <button id="next-month"><i class="fas fa-chevron-right"></i></button>
     </div>
     <table border="1">

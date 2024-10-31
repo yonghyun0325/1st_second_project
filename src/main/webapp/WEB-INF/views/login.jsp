@@ -27,7 +27,7 @@
 
     <title>FUNFUN Office - 로그인</title>
 
-    <body>
+    <body class="login-page">
         <div class="login-container">
             <div class="login-wrapper">
                 <div class="title-area">
@@ -44,9 +44,9 @@
                     <p class="error-message"></p>
                     <button type="submit" class="button-login">로그인</button>
                 </form>
-                <!-- <div class="contact">
-                    <a href="#">인사과 문의하기</a>
-                </div> -->
+                <div class="contact">
+                    <a href="javascript:void(0)" class="contact-help">인사과 문의하기</a>
+                </div>
             </div>
         </div>
         <%@ include file="module/help.jsp" %>

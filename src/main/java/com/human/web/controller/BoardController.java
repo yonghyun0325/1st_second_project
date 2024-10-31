@@ -204,5 +204,12 @@ public class BoardController {
 		System.out.println("boardController.java:  download.do 호출됨");
 		boardService.download(origin_filename, save_filename, request, response);
 	}
+
+    @GetMapping("/noticeList")
+    @ResponseBody
+    public ResponseEntity<List<BoardVO>> getNoticeList() {
+        List<BoardVO> noticeList = boardService.getBoardList("notice", null, null, 0, 5); // 상위 5개 공지 가져오기
+        return ResponseEntity.ok(noticeList);
+    }
 	
 }

@@ -3,6 +3,7 @@ package com.human.web.controller;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.human.web.service.CabinetService;
 import com.human.web.vo.CabinetVO;
+import com.human.web.vo.EmployeesVO;
 
 import lombok.AllArgsConstructor;
 
@@ -57,8 +59,13 @@ public class MainController {
 
     // 내 회의실 페이지 맵핑
     @GetMapping("/cabinet")
-    public String cabinet(Model model) {
+    public String cabinet(HttpServletRequest request, Model model) {
         List<CabinetVO> cabinets = cabinetService.getCabinets();
+        HttpSession session = request.getSession();
+        EmployeesVO employees = (EmployeesVO) session.getAttribute("employees");
+        int e_idx = employees.getE_idx();
+
+        model.addAttribute("e_idx", e_idx);
         model.addAttribute("cabinets", cabinets);
         model.addAttribute("page", "cabinet");
         return "main"; 

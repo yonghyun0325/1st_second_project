@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.human.web.service.CabinetService;
@@ -14,17 +15,15 @@ import com.human.web.vo.EmployeesVO;
 import lombok.AllArgsConstructor;
 
 @Controller
+@RequestMapping("/cabinet")
 @AllArgsConstructor
 public class CabinetController {
 
     private CabinetService cabinetService;
     
-    
-
     @PostMapping("/insertCabinet")
     public ResponseEntity<String> insertCabinet(@RequestParam String title, 
-            @RequestParam String description, HttpSession session) 
-             {
+            @RequestParam String description, HttpSession session) {
     	EmployeesVO loginUser = (EmployeesVO) session.getAttribute("employees");
         if (loginUser == null) {
         	return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Error: 로그인 세션이 만료되었습니다.");

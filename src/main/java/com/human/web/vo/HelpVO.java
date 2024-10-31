@@ -9,6 +9,6 @@ public class HelpVO {
     private int e_idx; 
     private String product;
     private String service;
-    private String etcQuestion;
+    private String help_detail;
 
 }

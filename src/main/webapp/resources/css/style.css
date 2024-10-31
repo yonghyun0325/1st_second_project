@@ -201,18 +201,19 @@ input[type="file"]::file-selector-button:focus {
 .login-wrapper {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    width: 330px;
+    gap: 20px;
     align-items: center;
     justify-content: center;
     background: rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
-    padding: 20px 40px 20px 40px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    padding: 25px;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     opacity: 0;
     animation: fadeIn 1.5s ease forwards;
-    border: 1px solid rgba(255, 255, 255, 0.3);
     z-index: 9999;
 }
 
@@ -549,11 +550,12 @@ aside {
 
 main {
     display: flex;
+    background-color: #fafafa;
     flex-direction: column;
     overflow: hidden;
     flex: 1;
     padding: 1em;
-    position: relative
+    position: relative;
 }
 
 /* 섹션 배경색과 기본 여백 */
@@ -678,16 +680,11 @@ section {
         달력 스타일시트: calendar.css
 ----------------------------------------- */
 
-#calendar {
-    /* width: 1180px; */
-    height: 800px;
-}
-
 #prev-month, #next-month {
     background-color: transparent;
     border: none;
     cursor: pointer;
-    font-size: 24px;
+    font-size: 18px;
     padding: 2px;
     color: black;
 }
@@ -698,8 +695,6 @@ section {
     justify-content: center;
     margin-bottom: 20px;
     border-radius: 10px;
-    background-color: #eee;
-    padding: 15px;
     gap: 30px;
 }
 

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.human.web.mapper.CabinetFavoriteMapper">
+
+    <insert id="insertFavorite" parameterType="com.human.web.vo.CabinetFavoriteVO">
+        INSERT INTO cabinet_favorites (e_idx, c_id)
+        VALUES (#{e_idx}, #{c_id})
+    </insert>
+
+    <delete id="deleteFavorite" parameterType="com.human.web.vo.CabinetFavoriteVO">
+        DELETE FROM cabinet_favorites
+        WHERE e_idx = #{e_idx} AND c_id = #{c_id}
+    </delete>
+
+    <select id="getFavoritesByEmployee" parameterType="int" resultType="com.human.web.vo.CabinetFavoriteVO">
+        SELECT cf.f_id, cf.e_idx, cf.c_id, cr.title, cr.description
+        FROM cabinet_favorites cf
+        JOIN cabinet cr ON cf.c_id = cr.c_id
+        WHERE cf.e_idx = #{e_idx}
+    </select>
+
+</mapper>
