@@ -1,27 +1,30 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<section>
-    <h1>Todo List</h1>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/cabinet.css">
+
+<section id="todo">
+    <!-- <h1>Todo List</h1> -->
     <div class="todo-container" id="todoContainer">
         <!-- Todo 목록 표시 -->
-         <c:forEach items="${cabinets}" var="cabinet">
-			<div class="todo-card">
-					<strong>${cabinet.title}</strong>
-			<div class="todo-description">${cabinet.description}</div>
-			</div>
-			 </c:forEach>
+        <c:forEach items="${cabinets}" var="cabinet">
+            <div class="todo-card">
+                <strong>${cabinet.title}</strong>
+                <div class="todo-description">${cabinet.description}</div>
+            </div>
+        </c:forEach>
         <!-- 추가할 더미 카드들 -->
     </div>
-
+    
     <!-- + 버튼을 사용한 Todo 추가 -->
     <div class="add-todo-form">
         <button type="button" id="addTodoBtn" class="todo-card">+</button>
     </div>
-
+    
     <!-- 모달 창 -->
     <form id="todo-modal-Form" method="Post" action="/insertCabinet">
         <div id="todoModal" class="modal">
             <div class="modal-content">
-            	<input type="hidden" id="e_idx" name="e_idx" value="${cabinet.e_idx}">
+                <input type="hidden" id="e_idx" name="e_idx" value="${cabinet.e_idx}">
                 <input type="text" id="newTodoTitle" placeholder="보드 이름을 입력하세요." required>
                 <input type="text" id="newTodoDescription" placeholder="설명을 입력하세요." required>
                 <div class="modal-buttons">
@@ -33,15 +36,15 @@
     </form>
 </section>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         // 모달 창 열기
-        document.getElementById('addTodoBtn').addEventListener('click', function() {
+        document.getElementById('addTodoBtn').addEventListener('click', function () {
             var modal = document.getElementById('todoModal');
             modal.style.display = 'flex';
         });
 
         // 저장 버튼 클릭 시 AJAX 요청
-        document.getElementById('saveTodoBtn').addEventListener('click', function() {
+        document.getElementById('saveTodoBtn').addEventListener('click', function () {
             var title = document.getElementById('newTodoTitle').value;
             var description = document.getElementById('newTodoDescription').value;
 
@@ -56,7 +59,7 @@
             xhr.open("POST", "/insertCabinet", true);
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
-            xhr.onreadystatechange = function() {
+            xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4) {
                     if (xhr.status === 200 && xhr.responseText === "success") {
                         // 새로운 todo-card 생성
@@ -93,7 +96,7 @@
         });
 
         // 취소 버튼 클릭 시 모달 창 닫기
-        document.getElementById('cancelTodoBtn').addEventListener('click', function() {
+        document.getElementById('cancelTodoBtn').addEventListener('click', function () {
             document.getElementById('todoModal').style.display = 'none';
         });
     });

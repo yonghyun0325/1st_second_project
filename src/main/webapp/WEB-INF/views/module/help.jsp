@@ -6,14 +6,14 @@
     <button class="btn-open-modal2">
         <i class="fas fa-user-headset"></i>
     </button>
-    <!-- Java 변수 출력 -->
-    <div id="Modal" class="modal2">
-        <div class="modal2_content">
-            <span class="close">&times;</span>
-            <h2>문의하기</h2>
 
-            <!-- 선택 박스 및 입력 필드 -->
-        <form id="inquiryForm" method="Post" action="/help/insertHelp">
+    <!-- 모달 콘텐츠를 button 외부에 분리 -->
+    <div class="modal2_content">
+        <span class="close">&times;</span>
+        <h2>문의하기</h2>
+
+        <!-- 선택 박스 및 입력 필드 -->
+        <form id="inquiryForm" method="POST" action="/help/insertHelp">
             <label for="product">문의가 필요한 부분이 무엇입니까?</label>
             <select id="product" name="product">
                 <option value="">목록을 선택하십시오.</option>
@@ -34,6 +34,5 @@
             
             <button type="submit">제출</button>
         </form>
-        </div>
     </div>
 </div>

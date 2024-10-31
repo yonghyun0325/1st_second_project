@@ -10,6 +10,7 @@
     border: none; 
     cursor: pointer; 
     background-color: var(--funfun-blue);
+    opacity: 0.7;
     transition: all 0.3s ease; 
     display: flex; 
     justify-content: center; 
@@ -23,9 +24,42 @@
     font-size: 35px;
 }
 
+/* 마우스 올려놓으면 색 변하게 */
 .btn-open-modal2:hover {
+    opacity: 1;
     background-color: var(--funfun-blue-dark); 
+}
+
+/* 버튼 확장 상태 */
+.btn-open-modal2.expanded {
     width: 400px;
+    height: 500px;
+    border-radius: 20px;
+    opacity: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 20px;
+}
+
+/* 문의 폼 스타일 (버튼 확장 시 표시) */
+.btn-open-modal2.expanded .modal2_content {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* 기본적으로 숨겨진 modal2_content */
+.modal2_content {
+    display: none;
+}
+
+/* 확장 시 보여지는 폼 내부 스타일 */
+.expanded .modal2_content {
+    display: block;
+    transform: none;
+    opacity: 1;
+    visibility: visible;
 }
 
 .modal2 {

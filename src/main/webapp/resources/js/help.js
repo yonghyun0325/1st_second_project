@@ -1,50 +1,47 @@
-window.addEventListener("DOMContentLoaded", () => {
-    const modal = document.querySelector('.modal2');
-    const btnOpenModal = document.querySelector('.btn-open-modal2');
-    const btnCloseModal = document.querySelector('.close');
-    const inquiryForm = document.getElementById('inquiryForm');
-    const productSelect = document.getElementById('product');
-    const serviceSelect = document.getElementById('service');
-    const etcQuestion = document.getElementById('etcQ');
+$(document).ready(function () {
+    const $btnOpenModal = $('.btn-open-modal2');
+    const $modalContent = $('.modal2_content');
+    const $inquiryForm = $('#inquiryForm');
+    const $productSelect = $('#product');
+    const $serviceSelect = $('#service');
+    const $etcQuestion = $('#etcQ');
 
-    // 모달 열기
-    btnOpenModal.addEventListener("click", () => {
-        modal.classList.add('show');
-        modal.style.display = 'flex';
+    // 버튼 클릭 시 모달 표시
+    $btnOpenModal.on("click", function (event) {
+        event.stopPropagation();
+        $modalContent.toggleClass('expanded');
     });
 
-    // 모달 닫기
-    btnCloseModal.addEventListener("click", () => {
-        modal.classList.remove('show');
-        modal.style.display = 'none';
+    // 닫기 버튼 클릭 시 모달 닫기
+    $(document).on("click", ".close", function (event) {
+        event.stopPropagation();
+        $modalContent.removeClass('expanded');
     });
 
-    // 모달 외부를 클릭하면 모달 닫기
-    window.addEventListener("click", (event) => {
-        if (event.target === modal) {
-            modal.classList.remove('show');
-            modal.style.display = 'none';
+    // 모달 외부 클릭 시 모달 닫기
+    $(window).on("click", function (event) {
+        if (!$modalContent.is(event.target) && $modalContent.has(event.target).length === 0) {
+            $modalContent.removeClass('expanded');
         }
     });
 
     // 폼 제출 시 유효성 검사
-    inquiryForm.addEventListener('submit', function(event) {
-        // 선택한 값이 없을 경우 경고 메시지 표시 후 제출 중지
-        if (productSelect.value === "") {
+    $inquiryForm.on('submit', function (event) {
+        if ($productSelect.val() === "") {
             alert('문의할 부분을 선택해주세요.');
-            event.preventDefault(); // 제출 중지
+            event.preventDefault();
             return;
         }
 
-        if (serviceSelect.value === "") {
+        if ($serviceSelect.val() === "") {
             alert('지원 서비스를 선택해주세요.');
-            event.preventDefault(); // 제출 중지
+            event.preventDefault();
             return;
         }
 
-        if (etcQuestion.value.trim() === "") {
+        if ($.trim($etcQuestion.val()) === "") {
             alert('추가 문의사항을 입력해주세요.');
-            event.preventDefault(); // 제출 중지
+            event.preventDefault();
             return;
         }
     });
@@ -75,16 +72,14 @@ window.addEventListener("DOMContentLoaded", () => {
         ]
     };
 
-    productSelect.addEventListener('change', function() {
-        const selectedProduct = this.value;
-        serviceSelect.innerHTML = '<option value="">지원 목록을 선택하십시오.</option>';
+    $productSelect.on('change', function () {
+        const selectedProduct = $(this).val();
+        $serviceSelect.empty().append('<option value="">지원 목록을 선택하십시오.</option>');
         
         if (serviceOptions[selectedProduct]) {
-            serviceOptions[selectedProduct].forEach(function(service) {
-                const option = document.createElement('option');
-                option.value = service.value;
-                option.text = service.text;
-                serviceSelect.appendChild(option);
+            $.each(serviceOptions[selectedProduct], function (index, service) {
+                const $option = $('<option>').val(service.value).text(service.text);
+                $serviceSelect.append($option);
             });
         }
     });

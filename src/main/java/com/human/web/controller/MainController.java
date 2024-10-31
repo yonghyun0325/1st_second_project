@@ -1,6 +1,7 @@
 package com.human.web.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -8,16 +9,21 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+
+import com.human.web.service.CabinetService;
+import com.human.web.vo.CabinetVO;
 
 import lombok.AllArgsConstructor;
 
 @Controller
 @AllArgsConstructor
 public class MainController {
+
+    private CabinetService cabinetService;
     
     @GetMapping("/")
     public void home(HttpSession session, HttpServletResponse response) throws IOException {
+        // 로그인 관련 세션 정보 가져오기
         Object loginUser = session.getAttribute("employees");
         
         if (loginUser == null) {
@@ -29,21 +35,33 @@ public class MainController {
         }
     }
 
-    // 로그인 페이지
+    // 로그인 페이지 맵핑
     @GetMapping("/login")
     public String login() {
         return "login";
     }
 
+    // 대시보드 페이지 맵핑
     @GetMapping("/dashboard")
-    public String dashboard(@PathVariable("pageName") String pageName, Model model) {
-        model.addAttribute("page", pageName);
+    public String dashboard(Model model) {
+        model.addAttribute("page", "dashboard");
         return "main";
     }
 
+    // 내 사무실 페이지 맵핑
     @GetMapping("/myoffice")
-    public String myoffice(@PathVariable("pageName") String pageName, Model model) {
-        model.addAttribute("page", pageName);
+    public String myoffice(Model model) {
+        model.addAttribute("page", "myoffice");
         return "main";
     }
+
+    // 내 회의실 페이지 맵핑
+    @GetMapping("/cabinet")
+    public String cabinet(Model model) {
+        List<CabinetVO> cabinets = cabinetService.getCabinets();
+        model.addAttribute("cabinets", cabinets);
+        model.addAttribute("page", "cabinet");
+        return "main"; 
+    }
+
 }

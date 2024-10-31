@@ -6,8 +6,8 @@
 
     <!-- todo 등록-->
     <insert id="insertCabinet" parameterType="com.human.web.vo.CabinetVO">
-        INSERT INTO cabinet (title, description)
-        VALUES ( #{title}, #{description} )
+        INSERT INTO cabinet (e_idx, title, description)
+        VALUES ( #{e_idx}, #{title}, #{description} )
     </insert>
 
     <!-- todo 가져오기-->

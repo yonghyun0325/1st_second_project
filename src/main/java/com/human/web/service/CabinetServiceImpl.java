@@ -19,12 +19,12 @@ public class CabinetServiceImpl implements CabinetService {
     }
 
     @Override
-    public List<CabinetVO> getCabinet(int e_idx) {
+    public CabinetVO getCabinet(int e_idx) { // 메서드 이름 변경
         return cabinetDAO.getCabinet(e_idx);
     }
 
-    @Override
-    public List<CabinetVO> getCabinets() {
-        return cabinetDAO.getCabinets();
-    }
+	@Override
+	public List<CabinetVO> getCabinets() {
+		return cabinetDAO.getCabinets();
+	}
 }

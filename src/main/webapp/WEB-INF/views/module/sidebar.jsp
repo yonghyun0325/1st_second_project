@@ -30,7 +30,8 @@
                 <i id="hr-icon" class="fas fa-chevron-right"></i>
             </a>
             <div id="hr-submenu" class="sidebar-submenu">
-                <a href="javascript:void(0)" data-content="hr_info">인사정보</a>
+                <a href="javascript:void(0)" data-content="hr_registration">인사 등록</a>
+                <a href="javascript:void(0)" data-content="hr_info">인사 정보</a>
             </div>
         </div>
 
