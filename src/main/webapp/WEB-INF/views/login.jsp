@@ -44,10 +44,11 @@
                     <p class="error-message"></p>
                     <button type="submit" class="button-login">로그인</button>
                 </form>
-                <div class="contact">
+                <!-- <div class="contact">
                     <a href="#">인사과 문의하기</a>
-                </div>
+                </div> -->
             </div>
         </div>
+        <%@ include file="module/help.jsp" %>
     </body>
 </html>

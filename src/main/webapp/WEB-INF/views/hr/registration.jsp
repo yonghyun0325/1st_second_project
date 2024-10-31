@@ -1,256 +1,258 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<style>
-    .hr_registration_list{
-        width: 500px;
-        height: 700px;
-        overflow-y: auto;
-    }
-    td{
-        height: 40px;
-    }
-    .hr_registration_post{
-        width: 700px;
-        height: 700px;
-        border: 1px solid black;
-    }
-    .hr_registration_post_basic{
-        width: 700px;
-        height: 300px;
-        border: 1px solid black;
-        display: flex;
-    }
-    .form-group label {
-        display: inline-block;
-        width: 120px;
-    }
-    .form-group input[type="text"],
-    .form-group input[type="date"],
-    .form-group input[type="email"],
-    .form-group select {
-        width: 200px;
-        padding: 5px;
-    }
-    .form-group img {
-        width: 150px;
-        height: 170px;
-        border: 1px solid #ccc;
-        margin-right: 10px;
-    }
-    .form-group button {
-        padding: 5px 10px;
-    }
-    .tabs {
-        margin-top: 20px;
-    }
-    .tabs button {
-        padding: 10px;
-        background-color: #eee;
-        border: 1px solid #ccc;
-        margin-right: 5px;
-        cursor: pointer;
-    }
-    .tabs button.active {
-        background-color: #ddd;
-    }
-    img{
-        display: block; 
-        margin-bottom: 10px; 
-        width: 150px; 
-        height: 170px; 
-        border: 1px solid #ccc;
-        margin-left: 55px;
-    }
-    .hr_registration_content_wrap{
-        margin-bottom: 20px;
-    }
-    .hr_registration_crud{
-        display: flex;
-        justify-content: end;
-        margin: 10px;
-    }
-</style>
 <!-- css, 인사등록 스타일  -->
-<section id="registration">
-    
-    <div class="hr_registration_header">
-        <div class="hr_registration_addition">
-            추가
+<section id="hr_registration">
+    <div class="employees-info-wrapper" style="max-width: 380px;">
+        <div class="employees-info-title-wrapper">
+            <h4>◇ 사원 목록</h4>
+            <div class="button-bundle">
+                <a href="javascript:void(0)" class="hr_registration_addition">추가</a>
+                <a href="javascript:void(0)" class="hr_registration_update">수정</a>
+                <a href="javascript:void(0)" class="hr_registration_delete">삭제</a>
+            </div>
         </div>
-        <div class="hr_registration_update">
-            수정
-        </div>
-        <div class="hr_registration_delete">
-            삭제
+        <div class="employees-list-section">
+            <table class="employees-list table-common">
+                <thead>
+                    <tr>
+                        <th>사원번호</th>
+                        <th>성명</th>
+                        <th>직급</th>
+                        <th>부서</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- 사원 목록 표시부분 -->
+                </tbody>
+            </table>
         </div>
     </div>
 
     <div class="employees-info-wrapper" style="flex: 1;">
-        <h4>◇ 사원 목록</h4>
-        <%@ include file="../module/employeeList.jsp" %>
-    </div>
-
-    <div class="employees-info-wrapper" style="flex: 1;">
+        <div class="employees-info-title-wrapper">
+            <h4>◇ 사원 정보</h4>
+        </div>
         <!-- 사원등록 폼 시작 -->
-    <form name="employeeForm" id="employeeForm" action="${pageContext.request.contextPath}/hr/register" method="post">
-        <div class="hr_registration_content_second">
-            <h3>사원등록</h3><br>
-            <div class="hr_registration_content_wrap">
-                <div class="form-group">
-                    <div class="form-wrap">
-                        <table>
-                            <!-- 사진 등록 부분을 테이블 첫 번째 행으로 추가 -->
-                            <tr>
-                                <td rowspan="8" style="text-align: center;">
-                                    <img id="previewImage" src="" alt="">
-                                    <input type="file" id="fileInput" accept="image/*" name="photo" style="margin-top: 10px;">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><label>성명</label></td>
-                                <td><input type="text" name="name" required></td>
-                            </tr>
-                            <tr>
-                                <td><label>전화번호</label></td>
-                                <td><input type="text" name="phone" required></td>
-                            </tr>
-                            <tr>
-                                <td><label>주민번호</label></td>
-                                <td><input type="text" name="ssn" required></td>
-                            </tr>
-                            <tr>
-                                <td><label>주소</label></td>
-                                <td><input type="text" name="address"></td>
-                            </tr>
-                            <tr>
-                                <td><label>생년월일</label></td>
-                                <td><input type="date" name="birth_date"></td>
-                            </tr>
-                            <tr>
-                                <td><label>E-mail</label></td>
-                                <td><input type="email" name="email"></td>
-                            </tr>
-                            <tr>
-                                <td><label>최종학력</label></td>
-                                <td>
-                                    <select name="education">
-                                        <option>고등학교</option>
-                                        <option>대학교</option>
-                                        <option>대학원</option>
-                                    </select>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group-second">
-                <table>
-                    <tr>
-                        <td>인사코드</td>
-                        <td><input type="text" class="code-input" name="hrCode" value="20250001"></td>
-                        <td>근무지</td>
-                        <td><input type="text" class="highlight" name="workplace" value="(주)휴먼교육"></td>
-                    </tr>
-                    <tr>
-                        <td>입사일자</td>
-                        <td><input type="date" name="hire_date" value="2024-06-17"></td>
-                        <td>근무부서</td>
-                        <td><input type="text" class="highlight" name="department" value="대표이사"></td>
-                    </tr>
-                    <tr>
-                        <td>변동일자</td>
-                        <td><input type="date" name="change_date"></td>
-                        <td>직무</td>
-                        <td><input type="text" class="highlight" name="job"></td>
-                    </tr>
-                    <tr>
-                        <td>근무지 전화</td>
-                        <td><input type="text" name="workplace_phone"></td>
-                        <td>직책</td>
-                        <td><input type="text" class="highlight" name="position" value="대표이사"></td>
-                    </tr>
-                    <tr>
-                        <td>근무지 담당</td>
-                        <td><input type="text" name="manager"></td>
-                        <td>비고사항</td>
-                        <td><input type="text" class="comment" name="remarks"></td>
-                    </tr>
-                    <tr>
-                        <td>우편번호</td>
-                        <td><input type="text" name="postal_code"></td>
-                        <td>근무지 주소</td>
-                        <td><input type="text" name="workplace_address"></td>
-                    </tr>
-                </table>
-            </div>
+        <form name="employeeForm" id="employeeForm" action="${pageContext.request.contextPath}/hr/register" method="post">
+            <table class="hr-employees-info table-common">
+                <!-- 사진 등록 부분을 테이블 첫 번째 행으로 추가 -->
+                <tr>
+                    <td rowspan="6" colspan="2" id="profile-td" style="cursor: pointer;">
+                        <div id="profileContainer">
+                            <img id="previewImage" src="" alt="" style="width: 100%; height: 100%; border-radius: 50%; display: none;">
+                            <i class="fas fa-user-circle" style="font-size: 100px; color: #ccc;"></i>
+                            <input type="file" id="fileInput" accept="image/*" name="photo" style="display: none;">
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">성명</td>
+                    <td colspan="2"><input type="text" id="name" name="name" required></td>
+                    <td colspan="2">사원번호</td>
+                    <td colspan="2"><input type="text" id="e_idx" name="e_idx" disabled></td>
+                </tr>
+                
+                <tr>
+                    <td colspan="2">전화번호</td>
+                    <td colspan="2"><input type="text" id="tel" name="tel" required></td>
+                    <td colspan="2">주민등록번호</td>
+                    <td colspan="2"><input type="text" id="jumin" name="jumin" required></td>
+                </tr>
+
+                <tr>
+                    <td>생년월일</td>
+                    <td colspan="2"><input type="date" id="birthday" name="birthday"></td>
+                    <td>E-mail</td>
+                    <td colspan="4"><input type="email" id="email" name="email"></td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">입사일자</td>
+                    <td colspan="2"><input type="date" id="entry_date" name="entry_date"></td>
+                    <td colspan="2">퇴사일자</td>
+                    <td colspan="2"><input type="date" id="retirement_date" name="retirement_date"></td>
+                </tr>
+
+                <tr>
+                    <td>근무지</td>
+                    <td colspan="2"><input type="text" id="workplace" name="workplace"></td>
+                    <td>부서</td>
+                    <td colspan="2"><input type="text" id="depa" name="depa"></td>
+                    <td>직위</td>
+                    <td><input type="text" id="position" name="position"></td>
+                </tr>
+
+                <tr>
+                    <td>주소</td>
+                    <td colspan="6"><input type="text" id="address" name="address"></td>
+                    <td>우편번호</td>
+                    <td colspan="2"><input type="text" id="postal_code" name="postal_code"></td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">내선 전화번호</td>
+                    <td colspan="2"><input type="text" id="workplace_phone" name="workplace_phone"></td>
+                    <td>최종학력</td>
+                    <td colspan="2">
+                        <select name="education">
+                            <option>고등학교</option>
+                            <option>대학교</option>
+                            <option>대학원</option>
+                        </select>
+                    </td>
+                    <td>채용구분</td>
+                    <td colspan="2">
+                        <select name="career_type">
+                            <option value="" selected>선택하세요</option>
+                            <option value="NEW">신입</option>
+                            <option value="CAREER">경력</option>
+                         </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>직원구분</td>
+                    <td colspan="2">
+                        <select name="employee_type">
+                            <option value="" selected>선택하세요</option>
+                            <option value="moderator">임원</option>
+                            <option value="full-time">정규직</option>
+                            <option value="contract-worker">계약직</option>
+                         </select>
+                    </td>
+                    <td>급여구분</td>
+                    <td colspan="2"><input type="text" id="salary_type" name="salary_type"></td>
+                </tr>
+                
+            </table>
             <div class="hr_registration_crud">
-                <button type="submit">저장</button>
-                <button type="reset">초기화</button>
+                <input type="submit" value="저장">
+                <input type="reset" value="다시 작성">
             </div>
-        </div>
-    </form>
+        </form>
     </div>
 </section>
 <script>
     $(document).ready(function() {
-    // 파일 입력 필드에 change 이벤트 추가
-    document.getElementById('fileInput').addEventListener('change', function(event) {
-        // 파일이 선택되면
-        const file = event.target.files[0];
-        if (file) {
-            // FileReader 객체 생성
-            const reader = new FileReader();
-            
-            // 파일 읽기가 완료되면 실행되는 함수
-            reader.onload = function(e) {
-                // img 태그의 src 속성에 파일 데이터를 설정
-                document.getElementById('previewImage').src = e.target.result;
-            };
-            
-            // 이미지 파일을 읽기 (data URL 형식으로)
-            reader.readAsDataURL(file);
-        }
 
-        
-        $('#employeeForm').on('submit', function(e) {
-            e.preventDefault();
-            saveEmployee();
-        })
+        $('#employeeForm input').attr('readonly', true);
+        $('.hr_registration_crud input[type="submit"], .hr_registration_crud input[type="reset"]').prop('disabled', true);
 
-        function saveEmployee() {
-            const form = $('#employeeForm')[0];  // jQuery로 폼 객체를 선택
-            const formData = new FormData(form);  // FormData 객체 생성
+        $('.hr_registration_update').on('click', function() {
+            $('#employeeForm input').removeAttr('readonly');
+            $('.hr_registration_crud input[type="submit"], .hr_registration_crud input[type="reset"]').prop('disabled', false);
+        });
 
+        // 사원 목록 불러오기
+        function loadEmployeesList() {
             $.ajax({
-                url: '/hr/register',
-                method: 'POST',  // POST 방식으로 설정
-                data: formData,
-                processData: false,  // 데이터를 쿼리 스트링으로 변환하지 않도록 설정
-                contentType: false,  // 기본 Content-Type을 사용하지 않도록 설정
-                success: function (response) {
-                    addEmployeeRow(response);  // 테이블에 새 행 추가
-                    alert("사원이 성공적으로 등록되었습니다.");
-                    $('#employeeForm')[0].reset();  // 폼 초기화
-                    $('#previewImage').attr('src', '');  // 이미지 미리보기 초기화
+                url: '/employees/getEmployeesList.do',
+                method: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    const tableBody = $('.employees-list tbody');
+                    tableBody.empty();
+
+                    data.forEach(function(employee) {
+                        const row = $('<tr>').append(
+                            $('<td>').text(employee.e_idx),
+                            $('<td>').text(employee.name),
+                            $('<td>').text(employee.position),
+                            $('<td>').text(employee.depa)
+                        );
+                            
+                        row.on('click', function() {
+                            $('.table-common tbody tr').removeClass('active');
+                            $(this).addClass('active');
+                            $('#employeeForm input').attr('readonly', true);
+                            $('.hr_registration_crud input[type="submit"], .hr_registration_crud input[type="reset"]').prop('disabled', true);
+                            loadEmployeeDetails(employee.e_idx);
+                        });
+                        tableBody.append(row);
+                    });
                 },
-                error: function (jqXHR) {
-                    console.error('Error:', jqXHR.statusText);  // 오류 발생 시 콘솔에 출력
+                error: function() {
+                    window.alert('사원 목록을 불러오는 중 오류가 발생했습니다.');
                 }
             });
         }
 
-        // 테이블에 새 사원 행을 추가하는 함수
-        function addEmployeeRow(employee) {
-            const tableBody = document.querySelector('.hr_registration_list table tbody');
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${employee.hrCode}</td>
-                <td>${employee.name}</td>
-                <td>${employee.foreignStatus}</td>
-                <td>${employee.ssn}</td>
-            `;
-            tableBody.appendChild(row);
+        loadEmployeesList()
+
+        // 프로필 사진 변경시 섬네일 보여주기
+        $('#fileInput').on('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#previewImage').attr('src', e.target.result).show();
+                    $('.fas.fa-user-circle').hide();
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // 프로필 사진 클릭 시 파일 선택 창 열기
+        $('#profileContainer').off('click').on('click', function(event) {
+            if (event.target !== $('#fileInput')[0]) { 
+                $('#fileInput').trigger('click');
+            }
+        });
+
+        function loadEmployeeDetails(e_idx) {
+            $.ajax({
+                url: '/employees/getEmployee/' + e_idx,
+                method: 'GET',
+                dataType: 'json',
+                success: function(employee) {
+                    $('#e_idx').val(employee.e_idx);
+                    $('#name').val(employee.name);
+                    $('#tel').val(employee.tel);
+                    $('#jumin').val(employee.jumin);
+                    $('#address').val(employee.address);
+                    $('#birthday').val(employee.birthday ? new Date(employee.birthday).toISOString().split('T')[0] : '');
+                    $('#email').val(employee.email);
+                    $('#position').val(employee.position);
+                    $('#entry_date').val(employee.entry_date ? new Date(employee.entry_date).toISOString().split('T')[0] : '');
+                    $('#retirement_date').val(employee.retirement_date ? new Date(employee.retirement_date).toISOString().split('T')[0] : '');
+                    $('#depa').val(employee.depa);
+                    $('#mobile').val(employee.mobile);
+                    $('#entry_type').val(employee.entry_type);
+                    $('#bank_name').val(employee.bank_name);
+                    // If photo field is part of response, show preview (optional)
+                    if (employee.photo) {
+                        $('#previewImage').attr('src', '/path/to/photo/' + employee.photo); // Adjust path as needed
+                    }
+                },
+                error: function() {
+                    alert('사원 상세 정보를 불러오는 중 오류가 발생했습니다.');
+                }
+            });
         }
-    });
+
+        // 사원 등록하기
+        $('#employeeForm').on('submit', function(e) {
+            e.preventDefault();
+            const form = $('#employeeForm')[0];
+            const formData = new FormData(form);
+
+            $.ajax({
+                url: '/hr/register',
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    addEmployeeRow(response);
+                    alert("사원이 성공적으로 등록되었습니다.");
+                    $('#employeeForm')[0].reset();
+                    $('#previewImage').attr('src', '');
+                },
+                error: function(jqXHR) {
+                    console.error('Error:', jqXHR.statusText);
+                }
+            });
+        });
+
 });
 </script>

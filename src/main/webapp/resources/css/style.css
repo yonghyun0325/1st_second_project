@@ -116,6 +116,38 @@ input[type="button"]:hover {
     background-color: #66a7e3;
 }
 
+input[type="file"] {
+    max-width: 19%;
+    background-color: white;
+    cursor: pointer;
+}
+
+input[type="file"]::file-selector-button {
+    padding: 5px 12px;
+    margin-right: 10px;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+input[type="file"]::file-selector-button::before {
+    content: "\f055";
+    font-family: "Font Awesome 5 Pro";
+    font-weight: 900;
+    margin-right: 8px;
+}
+
+input[type="file"]::file-selector-button:hover {
+    background-color: #e6e6e6;
+}
+
+input[type="file"]::file-selector-button:focus {
+    outline: none;
+    border-color: #bbb;
+}
+
 /* 색상 레퍼런스 */
 :root {
     --btn-color: #408ed6;
@@ -373,14 +405,22 @@ header {
     border-radius: 5px;
 }
 
-.workspace-title {text-align: center;
-    font-size: 24px;
-    font-weight: bold;
+.sidebar-home-btn-wrapper {
+    text-align: center;
     margin: 10px;
     padding: 5px 15px;
     color: var(--funfun-white);
     border: 1px solid var(--funfun-white);
     border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    gap: 10px;
+}
+
+.workspace-title {
+    font-weight: bold;
 }
 
 
@@ -753,6 +793,33 @@ textarea {
     인사관리 페이지 스타일시트: hr.css
 ----------------------------------------- */
 
+.employees-info-title-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.employees-info-title-wrapper h4 {
+    padding: 3px 10px;
+}
+
+.button-bundle {
+    display: flex;
+    gap: 15px;
+}
+
+.button-bundle a {
+    padding: 3px 10px;
+    border-radius: 3px;
+    background: var(--funfun-blue);
+    color: var(--funfun-white);
+    transition: background-color 0.3s ease;
+}
+
+.button-bundle a:hover {
+    background: var(--funfun-blue-active);
+}
+
 #hr_info table {
     width: 100%;
     border-collapse: collapse; /* 테이블 테두리 중첩 방지 */
@@ -864,15 +931,6 @@ textarea {
     width: 100px;
     box-sizing: border-box;
 }
-#hireDate {
-    width: 130px;
-}
-#birthday {
-    width: 130px;
-}
-#leaveDate {
-    width: 130px;
-}
 .page_action_wrap{
     display: block;
     text-align: center;
@@ -886,6 +944,109 @@ textarea {
     font-weight: 800;
 }
 
+
+/* -----------------------------------------
+    인사등록 페이지 스타일시트: hr_registration.css
+----------------------------------------- */
+
+#hr_registration {
+    display: flex;
+    gap: 1em;
+}
+
+.hr_registration_list{
+    width: 500px;
+    height: 700px;
+    overflow-y: auto;
+}
+td{
+    height: 40px;
+}
+.hr_registration_post{
+    width: 700px;
+    height: 700px;
+    border: 1px solid black;
+}
+.hr_registration_post_basic{
+    width: 700px;
+    height: 300px;
+    border: 1px solid black;
+    display: flex;
+}
+.form-group label {
+    display: inline-block;
+    width: 120px;
+}
+.form-group input[type="text"],
+.form-group input[type="date"],
+.form-group input[type="email"],
+.form-group select {
+    width: 200px;
+    padding: 5px;
+}
+.form-group img {
+    width: 150px;
+    height: 170px;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+}
+.form-group button {
+    padding: 5px 10px;
+}
+.tabs {
+    margin-top: 20px;
+}
+.tabs button {
+    padding: 10px;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    margin-right: 5px;
+    cursor: pointer;
+}
+.tabs button.active {
+    background-color: #ddd;
+}
+img{
+    display: block; 
+    margin-bottom: 10px; 
+    width: 150px; 
+    height: 170px; 
+    border: 1px solid #ccc;
+    margin-left: 55px;
+}
+
+.hr_registration_crud {
+    display: flex;
+    justify-content: end;
+    margin: 10px;
+}
+
+#previewImage {
+    margin: 0 auto;
+}
+
+#profile-td {
+    background-color: #fff;
+    transition: background-color 0.3s;
+}
+
+#profile-td:hover {
+    background-color: #ddd;
+}
+
+#profileContainer {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+#fileInput {
+    width: 100%;
+}
+
 /* ------------------------------------------
     재무관리 페이지 스타일시트: financial.css
 ------------------------------------------- */
@@ -895,70 +1056,8 @@ textarea {
     gap: 1em;
 }
 
-/* 표 랩퍼 공통 스타일시트 */
-.employees-info-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
 #registration h4 {
     text-align: left;
-}
-
-/* 사원 목록 테이블 */
-#registration table {
-	border-collapse: separate;
-	border-spacing: 0;
-    width: 100%;
-    table-layout: fixed;
-    background-color: white;
-}
-
-/* 표 thead 공통 스타일 */
-#registration thead {
-    background-color: white;
-    position: sticky;
-    border-top: 2px solid #aaa;
-    border-bottom: 2px solid #aaa;
-    top: 0;
-    font-weight: bold;
-    z-index: 1;
-}
-
-#registration th {
-    position: relative;
-}
-
-/* 표 목록 테두리 공통 스타일 */
-#registration th, 
-#registration td {
-    padding: 5px 10px;
-    border-right: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
-    white-space: nowrap;
-    overflow-x: hidden;
-}
-
-/* 표 목록 테두리 공통 스타일 */
-#registration th:first-child, #registration td:first-child {
-    border-left: none;
-}
-
-#registration th:last-child, #registration td:last-child {
-    border-right: none;
-}
-
-/* 표 줄 구분 공통 스타일 */
-#registration tbody tr:nth-child(odd) { background-color: #f9f9f9; }
-#registration tbody tr:nth-child(even) { background-color: #fff; }
-
-/* 입력란 스타일 설정 */
-#registration input[type="text"] {
-    width: 100%;
-    background: none;
-    border: none;
-    text-align: right;
 }
 
 /* 사원 목록 섹션 */
@@ -976,10 +1075,6 @@ textarea {
     text-align: center;
 }
 
-/* 사원 목록 커서 포인터 변경 */
-.employees-list tbody tr { cursor: pointer; }
-.employees-list tbody tr:hover { background-color: #e6e6e6; }
-
 .salary-button-bundle {
     padding-top: 10px;
     justify-content: right;
@@ -987,7 +1082,83 @@ textarea {
     gap: 10px;
 }
 
-.resize-handle {
+/* 표 랩퍼 공통 스타일시트 */
+.employees-info-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* 사원 목록 테이블 스타일 */
+.table-common {
+	border-collapse: separate;
+	border-spacing: 0;
+    width: 100%;
+    table-layout: fixed;
+    background-color: white;
+    border-top: 1px solid #ddd;
+}
+
+/* 표 thead 공통 스타일 */
+.table-common thead {
+    background-color: white;
+    position: sticky;
+    border-top: 2px solid #aaa;
+    border-bottom: 2px solid #aaa;
+    top: 0;
+    font-weight: bold;
+    z-index: 1;
+}
+
+.table-common thead tr {
+    border-top: 2px solid #aaa;
+    border-bottom: 2px solid #aaa;
+}
+
+.table-common th {
+    position: relative;
+}
+
+/* 표 목록 테두리 공통 스타일 */
+.table-common th, 
+.table-common td {
+    padding: 5px 10px;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    white-space: nowrap;
+    overflow-x: hidden;
+}
+
+/* 표에서 첫번째와 마지막 줄 테두리 없애기 */
+.table-common th:first-child, 
+.table-common td:first-child { border-left: none; }
+.table-common th:last-child, 
+.table-common td:last-child { border-right: none; }
+
+/* 표 줄 구분을 위해 배경색 설정 */
+.table-common tbody tr:nth-child(odd) { background-color: #f9f9f9; }
+.table-common tbody tr:nth-child(even) { background-color: #fff; }
+
+/* 입력란 스타일 설정 */
+.table-common input[type="text"],
+.table-common input[type="number"],
+.table-common input[type="email"],
+.table-common input[type="date"] {
+    width: 100%;
+    background: none;
+    border: none;
+    text-align: right;
+}
+
+.table-common select {
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: none;
+}
+
+/* 표 사이즈 조절 기능 핸들 스타일 */
+.table-common-resize-handle {
     position: absolute;
     right: 0;
     top: 0;
@@ -997,9 +1168,15 @@ textarea {
     background-color: transparent;
 }
 
-.resize-handle:hover {
+.table-common-resize-handle:hover {
     background-color: #ccc;
 }
+
+/* 사원 목록의 경우 호버시 이펙트 주고 커서 변경 */
+.employees-list tbody tr { cursor: pointer; }
+.employees-list tbody tr:hover { background-color: #e6e6e6; }
+.employees-list tbody tr.active { background-color: #e6e6e6; }
+
 
 /* -----------------------------------------
         게시판 스타일시트: board.css
@@ -1216,41 +1393,6 @@ textarea {
     min-height: 200px;
     max-height: 400px;
 }
-
-.write input[type="file"] {
-    max-width: 19%;
-    background-color: white;
-    cursor: pointer;
-}
-
-.write input[type="file"]::file-selector-button {
-    padding: 5px 12px;
-    margin-right: 10px;
-    background-color: #f5f5f5;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
-}
-
-/* 커스텀 아이콘 추가 */
-.write input[type="file"]::file-selector-button::before {
-    content: "\f055";
-    font-family: "Font Awesome 5 Pro";
-    font-weight: 900;
-    margin-right: 8px;
-}
-
-/* hover 및 focus 효과 */
-.write input[type="file"]::file-selector-button:hover {
-    background-color: #e6e6e6;
-}
-
-.write input[type="file"]::file-selector-button:focus {
-    outline: none;
-    border-color: #bbb;
-}
-
 
 /* 글 상세 보기 */
 .view {

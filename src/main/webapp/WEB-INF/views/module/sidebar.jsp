@@ -4,7 +4,10 @@
 <aside>
     <div class="sidebar-wrapper">
         <!-- 대시보드 메뉴 -->
-        <div class="workspace-title"></div>
+        <a href="${pageContext.request.contextPath}/" class="sidebar-home-btn-wrapper">
+            <i class="fas fa-home-lg-alt"></i>
+            <div class="workspace-title"></div>
+        </a>
 
         <!-- 내 사무실 이동 -->
         <div class="sidebar-item dashboard-item">
