@@ -215,7 +215,7 @@ aside.sidebar-collapsed {
                 },
                 {
                     title: "고객 관리", icon: "fas fa-user-circle", submenu: [
-                        { title: "고객 관리", dataContent: "customer_registration" }
+                        { title: "고객 관리", dataContent: "customers_info" }
                     ]
                 },
                 {

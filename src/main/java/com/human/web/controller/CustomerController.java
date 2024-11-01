@@ -7,14 +7,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import lombok.AllArgsConstructor;
 
 @Controller
-@RequestMapping("/customer")
+@RequestMapping("/customers")
 @AllArgsConstructor
 public class CustomerController {
 
-    // 인사 정보
-    @GetMapping("/registration")
-    public String hrInfo() {
-        return "customer/registration"; 
+    // 고객 정보
+    @GetMapping("/info")
+    public String customersInfo() {
+        return "customers/info"; 
     }
     
 }
