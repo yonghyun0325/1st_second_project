@@ -17,8 +17,8 @@
     }
 
     .cabinet-card {
-        width: 400px;
-        height: 250px;
+        width: 320px;
+        height: 200px;
         padding: 15px;
         background-color: #fff;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -123,8 +123,8 @@
     }
     /*포스트 + 버튼 */
     #addcabinetBtn {
-        width: 400px;
-        height: 220px;
+        width: 320px;
+        height: 200px;
         background-color: #f9f9f9; /* 배경색 설정 */
         border: 2px dashed #ccc; /* 테두리 스타일: 점선 */
         display: flex;
@@ -139,8 +139,8 @@
     }
 
     #addcabinetBtn:hover {
-    color: #585a58; /* 마우스를 올렸을 때 + 기호 색상 변경 (초록색) */
-    border-color: #6c746d; /* 마우스를 올렸을 때 테두리 색상 변경 */
+        color: #585a58; /* 마우스를 올렸을 때 + 기호 색상 변경 (초록색) */
+        border-color: #6c746d; /* 마우스를 올렸을 때 테두리 색상 변경 */
     }
 
     .cabinet-favorites {
@@ -175,31 +175,35 @@
         transition: color 0.3s ease;
     }
 
+    #no-favorites {
+        background-color: #f9f9f9;
+        border: 2px dashed #ccc;
+        display: flex;
+        justify-content: center;
+        font-size: 28px;
+        color: #aaa;
+        transition: color 0.3s ease;
+        border-radius: 8px;
+        text-wrap: auto;
+        text-align: center;
+    }
+
+    #no-favorites:hover {
+        color: #585a58;
+        border-color: #6c746d;
+    }
+
 </style>
 <section id="cabinet">
-    <h3>즐겨찾기한 회의실</h3>
+    <h3>즐겨찾기</h3>
     <div class="cabinet-favorites" id="cabinet-favorites">
         <div id="no-favorites" class="cabinet-card">
-            아직 즐겨찾기한 회의실이 없습니다
+            아직 즐겨찾기한<br>회의실이 없습니다
         </div>
     </div>
     <h3>회의실 목록</h3>
-    <div class="cabinet-container" id="cabinetContainer">
-        <c:forEach items="${cabinets}" var="cabinet">
-            <div class="cabinet-card" data-id="${cabinet.c_id}">
-                <div class="cabinet-card-title">
-                    <strong>${cabinet.title}</strong>
-                    <button type="button" class="favorite-btn" data-id="${cabinet.c_id}">
-                        <i class="far fa-star"></i>
-                    </button>
-                </div>
-                <div class="cabinet-description">
-                    ${cabinet.description}
-                </div>
-                <div class="cabinet-card-footer">
-                </div>
-            </div>
-        </c:forEach>
+    <div class="cabinet-container" id="cabinet-container">
+        <!-- 자바스크립트에 의해 로딩됨 -->
     </div>
     
     <div class="add-cabinet-form">
@@ -223,34 +227,70 @@
 <script>
     $(document).ready(function () {
         const e_idx = $('#e_idx').val();
-
+        let favoriteIds = [];
+        
         function loadFavorites() {
             $.ajax({
                 type: "GET",
                 url: "/cabinet/getFavoriteList",
                 data: { e_idx: e_idx },
                 success: function (favorites) {
-                    console.log(favorites)
+                    favoriteIds = favorites.map(favorite => favorite.c_id);
+                    $('#cabinet-favorites').empty();
+
                     if (favorites.length > 0) {
                         $('#no-favorites').hide();
-                        $('#cabinet-favorites').empty();
                         favorites.forEach(favorite => {
-                            const favoriteCard = $('<div>')
-                                .addClass('cabinet-card')
-                                .append(`<div class="cabinet-card-title"><strong>${favorite.title}</strong></div>`)
-                                .append(`<div class="cabinet-description">${favorite.description}</div>`);
+                            const favoriteCard = $('<div>').addClass('cabinet-card').attr('data-id', favorite.c_id);
+                            const titleDiv = $('<div>').addClass('cabinet-card-title').append(
+                                $('<strong>').text(favorite.title),
+                                $('<button>').addClass('favorite-btn active').data('id', favorite.c_id).append(
+                                    $('<i>').addClass('fas fa-star')
+                                )
+                            );
+                            const descriptionDiv = $('<div>').addClass('cabinet-description').text(favorite.description);
+                            favoriteCard.append(titleDiv).append(descriptionDiv);
                             $('#cabinet-favorites').append(favoriteCard);
                         });
                     } else {
                         $('#no-favorites').show();
                     }
+                    loadCabinets();
                 },
                 error: function () {
                     console.error("즐겨찾기 목록 로드 중 오류 발생");
                 }
             });
         }
-        
+    
+        function loadCabinets() {
+            $.ajax({
+                type: "GET",
+                url: "/cabinet/getCabinets",
+                success: function (cabinets) {
+                    $('#cabinet-container').empty();
+                
+                    cabinets
+                        .filter(cabinet => !favoriteIds.includes(cabinet.c_id)) 
+                        .forEach(cabinet => {
+                            const cabinetCard = $('<div>').addClass('cabinet-card').attr('data-id', cabinet.c_id);
+                            const titleDiv = $('<div>').addClass('cabinet-card-title').append(
+                                $('<strong>').text(cabinet.title),
+                                $('<button>').addClass('favorite-btn').data('id', cabinet.c_id).append(
+                                    $('<i>').addClass('far fa-star')
+                                )
+                            );
+                            const descriptionDiv = $('<div>').addClass('cabinet-description').text(cabinet.description);
+                            cabinetCard.append(titleDiv).append(descriptionDiv);
+                            $('#cabinet-container').append(cabinetCard);
+                        });
+                },
+                error: function () {
+                    console.error("회의실 목록 로드 중 오류 발생");
+                }
+            });
+        }
+    
         loadFavorites();
         
         $('#addcabinetBtn').on('click', function () {
@@ -272,13 +312,7 @@
                 data: { title: title, description: description },
                 success: function (response) {
                     if (response === "success") {
-                        const cabinetCard = $('<div>').addClass('cabinet-card');
-                        const cabinetTitle = $('<strong>').text(title);
-                        const cabinetDescription = $('<div>').addClass('cabinet-description').text(description);
-                        
-                        cabinetCard.append(cabinetTitle, cabinetDescription);
-                        $('#cabinetContainer').append(cabinetCard);
-                        
+                        loadCabinets();
                         $('#cabinetModal').css('display', 'none');
                         $('#newcabinetTitle').val('');
                         $('#newcabinetDescription').val('');
@@ -295,9 +329,8 @@
         $('#cancelcabinetBtn').on('click', function () {
             $('#cabinetModal').css('display', 'none');
         });
-        
-        // 이벤트 위임으로 중복 호출 방지
-        $('#cabinetContainer').off('click', '.favorite-btn').on('click', '.favorite-btn', function (event) {
+    
+        $('#cabinet-container, #cabinet-favorites').on('click', '.favorite-btn', function (event) {
             event.stopPropagation();
             const roomId = $(this).data('id');
             const icon = $(this).find('i');
@@ -306,6 +339,10 @@
             if (isFavorite) {
                 icon.removeClass('fas').addClass('far');
                 $(this).removeClass('active');
+                $(this).closest('.cabinet-card', function () {
+                    $(this).remove();
+                    loadFavorites();
+                });
                 removeFavorite(e_idx, roomId);
             } else {
                 icon.removeClass('far').addClass('fas');
@@ -313,7 +350,7 @@
                 addFavorite(e_idx, roomId);
             }
         });
-        
+    
         function addFavorite(e_idx, roomId) {
             $.ajax({
                 type: "POST",
@@ -321,7 +358,7 @@
                 data: { e_idx: e_idx, c_id: roomId },
                 success: function (response) {
                     if (response === "success") {
-                        loadFavorites();  // 추가된 즐겨찾기 목록 새로고침
+                        loadFavorites();
                     } else {
                         console.error("즐겨찾기 추가 실패");
                     }
@@ -331,7 +368,7 @@
                 }
             });
         }
-        
+    
         function removeFavorite(e_idx, roomId) {
             $.ajax({
                 type: "POST",
@@ -339,7 +376,7 @@
                 data: { e_idx: e_idx, c_id: roomId },
                 success: function (response) {
                     if (response === "success") {
-                        loadFavorites();  // 제거된 즐겨찾기 목록 새로고침
+                        loadFavorites();
                     } else {
                         console.error("즐겨찾기 제거 실패");
                     }

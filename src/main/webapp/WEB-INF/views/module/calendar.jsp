@@ -134,6 +134,12 @@
             }
         });
 
+        $('#calendar-body').on('click', '.task', function () {
+            selectedTask = $(this).text();
+            taskDescription.val(selectedTask);
+            modal.addClass('active');
+        });
+
         $('#taskDescription').keydown(function(event) {
             if (event.key === 'Enter') {
                 event.preventDefault(); 

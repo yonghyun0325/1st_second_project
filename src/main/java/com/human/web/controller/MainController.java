@@ -45,8 +45,14 @@ public class MainController {
 
     // 대시보드 페이지 맵핑
     @GetMapping("/dashboard")
-    public String dashboard(Model model) {
+    public String dashboard(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        EmployeesVO employees = (EmployeesVO) session.getAttribute("employees");
+        int e_idx = employees.getE_idx();
+
         model.addAttribute("page", "dashboard");
+        model.addAttribute("e_idx", e_idx);
+
         return "main";
     }
 

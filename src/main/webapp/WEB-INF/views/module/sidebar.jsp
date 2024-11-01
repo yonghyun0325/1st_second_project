@@ -1,115 +1,305 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<style>
+    
+/* -----------------------------------------
+        사이드바 스타일시트: sidebar.css
+----------------------------------------- */
 
+/* 사이드 바 */
+
+aside {
+    width: 230px;
+    font-size: 1.2em;
+    font-weight: bold;
+    background: var(--funfun-midnight);
+}
+
+.hamburger {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    margin-right: 15px;
+}
+
+.bar {
+    width: 100%;
+    height: 4px;
+    background-color: white;
+    border-radius: 2px;
+}
+
+.half-bars {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.line-with-triangle {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    gap: 5px;
+}
+
+.triangle {
+    width: 0;
+    height: 0;
+    border-radius: 2px;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-right: 9px solid white;
+}
+
+.sidebar-collapsed .triangle {
+    transform: rotate(180deg);
+}
+
+aside.sidebar-collapsed {
+    display: none;
+}
+
+.sidebar-wrapper {
+    margin-bottom: 0;
+    padding: 10px;
+    display: flex;
+    gap: 5px;
+    flex-direction: column;
+}
+
+.sidebar-item {
+    color: var(--funfun-white);
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: all .2s ease;
+}
+
+.sidebar-item:hover {
+    background-color: #00000044;
+}
+
+.sidebar-item:last-of-type {
+    margin-bottom: 0;
+}
+
+.sidebar-item-title {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sidebar-item-title i {
+    width: 25px;
+    text-align: center;
+}
+
+.sidebar-toggle {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sidebar-submenu {
+    display: none;
+    padding-left: 20px;
+    margin-top: 5px;
+}
+
+.sidebar-submenu.open {
+    display: block;
+}
+
+.sidebar-submenu a::before {
+    content: '';
+    position: absolute;
+    left: -15px;
+    top: 50%;
+    width: 10px;
+}
+
+.sidebar-submenu a {
+    display: flex;
+    font-size: 0.9em;
+    align-items: center;
+    text-decoration: none;
+    margin-left: 3px;
+    padding: 5px;
+    position: relative;
+    font-weight: 400;
+}
+
+.sidebar-submenu a:hover {
+    font-weight: bold;
+}
+
+.sidebar-submenu a:last-child::before {
+    content: '└';
+    left: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.sidebar-submenu a:not(:last-child)::before {
+    content: '├';
+    left: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.rotate {
+    transform: rotate(90deg);
+    transition: transform 0.3s ease;
+}
+
+.fa-chevron-right {
+    transition: transform 0.3s ease;
+}
+
+.sidebar-home-btn-wrapper {
+    text-align: center;
+    margin: 10px;
+    padding: 5px 15px;
+    color: var(--funfun-white);
+    border: 1px solid var(--funfun-white);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    gap: 10px;
+}
+
+.workspace-title {
+    font-weight: bold;
+}
+
+</style>
 <aside>
     <div class="sidebar-wrapper">
-        <!-- 대시보드 메뉴 -->
-        <a href="${pageContext.request.contextPath}/" class="sidebar-home-btn-wrapper">
+        <a href="/" class="sidebar-home-btn-wrapper">
             <i class="fas fa-home-lg-alt"></i>
             <div class="workspace-title"></div>
         </a>
-
-        <!-- 내 사무실 이동 -->
-        <div class="sidebar-item dashboard-item">
-            <a href="${pageContext.request.contextPath}/myoffice" class="sidebar-toggle">
-                <span class="sidebar-item-title"><i class="fas fa-desktop-alt"></i>내 사무실</span>
-            </a>
-        </div>
-
-        <!-- 내 회의실 이동 -->
-        <div class="sidebar-item dashboard-item">
-            <a href="${pageContext.request.contextPath}/cabinet" class="sidebar-toggle">
-                <span class="sidebar-item-title"><i class="fas fa-users-class"></i> 내 회의실</span>
-            </a>
-        </div>
-
-
-        <!-- 내 사무실 메뉴 -->
-
-        <!-- 인사 관리 -->
-        <div class="sidebar-item myoffice-item">
-            <a href="javascript:void(0)" data-cate="hr" class="sidebar-toggle">
-                <span class="sidebar-item-title"><i class="fas fa-user-friends"></i>인사 관리</span>
-                <i id="hr-icon" class="fas fa-chevron-right"></i>
-            </a>
-            <div id="hr-submenu" class="sidebar-submenu">
-                <a href="javascript:void(0)" data-content="hr_registration">인사 등록</a>
-                <a href="javascript:void(0)" data-content="hr_info">인사 정보</a>
-            </div>
-        </div>
-
-        <!-- 급여 관리 -->
-        <div class="sidebar-item myoffice-item">
-            <a href="javascript:void(0)" data-cate="financial" class="sidebar-toggle">
-                <span class="sidebar-item-title"><i class="fas fa-hand-holding-usd"></i> 급여 관리</span>
-                <i id="financial-icon" class="fas fa-chevron-right"></i>
-            </a>
-            <div id="financial-submenu" class="sidebar-submenu">
-                <a href="javascript:void(0)" data-content="financial_registration">수당 등록</a>
-            </div>
-        </div>
-
-        <!-- 고객 관리 -->
-        <div class="sidebar-item myoffice-item">
-            <a href="javascript:void(0)" data-cate="customer" class="sidebar-toggle">
-                <span class="sidebar-item-title"><i class="fas fa-user-circle"></i>고객 관리</span>
-                <i id="customer-icon" class="fas fa-chevron-right"></i>
-            </a>
-            <div id="customer-submenu" class="sidebar-submenu">
-                <a href="javascript:void(0)" data-content="customer_registration">고객 관리</a>
-            </div>
-        </div>
-
-        <!-- 구매 관리 -->
-        <div class="sidebar-item myoffice-item">
-            <a href="javascript:void(0)" data-cate="purchase" class="sidebar-toggle">
-                <span class="sidebar-item-title"><i class="fas fa-money-check"></i>구매 관리</span>
-                <i id="purchase-icon" class="fas fa-chevron-right"></i>
-            </a>
-            <div id="purchase-submenu" class="sidebar-submenu">
-                <a href="javascript:void(0)" data-content="purchase_registration">구매 관리</a>
-            </div>
-        </div>
-
-        <!-- 게시판 -->
-        <div class="sidebar-item myoffice-item">
-            <a href="javascript:void(0)" data-cate="board" class="sidebar-toggle">
-                <span class="sidebar-item-title"><i class="fas fa-comments"></i>게시판</span>
-                <i id="board-icon" class="fas fa-chevron-right"></i>
-            </a>
-            <div id="board-submenu" class="sidebar-submenu">
-                <a href="javascript:void(0)" data-content="board_notice">공지사항</a>
-                <a href="javascript:void(0)" data-content="board_normal">커뮤니티</a>
-                <a href="javascript:void(0)" data-content="board_lost">분실물</a>
-            </div>
-        </div>
+        
+        <div id="dynamic-menu"></div>
     </div>
 </aside>
+
 <script>
-    $(document).ready(function() {
-        const currentPath = window.location.pathname;
-        const title = currentPath === '/dashboard' ? '대시보드' : currentPath === '/myoffice' ? '내 사무실' : '내 회의실'
+    $(document).ready(function () {
+        var currentPath = window.location.pathname;
 
-        // 현재 경로를 토대로 사이드바에 페이지 위치 표시
-        $('.workspace-title').text(title);
+        var menus = {
+            "/dashboard": [
+                { title: "내 사무실", icon: "fas fa-desktop-alt", path: "/myoffice" },
+                { title: "내 회의실", icon: "fas fa-users-class", path: "/cabinet" }
+            ],
+            "/myoffice": [
+                {
+                    title: "인사 관리", icon: "fas fa-user-friends", submenu: [
+                        { title: "인사 등록", dataContent: "hr_registration" },
+                        { title: "인사 정보", dataContent: "hr_info" }
+                    ]
+                },
+                {
+                    title: "급여 관리", icon: "fas fa-hand-holding-usd", submenu: [
+                        { title: "수당 등록", dataContent: "financial_registration" }
+                    ]
+                },
+                {
+                    title: "고객 관리", icon: "fas fa-user-circle", submenu: [
+                        { title: "고객 관리", dataContent: "customer_registration" }
+                    ]
+                },
+                {
+                    title: "구매 관리", icon: "fas fa-money-check", submenu: [
+                        { title: "구매 관리", dataContent: "purchase_registration" }
+                    ]
+                },
+                {
+                    title: "게시판", icon: "fas fa-comments", submenu: [
+                        { title: "공지사항", dataContent: "board_notice" },
+                        { title: "커뮤니티", dataContent: "board_normal" },
+                        { title: "분실물", dataContent: "board_lost" }
+                    ]
+                }
+            ],
+            "/cabinet": [
+                { title: "영업부", icon: "fas fa-briefcase", depa: "영업부" },
+                { title: "인사부", icon: "fas fa-user-tie", depa: "인사부" },
+                { title: "기획부", icon: "fas fa-lightbulb", depa: "기획부" },
+                { title: "마케팅부", icon: "fas fa-bullhorn", depa: "마케팅부" },
+                { title: "개발부", icon: "fas fa-code", depa: "개발부" },
+                { title: "디자인부", icon: "fas fa-paint-brush", depa: "디자인부" }
+            ]
+        };
 
-        // 위치에 따라 사이드바에 보이는 메뉴 다르게 하기
-        $('.dashboard-item').toggle(currentPath === '/dashboard');
-        $('.myoffice-item').toggle(currentPath === '/myoffice');
+        var titleMap = { "/dashboard": "대시보드", "/myoffice": "내 사무실", "/cabinet": "내 회의실" };
+        $('.workspace-title').text(titleMap[currentPath]);
+
+        var menuContainer = $("#dynamic-menu");
         
-        // 사이드바 카테고리 클릭시 펼쳐지기
+        function generateMenu(menuItems) {
+            menuItems.forEach(function(item) {
+                var menuHTML = '<div class="sidebar-item myoffice-item">' +
+                               '<a href="' + (item.path || 'javascript:void(0)') + '" class="sidebar-toggle">' +
+                               '<span class="sidebar-item-title"><i class="' + item.icon + '"></i> ' + item.title + '</span>';
+
+                if (item.submenu) {
+                    menuHTML += '<i class="fas fa-chevron-right"></i></a><div class="sidebar-submenu">';
+                    item.submenu.forEach(function(subitem) {
+                        menuHTML += '<a href="javascript:void(0)" data-content="' + subitem.dataContent + '">' + subitem.title + '</a>';
+                    });
+                    menuHTML += '</div>';
+                } else {
+                    menuHTML += '</a>';
+                }
+
+                menuHTML += '</div>';
+                menuContainer.append(menuHTML);
+            
+                if (currentPath === "/cabinet" && item.depa) {
+                    $.ajax({
+                        url: "/cabinet/" + encodeURIComponent(item.depa),
+                        method: "GET",
+                        success: function(data) {
+                            if (data.length > 0) {
+                                var submenuHTML = '<div class="sidebar-submenu">';
+                                data.forEach(function(room) {
+                                    submenuHTML += '<a href="javascript:void(0)" data-content="cabinet_' + room.id + '">' + room.name + '</a>';
+                                });
+                                submenuHTML += '</div>';
+                                menuContainer.find(".sidebar-item").last().append(submenuHTML);
+                            }
+                        },
+                        error: function() {
+                            console.error(item.depa + " 부서의 회의실을 불러오는 중 오류가 발생했습니다.");
+                        }
+                    });
+                }
+            });
+        }
+
+        if (menus[currentPath]) {
+            generateMenu(menus[currentPath]);
+        }
+
         $('.sidebar-toggle').on('click', function () {
-            const tabId = $(this).data('cate');
-            $('#' + tabId + '-submenu').toggleClass('open');
-            $('#' + tabId + '-icon').toggleClass('rotate');
+            $(this).next('.sidebar-submenu').toggleClass('open');
+            $(this).find('.fa-chevron-right').toggleClass('rotate');
         });
-    
-        // 헤더에 사이드바 접기 누르면 숨기기
-        $('.sidbar-expand-btn').on('click', function() {
-            const mainWrapper = $('#main-wrapper');
-            mainWrapper.toggleClass('sidebar-hidden');
-            $(this).toggleClass('sidebar-hidden');
+
+        // 사이드바 확장/축소 토글
+        $('.sidbar-expand-btn').on('click', function () {
+            $('aside').toggleClass('sidebar-collapsed');
+            $('.hamburger').toggleClass('sidebar-collapsed')
         });
-    })
-    
+    });
 </script>

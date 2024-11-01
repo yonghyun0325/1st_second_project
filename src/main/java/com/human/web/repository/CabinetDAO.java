@@ -27,4 +27,8 @@ public class CabinetDAO {
 	public List<CabinetVO> getCabinets() {
 		return sqlSession.selectList(MAPPER+".getCabinets");
 	}
+
+	public List<CabinetVO> getDepaCabinets(String depa) {
+		return sqlSession.selectList(MAPPER+".getDepaCabinets", depa);
+	}
 }

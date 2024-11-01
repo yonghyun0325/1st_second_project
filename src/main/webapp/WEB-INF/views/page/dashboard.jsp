@@ -114,6 +114,60 @@
         margin-right: 5px;
     }
 
+    #favoriteRoomList {
+        list-style: none;
+        padding: 0;
+    }
+
+    #favoriteRoomList li {
+        height: 150px;
+        padding: 15px;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        cursor: pointer;
+    }
+
+    #favoriteRoomList li:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .cabinet-card-title {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .cabinet-card-title strong {
+        font-size: 1.2em;
+        color: #000000;
+    }
+
+    .cabinet-description {
+        font-size: 0.9em;
+        color: #666;
+        margin-top: 10px;
+    }
+
+    .favorite-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 1.2em;
+        color: #ccc;
+        transition: transform 0.3s ease;
+        padding: 0;
+    }
+
+    .favorite-btn:hover {
+        color: gold;
+    }
+
 </style>
 
 <div class="gadget" id="calendar">
@@ -144,27 +198,23 @@
     </div>
 </div>
 
-<div class="gadget" id="chatWidget">
+<div class="gadget" id="favoriteRooms">
     <div class="gadget-header">
-        <h3 class="gadget-title">채팅</h3>
-        <button class="gadget-toggle" onclick="toggleGadget('chatWidget')">
+        <h3 class="gadget-title">내 회의실</h3>
+        <button class="gadget-toggle" onclick="toggleGadget('favoriteRooms')">
             <i class="far fa-compress-alt"></i>
         </button>
     </div>
     <div class="gadget-body">
-        <div class="gadget-content" id="chatContent">
-            <ul id="chatMessages"></ul>
-        </div>
-        <div class="chat-input-container">
-            <input type="text" id="chatUsername" placeholder="이름" />
-            <input type="text" id="chatMessage" placeholder="메시지를 입력하세요" />
-            <button id="sendMessage">전송</button>
+        <div class="gadget-content">
+            <ul id="favoriteRoomList"></ul>
         </div>
     </div>
 </div>
 
 <script>
     $(document).ready(function () {
+        const e_idx = "${e_idx}";
 
         $(function() {
             $(".gadget").draggable({
@@ -225,53 +275,38 @@
             }
         });
 
-
-        // 채팅 메시지 가져오기 함수
-        function loadChatMessages() {
+        function loadFavoriteRooms() {
             $.ajax({
-                url: '/loadChatMessages', // 서버에 저장된 채팅 메시지를 가져오는 엔드포인트
-                method: 'GET',
+                url: '/cabinet/getFavoriteList',
+                type: 'GET',
+                data: { e_idx: e_idx },
                 success: function (data) {
-                    const chatMessages = $('#chatMessages');
-                    chatMessages.empty();
-                    data.forEach(msg => {
-                        const message = $('<li>').text(msg.username + ": " + msg.message);
-                        chatMessages.append(message);
-                    });
-                    $('#chatContent').scrollTop($('#chatContent')[0].scrollHeight);
+                    const favoriteRoomList = $('#favoriteRoomList');
+                    favoriteRoomList.empty();
+                    
+                    if (data.length > 0) {
+                        data.forEach(room => {
+                            const listItem = $('<li>').addClass('cabinet-card').append(
+                                $('<div>').addClass('cabinet-card-title').append(
+                                    $('<strong>').text(room.title),
+                                ),
+                                $('<div>').addClass('cabinet-description').text(room.description)
+                            );
+                            favoriteRoomList.append(listItem);
+                        });
+                    } else {
+                        favoriteRoomList.append('<li class="cabinet-card">즐겨찾기한 회의실이 없습니다.</li>');
+                    }
                 },
                 error: function () {
-                    console.error("채팅 메시지를 가져오는 중 오류가 발생했습니다.");
+                    $('#favoriteRoomList').html('<li class="cabinet-card">회의실 목록을 불러오는 데 실패했습니다.</li>');
                 }
             });
         }
 
-        // 메시지 전송 버튼 클릭 시
-        $('#sendMessage').on('click', function () {
-            const username = $('#chatUsername').val().trim();
-            const message = $('#chatMessage').val().trim();
+        loadFavoriteRooms();
+        setInterval(loadFavoriteRooms, 30000);
 
-            if (username === '' || message === '') {
-                alert('이름과 메시지를 입력하세요.');
-                return;
-            }
-
-            $.ajax({
-                url: '/sendMessage', // 서버에 메시지를 전송하는 엔드포인트
-                method: 'POST',
-                data: { username: username, message: message },
-                success: function () {
-                    $('#chatMessage').val(''); // 메시지 입력 필드 초기화
-                    loadChatMessages(); // 메시지 목록 갱신
-                },
-                error: function () {
-                    alert("메시지 전송에 실패했습니다.");
-                }
-            });
-        });
-
-        // 5초마다 새로운 채팅 메시지 불러오기
-        setInterval(loadChatMessages, 5000);
     });
 
     function toggleGadget(id) {

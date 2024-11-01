@@ -12,5 +12,6 @@ public interface CabinetService {
 
 	List<CabinetVO> getCabinets();
     
+	List<CabinetVO> getDepaCabinets(String depa);
 }
 

@@ -4,15 +4,19 @@ import javax.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.human.web.service.CabinetService;
 import com.human.web.vo.CabinetVO;
 import com.human.web.vo.EmployeesVO;
 
 import lombok.AllArgsConstructor;
+import java.util.List;
 
 @Controller
 @RequestMapping("/cabinet")
@@ -44,4 +48,17 @@ public class CabinetController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: DB 삽입 실패");
         }
     }
+
+    @GetMapping("/getCabinets")
+    @ResponseBody
+    public List<CabinetVO> getCabinets() {
+        return cabinetService.getCabinets();
+    }
+
+    @GetMapping("/{depa}")
+    @ResponseBody
+    public List<CabinetVO> getDepaCabinets(@PathVariable String depa) {
+        return cabinetService.getDepaCabinets(depa);
+    }
+
 }

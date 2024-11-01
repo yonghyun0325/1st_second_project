@@ -36,7 +36,7 @@
             <table class="hr-employees-info table-common">
                 <!-- 사진 등록 부분을 테이블 첫 번째 행으로 추가 -->
                 <tr>
-                    <td rowspan="6" colspan="2" id="profile-td" style="cursor: pointer;">
+                    <td rowspan="6" colspan="2" id="profile-td" style="cursor: pointer; padding: 10px;">
                         <div id="profileContainer">
                             <img id="previewImage" src="" alt="" style="width: 100%; height: 100%; border-radius: 50%; display: none;">
                             <i class="fas fa-user-circle" style="font-size: 100px; color: #ccc;"></i>
@@ -46,24 +46,52 @@
                 </tr>
 
                 <tr>
-                    <td colspan="2">성명</td>
-                    <td colspan="2"><input type="text" id="name" name="name" required></td>
-                    <td colspan="2">사원번호</td>
+                    <td>성명</td>
+                    <td><input type="text" id="name" name="name" required></td>
+                    <td>사원번호</td>
                     <td colspan="2"><input type="text" id="e_idx" name="e_idx" disabled></td>
+                    <td>생년월일</td>
+                    <td colspan="2"><input type="date" id="birthday" name="birthday"></td>
                 </tr>
                 
                 <tr>
-                    <td colspan="2">전화번호</td>
+                    <td>전화번호</td>
                     <td colspan="2"><input type="text" id="tel" name="tel" required></td>
-                    <td colspan="2">주민등록번호</td>
+                    <td>주민번호</td>
                     <td colspan="2"><input type="text" id="jumin" name="jumin" required></td>
+                    <td>성별</td>
+                    <td>
+                        <select name="gender">
+                           <option value="" selected>선택</option>
+                           <option value="male">남자</option>
+                           <option value="female">여자</option>
+                        </select>
+                    </td>
                 </tr>
 
                 <tr>
-                    <td>생년월일</td>
-                    <td colspan="2"><input type="date" id="birthday" name="birthday"></td>
                     <td>E-mail</td>
-                    <td colspan="4"><input type="email" id="email" name="email"></td>
+                    <td colspan="3"><input type="email" id="email" name="email"></td>
+                    <td>부서</td>
+                    <td><input type="text" id="depa" name="depa"></td>
+                    <td>직위</td>
+                    <td><input type="text" id="position" name="position"></td>
+                </tr>
+
+                <tr>
+                    <td>근무지</td>
+                    <td colspan="3"><input type="text" id="workplace" name="workplace"></td>
+                    <td>직원구분</td>
+                    <td>
+                        <select name="employee_type">
+                            <option value="" selected>선택</option>
+                            <option value="moderator">임원</option>
+                            <option value="full-time">정규직</option>
+                            <option value="contract-worker">계약직</option>
+                         </select>
+                    </td>
+                    <td>급여구분</td>
+                    <td><input type="text" id="salary_type" name="salary_type"></td>
                 </tr>
 
                 <tr>
@@ -71,15 +99,6 @@
                     <td colspan="2"><input type="date" id="entry_date" name="entry_date"></td>
                     <td colspan="2">퇴사일자</td>
                     <td colspan="2"><input type="date" id="retirement_date" name="retirement_date"></td>
-                </tr>
-
-                <tr>
-                    <td>근무지</td>
-                    <td colspan="2"><input type="text" id="workplace" name="workplace"></td>
-                    <td>부서</td>
-                    <td colspan="2"><input type="text" id="depa" name="depa"></td>
-                    <td>직위</td>
-                    <td><input type="text" id="position" name="position"></td>
                 </tr>
 
                 <tr>
@@ -111,17 +130,23 @@
                 </tr>
 
                 <tr>
-                    <td>직원구분</td>
-                    <td colspan="2">
-                        <select name="employee_type">
-                            <option value="" selected>선택하세요</option>
-                            <option value="moderator">임원</option>
-                            <option value="full-time">정규직</option>
-                            <option value="contract-worker">계약직</option>
-                         </select>
+                    <td>결혼여부</td>
+                    <td>
+                        <select name="maritalStatus">
+                           <option value="" selected>선택</option>
+                           <option value="single">미혼</option>
+                           <option value="married">기혼</option>
+                        </select>
                     </td>
-                    <td>급여구분</td>
-                    <td colspan="2"><input type="text" id="salary_type" name="salary_type"></td>
+
+                    <td>장애여부</td>
+                    <td>
+                        <select name="disability">
+                           <option value="" selected>선택</option>
+                           <option value="Y">Y</option>
+                           <option value="N">N</option>
+                        </select>
+                    </td>
                 </tr>
                 
             </table>

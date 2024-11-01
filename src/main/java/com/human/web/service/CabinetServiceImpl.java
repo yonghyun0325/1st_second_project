@@ -27,4 +27,9 @@ public class CabinetServiceImpl implements CabinetService {
 	public List<CabinetVO> getCabinets() {
 		return cabinetDAO.getCabinets();
 	}
+
+    @Override
+    public List<CabinetVO> getDepaCabinets(String depa) {
+        return cabinetDAO.getDepaCabinets(depa);
+    }
 }
