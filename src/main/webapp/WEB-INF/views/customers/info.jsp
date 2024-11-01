@@ -34,7 +34,7 @@
                 <label>식별 번호: <input type="number" name = "i_num"></label><br>
                 <label>거래 유형: <input type="text" name = "trans_type"></label><br>
                 <label>제품군: <input type="text" name = "product_name"></label><br>
-                <label>제공 기간: <input type="datetime-local" name = "usetime"></label><br>
+                <label>제공 기간: <input type="date" name = "usetime"></label><br>
                 <label>요청 사항: <input type="text" name = "req_content"></label><br>
                 <input type="submit" value="등록">
                </form>
