@@ -1,10 +1,19 @@
 
 $(document).ready(function() {
     const tabHead = $('#tab-head');
-    const tabBody = $('#tab-body');
+    // const tabBody = $('#tab-body');
 
     // 페이지 로드시 로컬 스토리지에 저장된 탭 정보 복원
     restoreTab();
+
+    // 탭 순서 변경 가능하게 설정
+    tabHead.sortable({
+        axis: "x",
+        containment: "parent", 
+        stop: function() {
+            saveTab();
+        }
+    });
 
     // 서브카테고리 클릭했을 때 탭 추가 메소드 호출
     $('.sidebar-submenu a').on('click', function (e) {
@@ -23,14 +32,14 @@ $(document).ready(function() {
 
     // 탭 추가후 내용 불러오기
     function addTab(tabName, contentId, isActive = true) {
-        const newThead = $('<div class="tab" id="thead-' + contentId + '">' + tabName + ' <i class="fas fa-times"></i>');
+        const newThead = $('<div class="tab" id="thead-' + contentId + '">' + tabName + ' <i class="fal fa-times"></i>');
         const newTbody = $('<div class="tbody" id="tbody-' + contentId + '"></div>');
         $('#tab-head').append(newThead);
         $('#tab-body').append(newTbody);
 
         // 탭 일정개수 늘어나면 둥근모서리 효과 삭제
-        let radius = tabHead[0].scrollWidth > tabHead[0].clientWidth ? '0' : '10px'
-        tabBody.css('border-top-right-radius', radius);
+        // let radius = tabHead[0].scrollWidth > tabHead[0].clientWidth ? '0' : '10px'
+        // tabBody.css('border-top-right-radius', radius);
         
         // 탭 클릭시 다시 내용 보여주기
         newThead.on('click', function () {
@@ -87,8 +96,8 @@ $(document).ready(function() {
         }
         
         // 탭 일정개수 늘어나면 둥근모서리 효과 추가
-        let radius = tabHead[0].scrollWidth > tabHead[0].clientWidth ? '0' : '10px'
-        tabBody.css('border-top-right-radius', radius);
+        // let radius = tabHead[0].scrollWidth > tabHead[0].clientWidth ? '0' : '10px'
+        // tabBody.css('border-top-right-radius', radius);
 
         saveTab();
     }

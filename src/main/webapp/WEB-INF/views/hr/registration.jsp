@@ -1,9 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<style>
+    .hr-employees-info {
+        table-layout: fixed;
+        text-align: center;
+    }
+
+</style>
 <!-- css, 인사등록 스타일  -->
 <section id="hr_registration">
-    <div class="employees-info-wrapper" style="max-width: 380px;">
-        <div class="employees-info-title-wrapper">
-            <h4>◇ 사원 목록</h4>
+    <div class="table-wrapper" style="width: 330px;">
+        <div class="list-title-wrapper">
+            <h3>◇ 사원 목록</h3>
             <div class="button-bundle">
                 <a href="javascript:void(0)" class="hr_registration_addition">추가</a>
                 <a href="javascript:void(0)" class="hr_registration_update">수정</a>
@@ -26,10 +33,10 @@
             </table>
         </div>
     </div>
-
-    <div class="employees-info-wrapper" style="flex: 1;">
-        <div class="employees-info-title-wrapper">
-            <h4>◇ 사원 정보</h4>
+    
+    <div class="table-wrapper" style="flex: 1;">
+        <div class="list-title-wrapper">
+            <h3>◇ 사원 정보</h3>
         </div>
         <!-- 사원등록 폼 시작 -->
         <form name="employeeForm" id="employeeForm" action="${pageContext.request.contextPath}/hr/register" method="post">
@@ -160,6 +167,7 @@
 <script>
     $(document).ready(function() {
 
+        // 기본적으로 입력할 수 없게 설정
         $('#employeeForm input').attr('readonly', true);
         $('.hr_registration_crud input[type="submit"], .hr_registration_crud input[type="reset"]').prop('disabled', true);
 
@@ -244,9 +252,8 @@
                     $('#mobile').val(employee.mobile);
                     $('#entry_type').val(employee.entry_type);
                     $('#bank_name').val(employee.bank_name);
-                    // If photo field is part of response, show preview (optional)
                     if (employee.photo) {
-                        $('#previewImage').attr('src', '/path/to/photo/' + employee.photo); // Adjust path as needed
+                        $('#previewImage').attr('src', '/path/to/photo/' + employee.photo);
                     }
                 },
                 error: function() {
@@ -279,5 +286,114 @@
             });
         });
 
-});
+        // 추가 버튼 클릭 이벤트 처리
+        $('.hr_registration_addition').on('click', function() {
+            $('.button-bundle a').hide();
+
+            const tableBody = $('.employees-list tbody');
+            const newRow = $('<tr>').addClass('new-row').append(
+                $('<td>').append('<input type="text" name="new_e_idx" disabled value="자동 생성됨">'),
+                $('<td>').append('<input type="text" name="new_name" required>'),
+                $('<td>').append(`
+                    <select name="new_position" required>
+                        <option value="" selected>선택</option>
+                        <option value="manager">매니저</option>
+                        <option value="staff">스태프</option>
+                    </select>
+                `),
+                $('<td>').append(`
+                    <select name="new_depa" required>
+                        <option value="" selected>선택</option>
+                        <option value="HR">인사</option>
+                        <option value="IT">IT</option>
+                    </select>
+                `)
+            );
+
+            tableBody.prepend(newRow);
+
+            $('.button-bundle').append(`
+                <a href="javascript:void(0)" class="hr_registration_complete">저장</a>
+                <a href="javascript:void(0)" class="hr_registration_cancel">취소</a>
+            `);
+        });
+
+        $(document).on('click', '.hr_registration_complete', function() {
+            const name = $('input[name="new_name"]').val();
+            const position = $('select[name="new_position"]').val();
+            const depa = $('select[name="new_depa"]').val();
+
+            if (!name || !position || !depa) {
+                alert('모든 필수 항목을 작성해주세요.');
+                return;
+            }
+
+            $.ajax({
+                url: '/hr/register',
+                method: 'POST',
+                data: {
+                    name: name,
+                    position: position,
+                    depa: depa
+                },
+                success: function(response) {
+                    alert("추가가 완료되었습니다.");
+                    loadEmployeesList();
+                    restoreButtons();
+                    $('#employeeForm input').removeAttr('readonly');
+                },
+                error: function() {
+                    alert('사원을 추가하는 중 오류가 발생했습니다.');
+                }
+            });
+        });
+
+        $(document).on('click', '.hr_registration_cancel', function() {
+            restoreButtons();
+            $('.new-row').remove();
+        });
+
+        function restoreButtons() {
+            $('.button-bundle a').show();
+            $('.hr_registration_complete, .hr_registration_cancel').remove();
+        }
+
+
+        const dragBar = document.getElementById('drag-bar');
+        const listWrapper = document.getElementById('employee-list');
+        const infoWrapper = document.getElementById('employee-info');
+        let isDragging = false;
+
+        // 드래그 시작
+        dragBar.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            dragBar.classList.add('dragging');
+            document.body.style.cursor = 'col-resize';
+            e.preventDefault();
+        });
+
+        // 드래그 중
+        document.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+
+            const containerWidth = $('#resizable-container').width();
+            const offsetX = e.pageX;
+            const newWidthPercentage = (offsetX / containerWidth) * 100;
+
+            // 너비 조절 (최소/최대값 설정)
+            if (newWidthPercentage > 10 && newWidthPercentage < 90) {
+                listWrapper.style.width = newWidthPercentage + '%';
+                infoWrapper.style.width = (100 - newWidthPercentage) + '%';
+            }
+        });
+
+        // 드래그 종료
+        document.addEventListener('mouseup', () => {
+            if (isDragging) {
+                isDragging = false;
+                dragBar.classList.remove('dragging');
+                document.body.style.cursor = 'default';
+            }
+        });
+    });
 </script>

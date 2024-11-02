@@ -4,8 +4,8 @@
 <section id="registration">
 
     <!-- 사원 목록 -->
-    <div class="employees-info-wrapper" style="flex: 1;">
-        <h4>◇ 사원 목록</h4>
+    <div class="table-wrapper" style="flex: 1;">
+        <h3>◇ 사원 목록</h3>
         <div class="employees-list-section">
             <table class="employees-list table-common">
                 <thead>
@@ -24,8 +24,8 @@
     </div>
 
     <!-- 사원 상세 정보 -->
-    <div class="employees-info-wrapper" style="flex: 1;">
-        <h4>◇ 상세 정보</h4>
+    <div class="table-wrapper" style="flex: 1;">
+        <h3>◇ 상세 정보</h3>
         <div class="employees-details-section">
             <table class="employees-details table-common">
                 <thead>
@@ -57,8 +57,8 @@
     </div>
 
     
-    <div class="employees-info-wrapper" style="flex: 2;">
-        <h4>◇ 급여 정보</h4>
+    <div class="table-wrapper" style="flex: 2;">
+        <h3>◇ 급여 정보</h3>
         <div class="salary-info-section">
             <form id="salary-form" name="salary-form">
                 <input type="hidden" id="e_idx" name="e_idx">

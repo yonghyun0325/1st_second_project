@@ -72,6 +72,37 @@ aside.sidebar-collapsed {
     flex-direction: column;
 }
 
+.sidebar-header {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 15px 15px 15px;
+    border-bottom: 1px solid #ffffff33;
+}
+
+.sidebar-home-btn {
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--funfun-white);
+    border: 1px solid var(--funfun-white);
+    border-radius: 10px;
+    font-size: 24px;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar-home-btn:hover {
+    background: #152a42
+}
+
+.workspace-title {
+    color: var(--funfun-white);
+    font-weight: bold;
+    font-size: 24px;
+}
+
 .sidebar-item {
     color: var(--funfun-white);
     padding: 10px 15px;
@@ -162,33 +193,15 @@ aside.sidebar-collapsed {
     transition: transform 0.3s ease;
 }
 
-.sidebar-home-btn-wrapper {
-    text-align: center;
-    margin: 10px;
-    padding: 5px 15px;
-    color: var(--funfun-white);
-    border: 1px solid var(--funfun-white);
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    gap: 10px;
-}
-
-.workspace-title {
-    font-weight: bold;
-}
-
 </style>
 <aside>
     <div class="sidebar-wrapper">
-        <a href="/" class="sidebar-home-btn-wrapper">
-            <i class="fas fa-home-lg-alt"></i>
+        <div class="sidebar-header">
             <div class="workspace-title"></div>
-        </a>
+            <a href="/"><i class="fas fa-home-lg-alt sidebar-home-btn"></i></a>
+        </div>
         
-        <div id="dynamic-menu"></div>
+        <div id="sidebar-menu"></div>
     </div>
 </aside>
 
@@ -244,7 +257,7 @@ aside.sidebar-collapsed {
         var titleMap = { "/dashboard": "대시보드", "/myoffice": "내 사무실", "/cabinet": "내 회의실" };
         $('.workspace-title').text(titleMap[currentPath]);
 
-        var menuContainer = $("#dynamic-menu");
+        var menuContainer = $("#sidebar-menu");
         
         function generateMenu(menuItems) {
             menuItems.forEach(function(item) {

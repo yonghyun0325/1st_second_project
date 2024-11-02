@@ -23,7 +23,7 @@
     }
 
     .gadget-header {    
-        padding: 10px;
+        padding: 0 10px;
         border-bottom: 1px solid #bbb;
         display: flex;
         justify-content: space-between;
@@ -47,11 +47,13 @@
         padding: 0;
         margin-left: 10px;
         color: black;
-        padding: 2px 8px;
+        padding: 2px;
+        transition: all 0.3s ease;
     }
 
     .gadget-toggle:hover {
-        color: white;
+        color: var(--funfun-blue);
+        background: none;
     }
 
     .gadget-body {

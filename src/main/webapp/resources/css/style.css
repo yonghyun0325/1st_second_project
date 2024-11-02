@@ -292,75 +292,6 @@ input[type="file"]::file-selector-button:focus {
     text-align: center;
 }
 
-/* -----------------------------------------
-        헤더 스타일시트: header.css
------------------------------------------ */
-
-header {
-    width: 100%;
-    height: 60px;
-    background-color: var(--funfun-blue);
-    display: flex;
-    flex-shrink: 0;
-    color: var(--funfun-white);
-    justify-content: space-between;
-    align-items: center;
-}
-
-.header_logo {
-    text-align: center;
-}
-
-.header_logo i {
-    padding: 5px;
-}
-
-.header_UserName {
-    text-align: center;
-    font-size: 1em;
-}
-
-.header_logout {
-    font-size: 1em;
-}
-
-.header-right-side {
-    font-size: 1.8em;
-    align-items: center;
-    font-weight: bold;
-    display: flex;
-    gap: 10px;
-    margin-left: 20px;
-}
-
-.header_title {
-    align-items: center;
-    display: flex;
-    gap: 10px;
-}
-
-.permission {
-    margin-left: 10px;
-    background-color: black;
-    color: white;
-    border-radius: 5px;
-    font-size: 0.8em;
-    padding: 5px 10px;
-}
-
-.header-left-side {
-    display: flex;
-    align-items: center;
-    margin-right: 20px;
-    gap: 20px;
-}
-
-.header-left-item {
-    padding: 4px 13px;
-    border: 1px solid #ffffff88;
-    background: var(--funfun-blue-dark);
-    border-radius: 5px;
-}
 
 /* 메인 화면 영역 */
 
@@ -372,17 +303,15 @@ header {
 
 main {
     display: flex;
-    background-color: #fafafa;
     flex-direction: column;
     overflow: hidden;
     flex: 1;
-    padding: 1em;
     position: relative;
+    background: #e7e7e7;;
 }
 
 /* 섹션 배경색과 기본 여백 */
 section {
-    background-color: white;
     padding: 1em;
     height: 100%;
 }
@@ -398,7 +327,9 @@ section {
     cursor: grab;
     -webkit-overflow-scrolling: touch;
     user-select: none;
-    flex-shrink: 0;
+    flex-shrink: 0;    
+    padding-left: 30px;
+    margin: 5px 0px 0px 8px;
 }
 
 #tab-head::-webkit-scrollbar {
@@ -422,16 +353,6 @@ section {
     cursor: grabbing;
 }
 
-/* 탭 머리들에 대한 스타일 */
-.tab {
-    display: inline-block;
-    white-space: nowrap;
-}
-
-.tab i {
-    margin-right: 5px;
-}
-
 .tab-navigation {
     display: flex;
     align-items: center;
@@ -450,24 +371,27 @@ section {
     cursor: not-allowed;
 }
 
+/* 탭 머리들에 대한 스타일 */
 .tab {
-    padding: 10px;
+    font-size: 16px;
+    padding: 5px 10px;
     display: inline-block;
     cursor: pointer;
-    background-color: #aaa;
+    background-color: #ddd;
+    border: 1px solid #aaa;
     border-bottom: none;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
     margin-right: 5px;
     white-space: nowrap;
 }
 
 .tab:hover {
-    background-color: #ddd;
+    background-color: #eee;
 }
 
 .tab.active {
-    background-color: #ddd;
+    background-color: #fefefe;
     font-weight: bold;
 }
 
@@ -481,8 +405,9 @@ section {
     overflow: hidden;
     max-height: 100%;
     flex-grow: 1;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
+    margin-left: 8px;
+    border-left: 1px solid #bbb;
+    border-top: 1px solid #bbb;
 }
 
 .tbody {
@@ -493,9 +418,8 @@ section {
     display: block;
     font-size: 0.9em;
     flex: 1;
-    padding: 1em;
     height: 100%;
-    background-color: #ddd;
+    background-color: #fefefe;
 }
 
 /* -----------------------------------------
@@ -619,14 +543,10 @@ textarea {
     인사관리 페이지 스타일시트: hr.css
 ----------------------------------------- */
 
-.employees-info-title-wrapper {
+.list-title-wrapper {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-.employees-info-title-wrapper h4 {
-    padding: 3px 10px;
 }
 
 .button-bundle {
@@ -777,6 +697,7 @@ textarea {
 
 #hr_registration {
     display: flex;
+    width: 100%;
     gap: 1em;
 }
 
@@ -908,10 +829,11 @@ img{
 }
 
 /* 표 랩퍼 공통 스타일시트 */
-.employees-info-wrapper {
+.table-wrapper {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    overflow: auto;
 }
 
 /* 사원 목록 테이블 스타일 */
@@ -919,7 +841,7 @@ img{
 	border-collapse: separate;
 	border-spacing: 0;
     width: 100%;
-    table-layout: fixed;
+    table-layout: auto;
     background-color: white;
     border-top: 1px solid #ddd;
 }
