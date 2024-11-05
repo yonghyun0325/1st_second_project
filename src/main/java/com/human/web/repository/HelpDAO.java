@@ -4,6 +4,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 import com.human.web.vo.HelpVO;
 
@@ -20,7 +21,15 @@ public class HelpDAO {
         return sqlSession.insert(MAPPER+".insertHelp", helpVO);
     }
         
-    public List<HelpVO> getHelp(int e_idx) {
-        return sqlSession.selectList(MAPPER+ ".getHelp", e_idx);
+    public List<Map<String, Object>> getAllHelps() {
+        return sqlSession.selectList(MAPPER + ".getAllHelps");
+    }
+
+    public HelpVO getHelpDetail(int helpId) {
+        return sqlSession.selectOne(MAPPER + ".getHelpDetail", helpId);
+    }
+
+    public int deleteHelp(int helpId) {
+        return sqlSession.delete(MAPPER + ".deleteHelp", helpId);
     }
 }

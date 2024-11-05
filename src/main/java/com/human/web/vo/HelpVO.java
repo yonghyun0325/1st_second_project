@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class HelpVO {
     private int e_idx; 
+    private String name;
     private String product;
     private String service;
     private String help_detail;

@@ -1,0 +1,107 @@
+/* -----------------------------------------
+    탭 스타일시트: tab.css
+----------------------------------------- */
+
+#tab-head {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    cursor: grab;
+    -webkit-overflow-scrolling: touch;
+    user-select: none;
+    flex-shrink: 0;
+    padding-left: 30px;
+    margin: 5px 0px 0px 8px;
+}
+
+#tab-head::-webkit-scrollbar {
+    height: 4px;
+}
+
+#tab-head::-webkit-scrollbar-track {
+    background: #eee;
+}
+
+#tab-head::-webkit-scrollbar-thumb {
+    background: #eee;
+    border-radius: 10px;
+}
+
+#tab-head::-webkit-scrollbar-thumb:hover {
+    background: #aaa;
+}
+
+#tab-head:active {
+    cursor: grabbing;
+}
+
+.tab-navigation {
+    display: flex;
+    align-items: center;
+}
+
+.tab-nav-left,
+.tab-nav-right {
+    background-color: #eee;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.tab-nav-left:disabled,
+.tab-nav-right:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* 탭 머리들에 대한 스타일 */
+.tab {
+    font-size: 16px;
+    padding: 5px 10px;
+    display: inline-block;
+    cursor: pointer;
+    background-color: #ddd;
+    border: 1px solid #aaa;
+    border-bottom: none;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    margin-right: 5px;
+    white-space: nowrap;
+}
+
+.tab:hover {
+    background-color: #eee;
+}
+
+.tab.active {
+    background-color: #fefefe;
+    font-weight: bold;
+}
+
+.tab i {
+    margin-left: 5px;
+}
+
+/* 탭 몸통에 대한 스타일 */
+#tab-body {
+    display: flex;
+    overflow: hidden;
+    max-height: 100%;
+    flex-grow: 1;
+    margin-left: 8px;
+    border-left: 1px solid #bbb;
+    border-top: 1px solid #bbb;
+}
+
+.tbody {
+    display: none;
+}
+
+.tbody.active {
+    display: block;
+    font-size: 0.9em;
+    flex: 1;
+    height: 100%;
+    background-color: #fefefe;
+}

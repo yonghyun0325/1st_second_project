@@ -2,6 +2,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/board.css">
+<script src="${pageContext.request.contextPath}/resources/js/board.js"></script>
+
 <section id="view-${type}" class="view" data-type="${type}" data-b_idx="${boardVO.b_idx}">
     <div class="board-info">
         <span class="board-author">${boardVO.name}</span>
@@ -46,4 +49,3 @@
         <input type="button" value="목록보기" id="back_to_list">
     </div>
 </section>
-<script src="${pageContext.request.contextPath}/resources/js/board.js"></script>

@@ -6,7 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <!-- css  -->
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/style.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/reset.css"> <!-- 초기화 시트 -->
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/common.css"> <!-- 공통 시트  -->
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/login.css"> <!-- 로그인 시트  -->
         
         <!-- js -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> <!-- jquery -->

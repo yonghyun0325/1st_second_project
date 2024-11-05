@@ -2,6 +2,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
+<script src="${pageContext.request.contextPath}/resources/js/customers.js"></script>
+<%-- <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/customers.css"> --%>
+
 <section id="customer_info" class="section-common">
 
     <!-- 고객 목록 -->
@@ -83,37 +86,3 @@
     </div>  
 
 </section>
-
-    <script>
-
-    $(document).ready(function() {
-        // 작성 완료 버튼 클릭시 글 등록하기
-        $('#customerForm').on('submit', function (e) {
-            // 기본 폼 제출 방지
-            e.preventDefault();
-
-            // FormData 객체로 폼 데이터 생성 (첨부파일 포함)
-            let formData = new FormData(this);
-
-            $.ajax({
-                url: '${pageContext.request.contextPath}/customers/register',
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (response) {
-                    if (response.status === 'success') {
-                        alert('저장이 완료되었습니다.');
-                    } else if (response.status === 'fail') {
-                        alert('저장에 실패했습니다.');
-                    } else if (response.status === 'error') {
-                        alert('저장중 오류가 발생했습니다: ' + response.message);
-                    }
-                },
-                error: function (jqXHR) {
-                    alert('정보를 저장하던중 오류가 발생했습니다. (' + jqXHR.status + ')');
-                }
-            });
-        });
-    })
-</script>

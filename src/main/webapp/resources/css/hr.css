@@ -1,0 +1,280 @@
+/* -----------------------------------------
+    인사관리 페이지 스타일시트: hr.css
+----------------------------------------- */
+
+.button-bundle {
+    display: flex;
+    gap: 15px;
+}
+
+.button-bundle a {
+    padding: 3px 10px;
+    border-radius: 3px;
+    background: var(--funfun-blue);
+    color: var(--funfun-white);
+    transition: background-color 0.3s ease;
+}
+
+.button-bundle a:hover {
+    background: var(--funfun-blue-active);
+}
+
+#hr_info table {
+    width: 100%;
+    border-collapse: collapse;
+    /* 테이블 테두리 중첩 방지 */
+}
+
+#hr_info table th,
+#hr_info table td {
+    border: 1px solid #ddd;
+    /* 셀 테두리 */
+    padding: 8px;
+    /* 셀 내부 패딩 */
+    text-align: left;
+    /* 텍스트 정렬 */
+}
+
+#hr_info table th {
+    background-color: #f2f2f2;
+    /* 헤더 배경색 */
+    font-weight: bold;
+    /* 헤더 텍스트 굵게 */
+}
+
+.profile_image {
+    width: 150px;
+    height: auto;
+    text-align: center;
+}
+
+.img_profile img {
+    width: 100%;
+    /* 이미지를 셀 크기에 맞게 */
+    height: auto;
+    border-radius: 50%;
+    /* 이미지 둥글게 처리 */
+}
+
+.name_txt,
+.email_txt,
+.number_txt,
+.telephone_txt,
+.mobile_txt,
+.rank_txt,
+.phone_txt {
+    font-size: 16px;
+    /* 텍스트 크기 조정 */
+}
+
+.type_list_box {
+    width: 100%;
+}
+
+/* 인사정보 nav */
+.tab_menu_wrap {
+    margin-top: 20px;
+    border-bottom: 2px solid #ddd;
+}
+
+.tab_menu {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.tab_menu li {
+    padding: 10px 20px;
+    cursor: pointer;
+    color: #888;
+    border-bottom: 2px solid transparent;
+}
+
+.tab_menu li.active {
+    color: black;
+    font-weight: bold;
+    border-bottom: 2px solid black;
+}
+
+.tab_menu li:hover {
+    color: black;
+}
+
+/* 툴바(토글) */
+.tool_bar {
+    width: 25px;
+    height: 25px;
+    background-color: rgb(237, 237, 237);
+    border-radius: 5px;
+}
+
+.tool_bar_li {
+    list-style: none;
+    position: absolute;
+    right: 0;
+    top: 435px;
+    margin-right: 60px;
+}
+
+.btn_wrap {
+    width: 20px;
+    height: 20px;
+    background-color: rgb(237, 237, 237);
+}
+
+.ic_open,
+.ic_close {
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.ic_close {
+    display: none;
+
+}
+
+.ic_open {
+    display: inline-block;
+
+}
+
+/* 각 뷰 화면 */
+.hr_main_second_page {
+    margin-top: 25px;
+}
+
+/* 입사일 */
+.wrap_date input.txt,
+.wrap_date input.txt[type="text"] {
+    padding-left: 26px !important;
+    vertical-align: top;
+    width: 100px;
+    box-sizing: border-box;
+}
+
+.page_action_wrap {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    padding-bottom: 0;
+}
+
+/* 변경 이력 */
+.change_txt {
+    font-size: 18px;
+    font-weight: 800;
+}
+
+
+/* -----------------------------------------
+    인사등록 페이지 스타일시트: hr_registration.css
+----------------------------------------- */
+
+.hr_registration_list {
+    width: 500px;
+    height: 700px;
+    overflow-y: auto;
+}
+
+td {
+    height: 40px;
+}
+
+.hr_registration_post {
+    width: 700px;
+    height: 700px;
+    border: 1px solid black;
+}
+
+.hr_registration_post_basic {
+    width: 700px;
+    height: 300px;
+    border: 1px solid black;
+    display: flex;
+}
+
+.hr-employees-info {
+    table-layout: fixed;
+    text-align: center;
+}
+
+.form-group label {
+    display: inline-block;
+    width: 120px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="date"],
+.form-group input[type="email"],
+.form-group select {
+    width: 200px;
+    padding: 5px;
+}
+
+.form-group img {
+    width: 150px;
+    height: 170px;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+}
+
+.form-group button {
+    padding: 5px 10px;
+}
+
+.tabs {
+    margin-top: 20px;
+}
+
+.tabs button {
+    padding: 10px;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.tabs button.active {
+    background-color: #ddd;
+}
+
+img {
+    display: block;
+    width: 150px;
+    height: 170px;
+    border: 1px solid #ccc;
+}
+
+.hr_registration_crud {
+    display: flex;
+    justify-content: end;
+    margin: 10px;
+}
+
+#previewImage {
+    margin: 0 auto;
+}
+
+#profile-td {
+    background-color: #fff;
+    transition: background-color 0.3s;
+}
+
+#profile-td:hover {
+    background-color: #ddd;
+}
+
+#profileContainer {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+}
+
+#fileInput {
+    width: 100%;
+}

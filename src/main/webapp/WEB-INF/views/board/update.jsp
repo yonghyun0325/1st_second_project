@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/board.css">
+<script src="${pageContext.request.contextPath}/resources/js/board.js"></script>
+
 <section id="update-${type}" class="write"  data-type="${type}">
     <form id="frmBoardUpdate-${type}" name="frmBoardUpdate" action="/board/updateProcess.do" method="post" enctype="multipart/form-data">
 
@@ -64,4 +67,3 @@
         </div>
     </form>
 </section>
-<script src="${pageContext.request.contextPath}/resources/js/board.js"></script>

@@ -1,18 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="javax.servlet.http.HttpSession"%>
-<%@ page import="com.human.web.vo.EmployeesVO"%>
 
-<%
-    EmployeesVO employees = (EmployeesVO) session.getAttribute("employees");
-    int e_idx = (employees != null) ? employees.getE_idx() : 0;
-%>
+<script src="${pageContext.request.contextPath}/resources/js/financial.js"></script>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/financial.css">
 
 <!-- 급여 정보 조회 화면 -->
 <section id="salary_info" class="section-common">
 
     <div class="table-wrapper" style="flex: 2;">
         <h3>내 급여 정보</h3>
-        <div class="salary-info-section">
+        <div class="table-list-section">
             <table class="salary-details table-common">
                 <thead>
                     <tr>
@@ -62,62 +58,3 @@
         </div>
     </div>
 </section>
-
-<script>
-    $(document).ready(function() {
-        const e_idx = <%= e_idx %>;
-
-        function formatCurrency(value) {
-            const numberValue = value ? parseInt(value, 10) : 0;
-            return numberValue.toLocaleString() + ' 원';
-        }
-
-        function loadSalaryInfo() {
-            $.ajax({
-                url: '/financial/getFinancialInfo/' + e_idx,
-                method: 'GET',
-                dataType: 'json',
-                success: function(salary) {
-                    $('#salary_info #base_salary').text(formatCurrency(salary.base_salary));
-                    $('#salary_info #bonus').text(formatCurrency(salary.bonus));
-                    $('#salary_info #annual_allowance').text(formatCurrency(salary.annual_allowance));
-                    $('#salary_info #position_allowance').text(formatCurrency(salary.position_allowance));
-                    $('#salary_info #other_allowance').text(formatCurrency(salary.other_allowance));
-                    $('#salary_info #weekly_allowance').text(formatCurrency(salary.weekly_allowance));
-                    $('#salary_info #long_term_allowance').text(formatCurrency(salary.long_term_allowance));
-                    $('#salary_info #extended_allowance').text(formatCurrency(salary.extended_allowance));
-                    $('#salary_info #night_allowance').text(formatCurrency(salary.night_allowance));
-                    $('#salary_info #holiday_allowance').text(formatCurrency(salary.holiday_allowance));
-                    $('#salary_info #holiday_night_allowance').text(formatCurrency(salary.holiday_night_allowance));
-                    $('#salary_info #holiday_extended_allowance').text(formatCurrency(salary.holiday_extended_allowance));
-                    $('#salary_info #meal_allowance').text(formatCurrency(salary.meal_allowance));
-                    $('#salary_info #maternity_care').text(formatCurrency(salary.maternity_care));
-                    $('#salary_info #self_driving_allowance').text(formatCurrency(salary.self_driving_allowance));
-                    $('#salary_info #project_bonus').text(formatCurrency(salary.project_bonus));
-                    $('#salary_info #performance_bonus').text(formatCurrency(salary.performance_bonus));
-                    $('#salary_info #team_bonus').text(formatCurrency(salary.team_bonus));
-                    $('#salary_info #work_performance_bonus').text(formatCurrency(salary.work_performance_bonus));
-
-                    $('#salary_info #income_tax').text(formatCurrency(salary.income_tax));
-                    $('#salary_info #national_pension').text(formatCurrency(salary.national_pension));
-                    $('#salary_info #health_insurance').text(formatCurrency(salary.health_insurance));
-                    $('#salary_info #employment_insurance').text(formatCurrency(salary.employment_insurance));
-                    $('#salary_info #long_term_care').text(formatCurrency(salary.long_term_care));
-                    $('#salary_info #other_deductions').text(formatCurrency(salary.other_deductions));
-                },
-                error: function() {
-                    alert('급여 정보를 불러오는 중 오류가 발생했습니다.');
-                }
-            });
-        }
-
-        function formatDate(timestamp) {
-            if (!timestamp) return '정보 없음';
-            const date = new Date(timestamp);
-            return date.toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' });
-        }
-
-        loadSalaryInfo();
-    });
-</script>
-

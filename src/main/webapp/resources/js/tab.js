@@ -102,12 +102,15 @@ $(document).ready(function() {
         saveTab();
     }
 
-    // 탭 클릭시 내용 보여주기
+    // 탭 보여주기
     function showTab(contentId) {
         $('.tbody').removeClass('active');
         $('.tab').removeClass('active');
         $('#tbody-' + contentId).addClass('active');
         $('#thead-' + contentId).addClass('active');
+
+        const tabName = $('#thead-' + contentId).text().trim();
+        loadTab(tabName, contentId);
     }
 
     // 탭 저장

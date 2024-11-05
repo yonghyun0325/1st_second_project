@@ -1,13 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
+<script src="${pageContext.request.contextPath}/resources/js/financial.js"></script>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/financial.css">
+
 <!-- 급여 관리 수당등록 화면 -->
 <section id="salary_registration" class="section-common">
 
     <!-- 사원 목록 -->
     <div class="table-wrapper" style="flex: 1;">
         <h3>◇ 사원 목록</h3>
-        <div class="employees-list-section">
-            <table class="employees-list table-common">
+        <div class="table-list-section">
+            <table class="employees-list table-common table-select-list">
                 <thead>
                     <tr>
                         <th style="width: 30%;">사원번호</th>
@@ -26,7 +29,7 @@
     <!-- 사원 상세 정보 -->
     <div class="table-wrapper" style="flex: 1;">
         <h3>◇ 상세 정보</h3>
-        <div class="employees-details-section">
+        <div class="table-list-section">
             <table class="employees-details table-common">
                 <thead>
                     <tr>
@@ -226,221 +229,3 @@
         </div>
     </div>
 </section>
-<script>
-    $(document).ready(function() {
-        let e_idx;
-        window.initialValues = {};
-
-        // 자릿수 구분 콤마랑 뒤에 '원' 표시 메소드
-        function formatCurrency(value) {
-            const numberValue = value.replace(/[^0-9]/g, '');
-            return numberValue ? parseInt(numberValue, 10).toLocaleString() + ' 원' : '';
-        }
-
-        // 입력란, 버튼 활성화/비활성화 메소드, 기본적으로 비활성화
-        function disableAllowanceFields() { 
-            $('.currency-input').prop('disabled', true); 
-            $('.salary-form-save-btn, input[type="reset"]').prop('disabled', true); }
-        function enableAllowanceFields() { 
-            $('.currency-input').prop('disabled', false); 
-            $('.salary-form-save-btn, input[type="reset"]').prop('disabled', false); }
-        disableAllowanceFields();
-
-        const taxFreeLimit = 1800000;
-        const taxFreeItems = ["extended_allowance", "night_allowance", "holiday_allowance", "holiday_night_allowance", "holiday_extended_allowance", "meal_allowance", "maternity_care", "self_driving_allowance"];
-        const taxableItems = ["base_salary", "bonus", "annual_allowance", "position_allowance", "other_allowance", "weekly_allowance", "long_term_allowance"];
-
-        taxableItems.forEach(item => {
-            $('#' + item + '-be').val('0').prop('readonly', true);
-        });
-
-        taxFreeItems.forEach(item => {
-            $('#' + item + '-be').val(taxFreeLimit.toLocaleString() + ' 원').prop('readonly', true);
-        });
-
-        // 입력란 벗어나면 자릿수 구분 콤마랑 '원' 표시
-        $('.currency-input').on('blur', function() {
-            let value = $(this).val().replace(/[^0-9]/g, '');
-            if (value === '' || isNaN(value)) {
-                $(this).val('0 원');
-            } else {
-                $(this).val(formatCurrency(value));
-            }
-        });
-
-        // 만약 입력란 활성화시 '원'과 콤마표시 삭제
-        $('.currency-input').on('focus', function() {
-            $(this).val($(this).val().replace(/[^0-9]/g, ''));
-        });
-
-        // 초기화 버튼 클릭시 확인
-        $('input[type="reset"]').on('click', function(e) {
-            if (!$('#tab-body .tbody.active').length) return;
-            e.preventDefault();
-
-            if (confirm("정말로 내용을 초기화하시겠습니까?")) {
-                $('.currency-input').each(function() {
-                    $(this).val('0 원');
-                });
-            }
-        });
-
-        // 사원 선택 안된상태에서 클릭시 사원 선택 메시지
-        $('.salary-form-save-btn').on('click', function(e) {
-            if (!$('#tab-body .tbody.active').length) return;
-            if (e_idx === undefined) {
-                e.preventDefault();
-                alert('사원을 선택하세요.');
-            }
-        });
-
-        // ajax 요청으로 사원 목록 불러오기
-        $.ajax({
-            url: '/employees/getEmployeesList.do',
-            method: 'GET',
-            dataType: 'json',
-            success: function(data) {
-                const tableBody = $('.employees-list tbody');
-                tableBody.empty();
-                
-                data.forEach(function(employee) {
-                    const row = $('<tr>').append(
-                        $('<td>').text(employee.e_idx),
-                        $('<td>').text(employee.name),
-                        $('<td>').text(employee.position),
-                        $('<td>').text(employee.depa)
-                    );
-                    
-                    row.on('click', function() {
-                        if (!$('#tab-body .tbody.active').length) return;
-                        $('.table-common tbody tr').removeClass('active');
-                        $(this).addClass('active');
-                        loadEmployeeDetails(employee.e_idx);
-                        loadSalaryDetails(employee.e_idx);
-                        e_idx = employee.e_idx;
-                        enableAllowanceFields();
-                    });
-                    
-                    tableBody.append(row);
-                });
-            },
-            error: function() {
-                window.alert('사원 목록을 불러오는 중 오류가 발생했습니다.');
-            }
-        });
-
-        // 사원 정보 불러오기
-        function loadEmployeeDetails(e_idx) {
-            if (!$('#tab-body .tbody.active').length) return;
-            $.ajax({
-                url: '/employees/getEmployeeDetails/' + e_idx,
-                method: 'GET',
-                dataType: 'json',
-                success: function(data) {
-                    const employee = data.employee;
-                    console.log(employee)
-
-                    $('#salary_registration #e_idx').text(employee.e_idx || '정보 없음');
-                    $('#salary_registration #name').text(employee.name || '정보 없음');
-                    $('#salary_registration #birthday').text(formatDate(employee.birthday));
-                    $('#salary_registration #entry_date').text(formatDate(employee.entry_date));
-                    $('#salary_registration #exit_date').text(formatDate(employee.retirement_date));
-                    $('#salary_registration #position').text(employee.position || '정보 없음');
-                    $('#salary_registration #mobile').text(employee.mobile || '정보 없음');
-                    $('#salary_registration #email').text(employee.email || '정보 없음');
-                    $('#salary_registration #entry_type').text(employee.entry_type || '정보 없음');
-                    $('#salary_registration #address').text(employee.address || '정보 없음');
-                    $('#salary_registration #foreign_name1').text(employee.foreign_name1 || '정보 없음');
-                    $('#salary_registration #foreign_name2').text(employee.foreign_name2 || '정보 없음');
-                    $('#salary_registration #bank_name').text(employee.bank_name || '정보 없음');
-                    $('#salary_registration #account_number').text(employee.account_number || '정보 없음');
-                    $('#salary_registration #account_holder').text(employee.account_holder || '정보 없음');
-                    $('#salary_registration #jumin').text(employee.jumin || '정보 없음');
-                },
-                error: function() {
-                    alert('사원 상세 정보를 불러오는 중 오류가 발생했습니다.');
-                }
-            });
-        }
-
-        // 급여정보 불러오기
-        function loadSalaryDetails(e_idx) {
-            if (!$('#tab-body .tbody.active').length) return;
-            $.ajax({
-                url: '/financial/getFinancialInfo/' + e_idx,
-                method: 'GET',
-                dataType: 'json',
-                success: function(salary) {
-                    $('.salary-details .currency-input').each(function() {
-                        const field = $(this);
-                        const fieldName = field.attr('name');
-                        const value = salary[fieldName] || 0;
-                    
-                        if (taxFreeItems.includes(fieldName)) {
-                            $('#' + fieldName + '-be').text(taxFreeLimit ? formatCurrency(taxFreeLimit.toString()) : '');
-                        } else {
-                            field.val(value ? formatCurrency(value.toString()) : '');
-                        }
-                    
-                        initialValues[fieldName] = value;
-                    });
-                },
-                error: function() {
-                    $('.salary-details .currency-input').each(function() {
-                        const field = $(this);
-                        const fieldName = field.attr('name');
-                    
-                        if (taxFreeItems.includes(fieldName)) {
-                            $('#' + fieldName + '-be').text('');
-                        } else {
-                            field.val(''); 
-                        }
-                        initialValues[fieldName] = 0;
-                    });
-                }
-            });
-        }
-
-        // 급여 정보 저장
-        $('#salary-form').on('submit', function(e) {
-            if (!$('#tab-body .tbody.active').length) return;
-            e.preventDefault();
-
-            $('.currency-input').each(function() {
-                const pureNumber = $(this).val().replace(/[^0-9]/g, '');
-                $(this).val(pureNumber);
-            });
-
-            let formData = new FormData(this);
-
-            $.ajax({
-                url: '/financial/saveFinancialInfo.do',
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (response) {
-                    if (response.status === 'success') {
-                        alert('저장되었습니다.');
-                        loadSalaryDetails(e_idx);
-                    } else if (response.status === 'fail') {
-                        alert('급여 정보 저장에 실패했습니다.');
-                    } else if (response.status === 'error') {
-                        alert('오류가 발생했습니다: ' + response.message);
-                    }
-                },
-                error: function (jqXHR) {
-                    alert('급여 정보 저장중 오류가 발생했습니다. (' + jqXHR.status + ')');
-                }
-            });
-        });
-
-        // 날짜 포멧 지정
-        function formatDate(timestamp) {
-            if (!timestamp) return '정보 없음';
-            const date = new Date(timestamp);
-            return date.toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' });
-        }
-
-    });
-</script>

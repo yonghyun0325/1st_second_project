@@ -1,0 +1,108 @@
+/* -----------------------------------------
+    로그인 페이지 스타일시트: login.css
+----------------------------------------- */
+
+.login-container {
+    background: url('/resources/img/login-background.jpeg') no-repeat center center;
+    background-size: cover;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 330px;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    padding: 25px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    opacity: 0;
+    animation: fadeIn 1.5s ease forwards;
+    z-index: 9999;
+}
+
+.login-wrapper form {
+    width: 100%;
+}
+
+.title-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.title-area .title {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.login_id,
+.login_pw {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.login_id input,
+.login_pw input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.button-login {
+    padding: 10px;
+    width: 100%;
+}
+
+.remember {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.remember input {
+    margin-right: 5px;
+}
+
+.contact {
+    display: flex;
+    gap: 30px;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+}
+
+.contact a {
+    font-size: 14px;
+    color: #408ed6;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.contact a:hover {
+    color: #66a7e3;
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin: 0;
+    margin-bottom: 15px;
+    text-align: center;
+}

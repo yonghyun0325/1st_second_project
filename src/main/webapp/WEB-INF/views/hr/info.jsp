@@ -1,11 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="javax.servlet.http.HttpSession"%>
-<%@ page import="com.human.web.vo.EmployeesVO"%>
 
-<%
-    EmployeesVO employees = (EmployeesVO) session.getAttribute("employees");
-    int e_idx = (employees != null) ? employees.getE_idx() : 0;
-%>
+<script src="${pageContext.request.contextPath}/resources/js/hr.js"></script>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/hr.css">
 
 <!-- css, 인사정보 스타일 -->
 <section id="hr_info" class="section-common">
@@ -131,91 +127,3 @@
         </form>
     </div>
 </section>
-
-<script>
-    $(document).ready(function() {
-
-        const e_idx = <%= e_idx %>;
-
-        function loadEmployeeInfo() {
-            $.ajax({
-                url: '/employees/getEmployeeDetails/' + e_idx,
-                method: 'GET',
-                dataType: 'json',
-                success: function(data) {
-                    const employee = data.employee;
-
-                    $('#hr_info #e_idx').val(employee.e_idx);
-                    $('#hr_info #name').val(employee.name);
-                    $('#hr_info #birthday').val(employee.birthday ? new Date(employee.birthday).toISOString().split('T')[0] : '');
-                    $('#hr_info #mobile').val(employee.mobile);
-                    $('#hr_info #jumin').val(employee.jumin);
-                    $('#hr_info #gender').val(employee.gender);
-                    $('#hr_info #email').val(employee.email);
-                    $('#hr_info #depa').val(employee.depa).prop('readonly', true);
-                    $('#hr_info #position').val(employee.position);
-                    $('#hr_info #workplace').val(employee.workplace);
-                    $('#hr_info #employee_type').val(employee.employeeType);
-                    $('#hr_info #salary_type').val(employee.salaryType);
-                    $('#hr_info #entry_date').val(employee.entryDate ? new Date(employee.entryDate).toISOString().split('T')[0] : '');
-                    $('#hr_info #retirement_date').val(employee.retirementDate ? new Date(employee.retirementDate).toISOString().split('T')[0] : '');
-                    $('#hr_info #address').val(employee.address);
-                    $('#hr_info #postal_code').val(employee.postalCode);
-                    $('#hr_info #tel').val(employee.tel);
-                    $('#hr_info #education').val(employee.education);
-                    $('#hr_info #career_type').val(employee.careerType);
-                    $('#hr_info #maritalStatus').val(employee.maritalStatus);
-                    $('#hr_info #disability').val(employee.disability);
-                },
-                error: function() {
-                    alert('사용자 정보를 불러오는 중 오류가 발생했습니다.');
-                }
-            });
-        }
-
-        loadEmployeeInfo();
-
-        $('#editButton').on('click', function() {
-            $('#employeeForm input, #employeeForm select').not('#depa').prop('readonly', false);
-            $('#fileInput, #saveButton, input[type="reset"]').show();
-            $(this).hide();
-        });
-
-        $('#saveButton').on('click', function() {
-            const formData = new FormData($('#employeeForm')[0]);
-
-            $.ajax({
-                url: '/employees/updateProcess.do',
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    alert("저장되었습니다.");
-                    loadEmployeeInfo();
-                    $('#editButton').show();
-                    $('#fileInput, #saveButton, input[type="reset"]').hide();
-                    $('#employeeForm input, #employeeForm select').prop('readonly', true);
-                },
-                error: function() {
-                    alert("저장 중 오류가 발생했습니다.");
-                }
-            });
-        });
-
-        $('#profileContainer').on('click', function() {
-            $('#fileInput').trigger('click');
-        });
-
-        $('#fileInput').on('change', function(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    $('#previewImage').attr('src', e.target.result).show();
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-    });
-</script>
