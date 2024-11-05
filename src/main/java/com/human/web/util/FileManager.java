@@ -137,24 +137,19 @@ public class FileManager {
 			System.out.println("다운로드 중 예외발생: " + e);
 		}
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 	}
-		
 
-	
-	
+    public String checkProfileImage(int eIdx, HttpServletRequest request) {
+        String saveDirectory = request.getServletContext().getRealPath("resources/img/profile/");
+        File jpgFile = new File(saveDirectory, eIdx + ".jpg");
+        File pngFile = new File(saveDirectory, eIdx + ".png");
+    
+        if (jpgFile.exists()) {
+            return "/resources/img/profile/" + eIdx + ".jpg";
+        } else if (pngFile.exists()) {
+            return "/resources/img/profile/" + eIdx + ".png";
+        } else {
+            return "/resources/img/icon/profile-default.svg"; 
+        }
+    }
 }

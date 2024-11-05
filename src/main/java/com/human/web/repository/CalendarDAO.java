@@ -1,6 +1,8 @@
 package com.human.web.repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
@@ -26,4 +28,16 @@ public class CalendarDAO {
     public List<CalendarVO> getTask(int eIdx) {
         return sqlSession.selectList(NAMESPACE + ".getTask", eIdx);
     }
+
+    public int deleteTask(int eIdx, String selectedDate) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("e_idx", eIdx);
+        params.put("task_date", selectedDate);
+        return sqlSession.delete(NAMESPACE + ".deleteTask", params);
+    }
+
+    public int updateTask(CalendarVO calendarVO) {
+        return sqlSession.update(NAMESPACE + ".updateTask", calendarVO);
+    }
+
 }

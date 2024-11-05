@@ -17,4 +17,6 @@ public interface EmployeesService {
 	String authEmail(String email);
 
     EmployeesVO getEmployees(int e_idx);
+
+    EmployeesVO getEmployeeDetails(int e_idx);
 }

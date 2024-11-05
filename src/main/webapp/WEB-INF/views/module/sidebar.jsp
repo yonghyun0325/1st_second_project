@@ -194,6 +194,11 @@ aside.sidebar-collapsed {
 }
 
 </style>
+
+<% 
+    int userPermission = (employees != null) ? employees.getPermission() : -1;
+%>
+
 <aside>
     <div class="sidebar-wrapper">
         <div class="sidebar-header">
@@ -207,9 +212,10 @@ aside.sidebar-collapsed {
 
 <script>
     $(document).ready(function () {
-        var currentPath = window.location.pathname;
+        const userPermission = <%= userPermission %>;
+        let currentPath = window.location.pathname;
 
-        var menus = {
+        let menus = {
             "/dashboard": [
                 { title: "내 사무실", icon: "fas fa-desktop-alt", path: "/myoffice" },
                 { title: "내 회의실", icon: "fas fa-users-class", path: "/cabinet" }
@@ -223,7 +229,8 @@ aside.sidebar-collapsed {
                 },
                 {
                     title: "급여 관리", icon: "fas fa-hand-holding-usd", submenu: [
-                        { title: "수당 등록", dataContent: "financial_registration" }
+                        { title: "급여 등록", dataContent: "financial_registration" },
+                        { title: "급여 정보", dataContent: "financial_info" }
                     ]
                 },
                 {
@@ -242,7 +249,15 @@ aside.sidebar-collapsed {
                         { title: "커뮤니티", dataContent: "board_normal" },
                         { title: "분실물", dataContent: "board_lost" }
                     ]
-                }
+                },
+                ...(userPermission === 2 ? [
+                    {
+                        title: "관리자", icon: "fas fa-user-shield", submenu: [
+                            { title: "문의 내역", dataContent: "admin_help" },
+                            { title: "부서관리", dataContent: "admin_depaset" }
+                        ]
+                    }
+                ] : [])
             ],
             "/cabinet": [
                 { title: "영업부", icon: "fas fa-briefcase", depa: "영업부" },
@@ -254,14 +269,14 @@ aside.sidebar-collapsed {
             ]
         };
 
-        var titleMap = { "/dashboard": "대시보드", "/myoffice": "내 사무실", "/cabinet": "내 회의실" };
+        let titleMap = { "/dashboard": "대시보드", "/myoffice": "내 사무실", "/cabinet": "내 회의실" };
         $('.workspace-title').text(titleMap[currentPath]);
 
-        var menuContainer = $("#sidebar-menu");
+        let menuContainer = $("#sidebar-menu");
         
         function generateMenu(menuItems) {
             menuItems.forEach(function(item) {
-                var menuHTML = '<div class="sidebar-item myoffice-item">' +
+                let menuHTML = '<div class="sidebar-item myoffice-item">' +
                                '<a href="' + (item.path || 'javascript:void(0)') + '" class="sidebar-toggle">' +
                                '<span class="sidebar-item-title"><i class="' + item.icon + '"></i> ' + item.title + '</span>';
 
@@ -284,7 +299,7 @@ aside.sidebar-collapsed {
                         method: "GET",
                         success: function(data) {
                             if (data.length > 0) {
-                                var submenuHTML = '<div class="sidebar-submenu">';
+                                let submenuHTML = '<div class="sidebar-submenu">';
                                 data.forEach(function(room) {
                                     submenuHTML += '<a href="javascript:void(0)" data-content="cabinet_' + room.id + '">' + room.name + '</a>';
                                 });

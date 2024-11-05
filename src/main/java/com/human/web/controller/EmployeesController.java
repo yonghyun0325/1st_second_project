@@ -17,17 +17,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.human.web.service.EmployeesService;
+import com.human.web.util.FileManager;
 import com.human.web.vo.EmployeesVO;
 
 import lombok.RequiredArgsConstructor;
 
 @Controller
-@RequestMapping("/employees") // 공통으로 적용되는 URL 정의
+@RequestMapping("/employees")
 @RequiredArgsConstructor
 public class EmployeesController {
 
-    // 요청을 처리하는 데 사용되는 EmployeesServiceImpl 클래스를 의존 자동 주입받음
     private final EmployeesService employeesService;
+    private final FileManager fileManager;
 
     // 로그인 처리 요청
     @PostMapping("/loginProcess.do")
@@ -38,13 +39,11 @@ public class EmployeesController {
         EmployeesVO vo = employeesService.login(e_idx, e_pw);
 
         if (vo != null) {
-            // 로그인 성공
             HttpSession session = request.getSession();
             session.setAttribute("employees", vo);
             response.put("status", "success");
             return ResponseEntity.ok(response);
         } else {
-            // 로그인 실패
             response.put("status", "fail");
             return ResponseEntity.ok(response);
         }
@@ -54,8 +53,8 @@ public class EmployeesController {
     @GetMapping("/logout.do")
     public String logout(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        session.invalidate(); // 세션 초기화
-        return "redirect:/"; // 메인 페이지로 리다이렉트
+        session.invalidate();
+        return "redirect:/";
     }
 
     // 회원 정보 변경 페이지 요청
@@ -64,56 +63,78 @@ public class EmployeesController {
         return "employees/update";
     }
 
-    // 회원 정보 변경 처리 요청
-    @PostMapping("/updateProcess.do")
-    public String updateProcess(EmployeesVO vo, HttpServletRequest request, Model model) {
-        String viewName = "employees/update"; // 회원 정보 변경 실패 시 뷰 이름
-
-        // 회원 정보 업데이트 처리
-        EmployeesVO newVo = employeesService.updateEmployees(vo);
-
-        if (newVo != null) { // 회원 정보 변경 성공
-            HttpSession session = request.getSession();
-            session.setAttribute("employees", newVo); // 세션에 새로운 회원 정보 저장
-            viewName = "redirect:/index.do"; // 메인 페이지 재요청
-        } else { // 회원 정보 변경 실패
-            model.addAttribute("msg", "회원 정보 변경 중 오류가 발생했습니다. 내용을 확인해 주세요.");
-        }
-
-        return viewName;
-    }
-    
+    // 사원 정보 가져오기
     @GetMapping("/getEmployee/{e_idx}")
     @ResponseBody
     public EmployeesVO getEmployees(@PathVariable int e_idx) {
         return employeesService.getEmployees(e_idx);
     }
 
+    // 사원 세부정보 가져오기
+    @GetMapping("/getEmployeeDetails/{e_idx}")
+    @ResponseBody
+    public Map<String, Object> getEmployeeDetails(@PathVariable int e_idx, HttpServletRequest request) {
+        EmployeesVO employee = employeesService.getEmployeeDetails(e_idx);
+    
+        String photoUrl = fileManager.checkProfileImage(e_idx, request);
+    
+        Map<String, Object> response = new HashMap<>();
+        response.put("employee", employee);
+        response.put("photoUrl", photoUrl);
+    
+        return response;
+    }
+
+    // 사원 목록 가져오기
     @GetMapping("/getEmployeesList.do")
     @ResponseBody
     public List<EmployeesVO> getEmployeesList() {
         return employeesService.getEmployeesList();
     }
+    
+    // 사원 사진만 가져오기
+    @GetMapping("/getProfileImage/{eIdx}")
+    public ResponseEntity<String> getProfileImage(@PathVariable int eIdx, HttpServletRequest request) {
+        String profileImagePath = fileManager.checkProfileImage(eIdx, request);
+        System.out.println(profileImagePath);
+        return ResponseEntity.ok(profileImagePath);
+    }
+    
+    // 사원 정보 변경
+    // @PostMapping("/updateProcess.do")
+    // public String updateProcess(EmployeesVO vo, HttpServletRequest request, Model model) {
+    //     String viewName = "employees/update";
 
+    //     EmployeesVO newVo = employeesService.updateEmployees(vo);
+
+    //     if (newVo != null) {
+    //         HttpSession session = request.getSession();
+    //         session.setAttribute("employees", newVo);
+    //         viewName = "redirect:/index.do"; 
+    //     } else { 
+    //         model.addAttribute("msg", "회원 정보 변경 중 오류가 발생했습니다. 내용을 확인해 주세요.");
+    //     }
+
+    //     return viewName;
+    // }
+    
     // 퇴사 요청
-//    @GetMapping("/cancelProcess.do")
-//    public String cancelProcess(HttpServletRequest request, Model model) {
-//        HttpSession session = request.getSession();
-//        EmployeesVO vo = (EmployeesVO) session.getAttribute("Employees");
-//        int emp_idx = vo.getemp_idx(); // 세션에서 사원번호(emp_idx) 가져오기
-//
-//        // 회원 탈퇴 처리
-//        int result = EmployeesServiceImpl.cancel(emp_idx);
-//
-//        String viewName = "Employees/update"; // 회원 탈퇴 실패 시 뷰 이름
-//
-//        if (result == 1) { // 회원 탈퇴 성공
-//            session.invalidate(); // 세션 초기화
-//            viewName = "redirect:/index.do";
-//        } else { // 회원 탈퇴 실패
-//            model.addAttribute("msg", "회원 탈퇴 중 시스템 오류가 발생했습니다.");
-//        }
-//
-//        return viewName;
-//    }
+    // @GetMapping("/cancelProcess.do")
+    // public String cancelProcess(HttpServletRequest request, Model model) {
+    //     HttpSession session = request.getSession();
+    //     EmployeesVO vo = (EmployeesVO) session.getAttribute("Employees");
+    //     int emp_idx = vo.getE_idx(); // 세션에서 사원번호(emp_idx) 가져오기
+
+    //     // 회원 탈퇴 처리
+    //     int result = EmployeesServiceImpl.cancel(emp_idx);
+
+    //     if (result == 1) { 
+    //         session.invalidate();
+    //         viewName = "redirect:/index.do";
+    //     } else { 
+    //         model.addAttribute("msg", "회원 탈퇴 중 시스템 오류가 발생했습니다.");
+    //     }
+
+    //     return ResponseEntity.ok(profileImagePath);
+    // }
 }

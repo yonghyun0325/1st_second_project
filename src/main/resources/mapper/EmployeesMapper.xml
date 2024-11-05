@@ -30,48 +30,53 @@
 	
 	</select> -->
 	
-    <!-- 비밀번호 -->
+    <!-- 비밀번호 조회 -->
     <select id="getPassword" parameterType="int" resultType="string">
-        select e_pw 
-        from employees
-        where e_idx = #{e_idx}
+        SELECT e_pw 
+        FROM employees
+        WHERE e_idx = #{e_idx}
     </select>
 
     <!-- 로그인 정보 조회 -->
     <select id="login" parameterType="int" resultType="com.human.web.vo.EmployeesVO">
-        select *
-        from employees
-        where e_idx = #{e_idx}
+        SELECT *
+        FROM employees
+        WHERE e_idx = #{e_idx}
     </select>
 
-    <!-- 회원정보 변경 -->
+    <!-- 회원 정보 변경 -->
     <update id="updateEmployees" parameterType="com.human.web.vo.EmployeesVO">
-        update employees 
-        set name = #{name},
+        UPDATE employees 
+        SET name = #{name},
             e_pw = #{e_pw}
-        where e_idx = #{e_idx}
+        WHERE e_idx = #{e_idx}
     </update>
 
     <!-- 사원 목록 조회 -->
     <select id="getEmployeesList" resultType="com.human.web.vo.EmployeesVO">
-        SELECT e_idx, name, position, depa 
-        FROM employees
-        ORDER BY e_idx ASC
+        SELECT e.e_idx, e.name, hr.position, d.name AS depa
+        FROM employees e
+        LEFT JOIN emp_hr hr ON e.e_idx = hr.e_idx
+        LEFT JOIN departments d ON hr.d_idx = d.d_idx
+        ORDER BY e.e_idx ASC
     </select>
 
-    <!-- 회원탈퇴 -->
-    <update id="cancel" parameterType="int">
-        update employees 
-        set member_status = 'Y', 
-            update_date = now()
-        where e_idx = #{e_idx}
-    </update>
-	
     <!-- 사원 정보 조회 -->
     <select id="getEmployees" parameterType="int" resultType="com.human.web.vo.EmployeesVO">
-        SELECT *
-        FROM employees
-        WHERE e_idx = #{e_idx}
+        SELECT e.*, hr.position, d.name AS depa
+        FROM employees e
+        LEFT JOIN emp_hr hr ON e.e_idx = hr.e_idx
+        LEFT JOIN departments d ON hr.d_idx = d.d_idx
+        WHERE e.e_idx = #{e_idx}
+    </select>
+
+    <select id="getEmployeeDetails" parameterType="int" resultType="com.human.web.vo.EmployeesVO">
+        SELECT DISTINCT e.*, hr.*, f.*, d.name AS depa
+        FROM employees e
+        LEFT JOIN emp_hr hr ON e.e_idx = hr.e_idx
+        LEFT JOIN emp_financial f ON e.e_idx = f.e_idx
+        LEFT JOIN departments d ON hr.d_idx = d.d_idx
+        WHERE e.e_idx = #{e_idx}
     </select>
 
 </mapper>	

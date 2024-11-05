@@ -21,7 +21,7 @@
             <table class="employees-list table-common">
                 <thead>
                     <tr>
-                        <th>사원번호</th>
+                        <th style="width: 30%;">사원번호</th>
                         <th>성명</th>
                         <th>직급</th>
                         <th>부서</th>
@@ -45,8 +45,7 @@
                 <tr>
                     <td rowspan="6" colspan="2" id="profile-td" style="cursor: pointer; padding: 10px;">
                         <div id="profileContainer">
-                            <img id="previewImage" src="" alt="" style="width: 100%; height: 100%; border-radius: 50%; display: none;">
-                            <i class="fas fa-user-circle" style="font-size: 100px; color: #ccc;"></i>
+                            <img id="previewImage" src="/resources/img/icon/profile-default.svg" alt="기본 프로필 사진" style="width: 100%; height: 100%; border-radius: 50%; background: var(--funfun-blue);">
                             <input type="file" id="fileInput" accept="image/*" name="photo" style="display: none;">
                         </div>
                     </td>
@@ -63,13 +62,13 @@
                 
                 <tr>
                     <td>전화번호</td>
-                    <td colspan="2"><input type="text" id="tel" name="tel" required></td>
+                    <td colspan="2"><input type="text" id="mobile" name="mobile" required></td>
                     <td>주민번호</td>
                     <td colspan="2"><input type="text" id="jumin" name="jumin" required></td>
                     <td>성별</td>
                     <td>
                         <select name="gender">
-                           <option value="" selected>선택</option>
+                           <option value="">선택</option>
                            <option value="male">남자</option>
                            <option value="female">여자</option>
                         </select>
@@ -80,7 +79,11 @@
                     <td>E-mail</td>
                     <td colspan="3"><input type="email" id="email" name="email"></td>
                     <td>부서</td>
-                    <td><input type="text" id="depa" name="depa"></td>
+                    <td>
+                        <select id="depa" name="depa" required>
+                            <option value="">부서선택</option>
+                        </select>
+                    </td>
                     <td>직위</td>
                     <td><input type="text" id="position" name="position"></td>
                 </tr>
@@ -91,7 +94,7 @@
                     <td>직원구분</td>
                     <td>
                         <select name="employee_type">
-                            <option value="" selected>선택</option>
+                            <option value="">선택</option>
                             <option value="moderator">임원</option>
                             <option value="full-time">정규직</option>
                             <option value="contract-worker">계약직</option>
@@ -117,7 +120,7 @@
 
                 <tr>
                     <td colspan="2">내선 전화번호</td>
-                    <td colspan="2"><input type="text" id="workplace_phone" name="workplace_phone"></td>
+                    <td colspan="2"><input type="text" id="tel" name="tel"></td>
                     <td>최종학력</td>
                     <td colspan="2">
                         <select name="education">
@@ -129,7 +132,7 @@
                     <td>채용구분</td>
                     <td colspan="2">
                         <select name="career_type">
-                            <option value="" selected>선택하세요</option>
+                            <option value="">선택하세요</option>
                             <option value="NEW">신입</option>
                             <option value="CAREER">경력</option>
                          </select>
@@ -140,7 +143,7 @@
                     <td>결혼여부</td>
                     <td>
                         <select name="maritalStatus">
-                           <option value="" selected>선택</option>
+                           <option value="">선택</option>
                            <option value="single">미혼</option>
                            <option value="married">기혼</option>
                         </select>
@@ -149,7 +152,7 @@
                     <td>장애여부</td>
                     <td>
                         <select name="disability">
-                           <option value="" selected>선택</option>
+                           <option value="">선택</option>
                            <option value="Y">Y</option>
                            <option value="N">N</option>
                         </select>
@@ -212,14 +215,36 @@
 
         loadEmployeesList()
 
+        function loadDepaOptions() {
+            $.ajax({
+                url: '/depa/getDepaList',
+                method: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    const depaSelect = $('#depa');
+                    depaSelect.empty();
+                    depaSelect.append('<option value="">부서선택</option>');
+                    
+                    // 부서 목록 옵션 추가
+                    data.forEach(function(depa) {
+                        depaSelect.append('<option value="' + depa.d_idx + '">' + depa.name + '</option>');
+                    });
+                },
+                error: function() {
+                    alert('부서 목록을 불러오는 중 오류가 발생했습니다.');
+                }
+            });
+        }
+
+        loadDepaOptions();
+
         // 프로필 사진 변경시 섬네일 보여주기
         $('#fileInput').on('change', function(event) {
             const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    $('#previewImage').attr('src', e.target.result).show();
-                    $('.fas.fa-user-circle').hide();
+                    $('#previewImage').attr('src', e.target.result);
                 };
                 reader.readAsDataURL(file);
             }
@@ -234,26 +259,43 @@
 
         function loadEmployeeDetails(e_idx) {
             $.ajax({
-                url: '/employees/getEmployee/' + e_idx,
+                url: '/employees/getEmployeeDetails/' + e_idx,
                 method: 'GET',
                 dataType: 'json',
-                success: function(employee) {
-                    $('#e_idx').val(employee.e_idx);
-                    $('#name').val(employee.name);
-                    $('#tel').val(employee.tel);
-                    $('#jumin').val(employee.jumin);
-                    $('#address').val(employee.address);
-                    $('#birthday').val(employee.birthday ? new Date(employee.birthday).toISOString().split('T')[0] : '');
-                    $('#email').val(employee.email);
-                    $('#position').val(employee.position);
-                    $('#entry_date').val(employee.entry_date ? new Date(employee.entry_date).toISOString().split('T')[0] : '');
-                    $('#retirement_date').val(employee.retirement_date ? new Date(employee.retirement_date).toISOString().split('T')[0] : '');
-                    $('#depa').val(employee.depa);
-                    $('#mobile').val(employee.mobile);
-                    $('#entry_type').val(employee.entry_type);
-                    $('#bank_name').val(employee.bank_name);
-                    if (employee.photo) {
-                        $('#previewImage').attr('src', '/path/to/photo/' + employee.photo);
+                success: function(data) {
+                    const employee = data.employee;
+                    const photoUrl = data.photoUrl;
+                    console.log(employee)
+
+                    $('#hr_registration #e_idx').val(employee.e_idx);
+                    $('#hr_registration #name').val(employee.name || '정보 없음');
+                    $('#hr_registration #tel').val(employee.tel || '정보 없음');
+                    $('#hr_registration #jumin').val(employee.jumin || '정보 없음');
+                    $('#hr_registration #address').val(employee.address || '정보 없음');
+                    $('#hr_registration #birthday').val(employee.birthday ? new Date(employee.birthday).toISOString().split('T')[0] : '');
+                    $('#hr_registration #email').val(employee.email || '정보 없음');
+                    $('#hr_registration #position').val(employee.position || '정보 없음');
+                    $('#hr_registration #entry_date').val(employee.entry_date ? new Date(employee.entry_date).toISOString().split('T')[0] : '');
+                    $('#hr_registration #retirement_date').val(employee.retirement_date ? new Date(employee.retirement_date).toISOString().split('T')[0] : '');
+                    $('#hr_registration #depa').val(employee.depa);
+                    $('#hr_registration #mobile').val(employee.mobile || '정보 없음');
+                    $('#hr_registration #entry_type').val(employee.entry_type || '정보 없음');
+                    $('#hr_registration #salary_type').val(employee.salary_type || '정보 없음');
+                    $('#hr_registration #postal_code').val(employee.postal_code || '정보 없음');
+                    $('#hr_registration #workplace_phone').val(employee.workplace_phone || '정보 없음');
+
+                    $('#hr_registration #gender').val(employee.gender || "");              
+                    $('#hr_registration #employee_type').val(employee.employee_type || "");
+                    $('#hr_registration #education').val(employee.education || "");        
+                    $('#hr_registration #career_type').val(employee.career_type || "");    
+                    $('#hr_registration #maritalStatus').val(employee.maritalStatus || "");
+                    $('#hr_registration #disability').val(employee.disability || "");      
+                    $('#hr_registration #depa').val(employee.d_idx || "");      
+
+                    if (photoUrl) {
+                        $('#hr_registration #previewImage').attr('src', photoUrl);
+                    } else {
+                        $('#hr_registration #previewImage').attr('src', '/resources/img/icon/profile-default.svg');
                     }
                 },
                 error: function() {
@@ -296,18 +338,14 @@
                 $('<td>').append('<input type="text" name="new_name" required>'),
                 $('<td>').append(`
                     <select name="new_position" required>
-                        <option value="" selected>선택</option>
-                        <option value="manager">매니저</option>
-                        <option value="staff">스태프</option>
+                        <option value="">선택</option>
+                        <option value="1">사원</option>
+                        <option value="2">대리</option>
+                        <option value="3">과장</option>
+                        <option value="4">부장</option>
                     </select>
                 `),
-                $('<td>').append(`
-                    <select name="new_depa" required>
-                        <option value="" selected>선택</option>
-                        <option value="HR">인사</option>
-                        <option value="IT">IT</option>
-                    </select>
-                `)
+                $('<td>').append($('#depa').clone())
             );
 
             tableBody.prepend(newRow);
@@ -357,43 +395,5 @@
             $('.button-bundle a').show();
             $('.hr_registration_complete, .hr_registration_cancel').remove();
         }
-
-
-        const dragBar = document.getElementById('drag-bar');
-        const listWrapper = document.getElementById('employee-list');
-        const infoWrapper = document.getElementById('employee-info');
-        let isDragging = false;
-
-        // 드래그 시작
-        dragBar.addEventListener('mousedown', (e) => {
-            isDragging = true;
-            dragBar.classList.add('dragging');
-            document.body.style.cursor = 'col-resize';
-            e.preventDefault();
-        });
-
-        // 드래그 중
-        document.addEventListener('mousemove', (e) => {
-            if (!isDragging) return;
-
-            const containerWidth = $('#resizable-container').width();
-            const offsetX = e.pageX;
-            const newWidthPercentage = (offsetX / containerWidth) * 100;
-
-            // 너비 조절 (최소/최대값 설정)
-            if (newWidthPercentage > 10 && newWidthPercentage < 90) {
-                listWrapper.style.width = newWidthPercentage + '%';
-                infoWrapper.style.width = (100 - newWidthPercentage) + '%';
-            }
-        });
-
-        // 드래그 종료
-        document.addEventListener('mouseup', () => {
-            if (isDragging) {
-                isDragging = false;
-                dragBar.classList.remove('dragging');
-                document.body.style.cursor = 'default';
-            }
-        });
     });
 </script>

@@ -104,4 +104,9 @@ public class EmployeesServiceImpl implements EmployeesService {
     public EmployeesVO getEmployees(int e_idx) {
         return dao.getEmployees(e_idx);
     }
+    
+    @Override
+    public EmployeesVO getEmployeeDetails(int e_idx) {
+        return dao.getEmployeeDetails(e_idx);
+    }
 }

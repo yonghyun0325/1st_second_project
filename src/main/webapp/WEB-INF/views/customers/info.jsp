@@ -1,13 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<style>
-    #info {
-        display: flex;
-        gap: 1em;
-    }
-</style>
-<section id="info">
+
+<section id="customer_info" class="section-common">
 
     <!-- 고객 목록 -->
     <div class="table-wrapper" style="flex:1;">

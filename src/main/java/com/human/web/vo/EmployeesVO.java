@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 public class EmployeesVO {
 
     private int e_idx;               // 사원 번호
+    private int d_idx;               // 부서 ID
+    private int hr_idx;             // 인사 ID
     private String e_pw;             // 비밀번호
     private String name;             // 사원 이름
     private String depa;             // 부서
@@ -32,4 +34,13 @@ public class EmployeesVO {
     private String bank_name;        // 은행
     private String account_number;   // 계좌번호
     private String account_holder;   // 예금주
+    private String maritalStatus;    // 결혼 여부
+    private String gender;           // 성별
+    private String disability;       // 장애 여부
+    private String workplace;        // 근무지
+    private String workplace_phone;   // 근무지 전화번호
+    private String education;        // 최종 학력
+    private String salary_type;       // 급여 구분
+    private String postal_code;       // 우편번호
+    private String marital_status;
 }

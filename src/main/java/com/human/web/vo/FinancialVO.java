@@ -9,6 +9,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class FinancialVO {
     private int e_idx;                       // 사원 ID
+
+    // 은행 정보
+    private String bankName;             // 은행명
+    private String accountNumber;        // 계좌번호
+    private String accountHolder;        // 예금주
+
+    // 금액 정보
     private double base_salary;               // 기본 급여
     private double bonus;                     // 상여금
     private double annual_allowance;          // 연차수당

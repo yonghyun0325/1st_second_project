@@ -18,4 +18,17 @@
         ORDER BY task_date DESC
     </select>
     
+    <!-- 일정 삭제 -->
+    <delete id="deleteTask">
+        DELETE FROM calendar_tasks
+        WHERE e_idx = #{e_idx} AND task_date = #{task_date}
+    </delete>
+
+    <!-- 일정 수정 -->
+    <update id="updateTask" parameterType="com.human.web.vo.CalendarVO">
+        UPDATE calendar_tasks
+        SET task_description = #{task_description}
+        WHERE e_idx = #{e_idx} AND task_date = #{task_date}
+    </update>
+    
 </mapper>

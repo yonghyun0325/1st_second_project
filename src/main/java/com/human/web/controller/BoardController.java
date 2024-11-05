@@ -201,7 +201,6 @@ public class BoardController {
 			HttpServletRequest request, HttpServletResponse response) {
 		//request: 파일의 실제 경로를 알아내는데 사용됨
 		//response: 파일을 출력하는데 사용됨
-		System.out.println("boardController.java:  download.do 호출됨");
 		boardService.download(origin_filename, save_filename, request, response);
 	}
 

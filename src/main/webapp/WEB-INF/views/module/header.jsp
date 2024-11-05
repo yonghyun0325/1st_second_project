@@ -4,6 +4,7 @@
 
 <% 
     EmployeesVO employees = (EmployeesVO) session.getAttribute("employees");
+    int e_idx = (employees != null) ? employees.getE_idx() : 0;
 %>
 
 <style>
@@ -110,7 +111,19 @@
         justify-content: center;
     }
 
-    .header-profile-img img {
+    .header-profile-menu-img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 2px solid #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .header-profile-img img,
+    .header-profile-menu-img img {
         width: 100%;
         height: 100%;
         object-fit: cover;
@@ -243,7 +256,7 @@
 
         <div id="header-profile-btn" class="header-left-item">
             <div class="header-profile-img">
-                <img src="/resources/img/icon/profile-default.svg" alt="기본 프로필 사진">
+                <img id="profileImage" src="/resources/img/icon/profile-default.svg" alt="기본 프로필 사진">
             </div>
             <span class="header-profile-name">
                 <% 
@@ -258,53 +271,37 @@
 
         <div class="header-profile-menu" id="header-profile-menu">
             <div class="profile-header">
-                <div class="header-menu-profile-img">
-                    <img src="/resources/img/icon/profile-default.svg" alt="기본 프로필 사진">
+                <div class="header-profile-menu-img">
+                    <img id="profileMenuImage" src="/resources/img/icon/profile-default.svg" alt="기본 프로필 사진">
                 </div>
                 <div class="profile-info">
-                    <p>
-                        <% if (employees != null && employees.getName() != null) {
-                            out.print(employees.getName());
-                        } %>
-                    </p>
+                    <p id="profileName"></p>
                 </div>
             </div>
             <table class="user-info-table">
                 <tr>
                     <th>사원 번호</th>
-                    <td><% out.print(employees.getE_idx()); %></td>
+                    <td><div id="profileEIdx"></div></td>
                 </tr>
                 <tr>
                     <th>직급</th>
-                    <td><% out.print(employees.getPosition()); %></td>
+                    <td><div id="profilePosition"></div></td>
                 </tr>
                 <tr>
                     <th>부서</th>
-                    <td><% out.print(employees.getDepa()); %></td>
+                    <td><div id="profileDepa"></div></td>
                 </tr>
                 <tr>
                     <th>이메일</th>
-                    <td><% out.print(employees.getEmail()); %></td>
+                    <td><div id="profileEmail"></div></td>
                 </tr>
                 <tr>
                     <th>전화번호</th>
-                    <td><% out.print(employees.getTel()); %></td>
+                    <td><div id="profileMobile"></div></td>
                 </tr>
                 <tr>
                     <th>사용자 구분</th> 
-                    <td>
-                        <% 
-                            if (employees != null) {
-                                String role = "";
-                                switch (employees.getPermission()) {
-                                    case 0: role = "사원"; break;
-                                    case 1: role = "인사담당자"; break;
-                                    case 2: role = "관리자"; break;
-                                }
-                                out.print(role);
-                            } 
-                        %>
-                    </td>
+                    <td><div id="profileRole"></div></td>
                 </tr>
             </table>
             <a href="/employees/logout.do" class="logout-btn">로그아웃</a>
@@ -312,41 +309,78 @@
     </div>
 </header>
 <script>
-
-    function updateClock() {
-        const now = new Date();
-        const koreaTime = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Seoul" }));
-        const year = koreaTime.getFullYear();
-        const month = String(koreaTime.getMonth() + 1).padStart(2, '0');
-        const day = String(koreaTime.getDate()).padStart(2, '0');
-        const hours = String(koreaTime.getHours()).padStart(2, '0');
-        const minutes = String(koreaTime.getMinutes()).padStart(2, '0');
-        const seconds = String(koreaTime.getSeconds()).padStart(2, '0');
-        
-        const formattedTime = year + "년 " + month + "월 " + day + "일 " + hours + "시 " + minutes + "분 " + seconds + "초";
-        
-        $('#clock').text(formattedTime);
-    }
-
     $(document).ready(function() {
-        setInterval(updateClock, 1000);
-        updateClock();
+        const e_idx = <%= e_idx %>;
 
-        $('#header-profile-btn').on('click', function(event) {
-            $('#header-profile-menu').toggleClass('show');
-            event.stopPropagation();
-        });
+        // 시계 관련 메소드
+        $(function() {
+            setInterval(updateClock, 1000);
+            updateClock();
 
-        $(document).on('click', function(event) {
-            const $dropdown = $('#header-profile-menu');
-            if (!$dropdown.is(event.target) && $dropdown.has(event.target).length === 0 && !$('.header-left-item').is(event.target)) {
-                $dropdown.removeClass('show');
+            $('#clock-container').on('click', function() {
+                $('#clock').toggle();
+                $(this).find('i').toggle();
+            });
+
+            function updateClock() {
+                const now = new Date();
+                const koreaTime = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Seoul" }));
+                const year = koreaTime.getFullYear();
+                const month = String(koreaTime.getMonth() + 1).padStart(2, '0');
+                const day = String(koreaTime.getDate()).padStart(2, '0');
+                const hours = String(koreaTime.getHours()).padStart(2, '0');
+                const minutes = String(koreaTime.getMinutes()).padStart(2, '0');
+                const seconds = String(koreaTime.getSeconds()).padStart(2, '0');
+
+                const formattedTime = year + "년 " + month + "월 " + day + "일 " + hours + "시 " + minutes + "분 " + seconds + "초";
+
+                $('#clock').text(formattedTime);
             }
-        });
+        })
 
-        $('#clock-container').on('click', function() {
-            $('#clock').toggle();
-            $(this).find('i').toggle();
-        });
+        // 헤더에 로그인 사용자 정보 불러오기
+        $(function() {
+            $.ajax({
+                url: '/employees/getEmployeeDetails/' + e_idx,
+                type: 'GET',
+                success: function(data) {
+                    const employee = data.employee;
+                    const photoUrl = data.photoUrl;
+
+                    $('#profileName').text(employee.name + " 님");
+                    $('#profileEIdx').text(employee.e_idx || "정보 없음");
+                    $('#profilePosition').text(employee.position || "정보 없음");
+                    $('#profileDepa').text(employee.depa || "정보 없음");
+                    $('#profileEmail').text(employee.email || "정보 없음");
+                    $('#profileMobile').text(employee.mobile || "정보 없음");
+
+                    const role = employee.permission === 0 ? "사원" : 
+                                 employee.permission === 1 ? "인사담당자" : 
+                                 employee.permission === 2 ? "관리자" : "정보 없음";
+                    $('#profileRole').text(role);
+                    
+                    if (photoUrl) {
+                        $('#profileImage, #profileMenuImage').attr('src', photoUrl);
+                    } else {
+                        $('#profileImage, #profileMenuImage').attr('src', '/resources/img/icon/profile-default.svg');
+                    }
+                },
+                error: function() {
+                    alert("사원 정보를 불러오는 중 오류가 발생했습니다.");
+                }
+            });
+            
+            $('#header-profile-btn').on('click', function(event) {
+                $('#header-profile-menu').toggleClass('show');
+                event.stopPropagation();
+            });
+
+            $(document).on('click', function(event) {
+                const $dropdown = $('#header-profile-menu');
+                if (!$dropdown.is(event.target) && $dropdown.has(event.target).length === 0 && !$('.header-left-item').is(event.target)) {
+                    $dropdown.removeClass('show');
+                }
+            });
+        })
     });
 </script>

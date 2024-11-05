@@ -28,6 +28,11 @@ public class FinancialController {
         return "financial/registration"; 
     }
 
+    @GetMapping("/info")
+    public String financialInfo() {
+        return "financial/info"; 
+    }
+
     @GetMapping("/getFinancialInfo/{e_idx}")
     public ResponseEntity<FinancialVO> getFinancialInfo(@PathVariable int e_idx) {
         FinancialVO financialInfo = financialService.getFinancialInfo(e_idx);

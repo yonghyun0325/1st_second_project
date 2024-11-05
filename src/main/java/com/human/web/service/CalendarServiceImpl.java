@@ -24,4 +24,15 @@ public class CalendarServiceImpl implements CalendarService {
     public List<CalendarVO> getTask(int eIdx) {
         return calendarDAO.getTask(eIdx);
     }
+
+    @Override
+    public int deleteTask(int eIdx, String task_date) {
+        return calendarDAO.deleteTask(eIdx, task_date);
+    }
+
+    @Override
+    public int updateTask(CalendarVO calendarVO) {
+        return calendarDAO.updateTask(calendarVO);
+    }
+
 }

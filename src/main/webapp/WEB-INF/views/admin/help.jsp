@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <!-- 급여 관리 수당등록 화면 -->
-<section id="salary_registration" class="section-common">
+<section id="registration">
 
     <!-- 사원 목록 -->
     <div class="table-wrapper" style="flex: 1;">
@@ -275,7 +275,6 @@
 
         // 초기화 버튼 클릭시 확인
         $('input[type="reset"]').on('click', function(e) {
-            if (!$('#tab-body .tbody.active').length) return;
             e.preventDefault();
 
             if (confirm("정말로 내용을 초기화하시겠습니까?")) {
@@ -287,7 +286,6 @@
 
         // 사원 선택 안된상태에서 클릭시 사원 선택 메시지
         $('.salary-form-save-btn').on('click', function(e) {
-            if (!$('#tab-body .tbody.active').length) return;
             if (e_idx === undefined) {
                 e.preventDefault();
                 alert('사원을 선택하세요.');
@@ -312,7 +310,6 @@
                     );
                     
                     row.on('click', function() {
-                        if (!$('#tab-body .tbody.active').length) return;
                         $('.table-common tbody tr').removeClass('active');
                         $(this).addClass('active');
                         loadEmployeeDetails(employee.e_idx);
@@ -331,31 +328,22 @@
 
         // 사원 정보 불러오기
         function loadEmployeeDetails(e_idx) {
-            if (!$('#tab-body .tbody.active').length) return;
             $.ajax({
-                url: '/employees/getEmployeeDetails/' + e_idx,
+                url: '/employees/getEmployee/' + e_idx,
                 method: 'GET',
                 dataType: 'json',
-                success: function(data) {
-                    const employee = data.employee;
-                    console.log(employee)
-
-                    $('#salary_registration #e_idx').text(employee.e_idx || '정보 없음');
-                    $('#salary_registration #name').text(employee.name || '정보 없음');
-                    $('#salary_registration #birthday').text(formatDate(employee.birthday));
-                    $('#salary_registration #entry_date').text(formatDate(employee.entry_date));
-                    $('#salary_registration #exit_date').text(formatDate(employee.retirement_date));
-                    $('#salary_registration #position').text(employee.position || '정보 없음');
-                    $('#salary_registration #mobile').text(employee.mobile || '정보 없음');
-                    $('#salary_registration #email').text(employee.email || '정보 없음');
-                    $('#salary_registration #entry_type').text(employee.entry_type || '정보 없음');
-                    $('#salary_registration #address').text(employee.address || '정보 없음');
-                    $('#salary_registration #foreign_name1').text(employee.foreign_name1 || '정보 없음');
-                    $('#salary_registration #foreign_name2').text(employee.foreign_name2 || '정보 없음');
-                    $('#salary_registration #bank_name').text(employee.bank_name || '정보 없음');
-                    $('#salary_registration #account_number').text(employee.account_number || '정보 없음');
-                    $('#salary_registration #account_holder').text(employee.account_holder || '정보 없음');
-                    $('#salary_registration #jumin').text(employee.jumin || '정보 없음');
+                success: function(employee) {
+                    Object.keys(employee).forEach(function(key) {
+                        const element = $('#' + key);
+                    
+                        if (element.length) {
+                            if (key === "birthday" || key === "entry_date" || key === "exit_date") {
+                                element.text(formatDate(employee[key]) || '정보 없음');
+                            } else {
+                                element.text(employee[key] || '정보 없음');
+                            }
+                        }
+                    });
                 },
                 error: function() {
                     alert('사원 상세 정보를 불러오는 중 오류가 발생했습니다.');
@@ -365,12 +353,13 @@
 
         // 급여정보 불러오기
         function loadSalaryDetails(e_idx) {
-            if (!$('#tab-body .tbody.active').length) return;
             $.ajax({
                 url: '/financial/getFinancialInfo/' + e_idx,
                 method: 'GET',
                 dataType: 'json',
                 success: function(salary) {
+                    console.log("급여 정보 로드 성공:", salary);
+                    
                     $('.salary-details .currency-input').each(function() {
                         const field = $(this);
                         const fieldName = field.attr('name');
@@ -403,7 +392,6 @@
 
         // 급여 정보 저장
         $('#salary-form').on('submit', function(e) {
-            if (!$('#tab-body .tbody.active').length) return;
             e.preventDefault();
 
             $('.currency-input').each(function() {
@@ -442,5 +430,21 @@
             return date.toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' });
         }
 
+        // 표 너비 직접 조정
+        $('.resize-handle').on('mousedown', function (e) {
+            e.preventDefault();
+            let $th = $(this).parent();
+            let startX = e.pageX;
+            let startWidth = $th.width();
+
+            $(document).on('mousemove.resizeColumn', function (e) {
+                let newWidth = startWidth + (e.pageX - startX);
+                $th.css('width', newWidth + 'px');
+            });
+        
+            $(document).on('mouseup.resizeColumn', function () {
+                $(document).off('.resizeColumn');
+            });
+        });
     });
 </script>

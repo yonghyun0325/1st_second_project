@@ -74,6 +74,19 @@ public class EmployeesDAO {
 		return vo;
 	}
 
+	// 회원 정보 조회
+	public EmployeesVO getEmployeeDetails(int e_idx) {
+		EmployeesVO vo = null;
+		try {
+			vo = sqlSession.selectOne(MAPPER + ".getEmployeeDetails", e_idx);
+		} catch (Exception e) {
+			System.out.println("회원정보 조회 중 예외 발생");
+			e.printStackTrace();
+		}
+
+		return vo;
+	}
+    
 	// 회원 탈퇴 처리
 	public int cancel(int e_idx) {
 		int result = 0;
